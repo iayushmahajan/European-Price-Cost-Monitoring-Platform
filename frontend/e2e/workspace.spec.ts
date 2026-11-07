@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 import { clarification, result, retailOverview } from "../src/test/fixtures";
 
 test.beforeEach(async ({ page }) => {
@@ -25,10 +26,15 @@ test("market comparison chart, table, CSV and restored history", async ({ page }
     row_count: 2,
   } }));
   await page.goto("/");
-  await expect(page.locator(".topbar-location strong")).toHaveText("Market overview");
-  await expect(page.getByText("One governed dataset")).toBeVisible();
-  await page.getByLabel("What would you like to understand?").fill("Compare latest annual change by country");
-  await page.getByRole("button", { name: "Analyze market" }).click();
+  await expect(page).toHaveURL(/\/overview$/);
+  await expect(page.getByRole("heading", { name: /Retail signals/ })).toBeVisible({ timeout: 15_000 });
+  await page.getByRole("link", { name: "Explore markets" }).click();
+  await expect(page).toHaveURL(/\/explore$/);
+  await page.getByRole("tab", { name: "Countries" }).click();
+  await expect(page.getByRole("table", { name: "Country benchmark" })).toContainText("Germany");
+  await page.getByRole("link", { name: "AI analyst" }).click();
+  await page.getByLabel("Ask a question about European retail").fill("Compare latest annual change by country");
+  await page.getByRole("button", { name: "Ask analyst" }).click();
   const resultFigure = page.locator(".query-outcome").getByRole("figure");
   await expect(resultFigure).toBeVisible();
   await expect(resultFigure.locator(".recharts-line")).toHaveCount(3);
@@ -57,14 +63,39 @@ test("clarification, line chart, and failed query on mobile", async ({ page }) =
     }
     return route.fulfill({ status: 504, json: { error: { message: "The query timed out." } } });
   });
-  await page.goto("/");
-  await page.getByLabel("What would you like to understand?").fill("Compare performance");
-  await page.getByRole("button", { name: "Analyze market" }).click();
-  await expect(page.getByText("No SQL has been executed.", { exact: false })).toBeVisible();
+  await page.goto("/analyst");
+  await page.getByLabel("Ask a question about European retail").fill("Compare performance");
+  await page.getByRole("button", { name: "Ask analyst" }).click();
+  await expect(page.getByText("No query has been executed yet.", { exact: false })).toBeVisible();
   await page.getByLabel("Your clarification").fill("Germany, total retail");
-  await page.getByRole("button", { name: "Continue analysis" }).click();
+  await page.getByRole("button", { name: "Continue" }).click();
   await expect(page.locator(".query-outcome").getByRole("figure").locator(".recharts-line")).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
-  await page.getByRole("button", { name: "Analyze market" }).click();
+  await page.getByRole("button", { name: "Ask analyst" }).click();
   await expect(page.getByRole("alert")).toContainText("timed out");
+});
+
+test("all four workspaces have no serious accessibility violations", async ({ page }) => {
+  for (const path of ["/overview", "/explore", "/analyst", "/data"]) {
+    await page.goto(path);
+    await page.waitForLoadState("networkidle");
+    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+    expect(results.violations.filter((item) => ["serious", "critical"].includes(item.impact ?? "")), `${path} accessibility violations`).toEqual([]);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/overview");
+  const mobile = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+  expect(mobile.violations.filter((item) => ["serious", "critical"].includes(item.impact ?? ""))).toEqual([]);
+});
+
+test("all workspaces remain usable at tablet and mobile widths", async ({ page }) => {
+  for (const viewport of [{ width: 768, height: 1024 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewport);
+    for (const path of ["/overview", "/explore", "/analyst", "/data"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${path} overflows at ${viewport.width}px`).toBeTruthy();
+      await expect(page.getByRole("button", { name: "Open navigation" })).toBeVisible();
+    }
+  }
 });

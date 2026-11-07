@@ -4,17 +4,29 @@ A governed analytics workspace for non-technical stakeholders to explore officia
 
 ## Interface
 
-### Market overview
+### Overview
 
-![European Retail Intelligence market overview](docs/screenshots/dashboard-overview.png)
+![European Retail Intelligence overview](docs/screenshots/overview.png)
 
-The overview combines Germany and EU-27 performance, category movement, country benchmarking, unusual movements and source-quality evidence from the same Eurostat snapshot.
+The overview presents the current Germany signal, EU-27 benchmark and essential market indicators without duplicating the detailed analysis workspace.
 
-### Governed natural-language analysis
+### Explore markets
 
-![Germany and EU-27 natural-language comparison result](docs/screenshots/comparison-analysis.png)
+![European Retail Intelligence market exploration](docs/screenshots/explore-markets.png)
 
-The analyst returns the answer, chart or table, calculated findings, query scope and inspectable SQL. This example compares Germany with the EU-27 over the latest 12 comparable months and explains both index-point and relative changes.
+Performance, categories, country benchmarks and unusual movements are separated into focused views with explicit index baselines and units.
+
+### AI analyst
+
+![Germany and EU-27 natural-language comparison result](docs/screenshots/ai-analyst-result.png)
+
+The analyst leads with a direct answer, the key deterministic findings and a chart or table. Query scope, caveats, methodology and validated SQL remain available in one evidence disclosure.
+
+### Data and sources
+
+![European Retail Intelligence data and sources](docs/screenshots/data-sources.png)
+
+Coverage, freshness, quality, provenance and technical methodology are kept together for non-technical review and deeper inspection.
 
 ## What the platform answers
 
@@ -44,7 +56,7 @@ The earlier forecasting view was removed. Its model did not consistently improve
 | Data | PostgreSQL 16, Alembic, Eurostat JSON-stat API |
 | AI providers | Groq or Microsoft Foundry Local through OpenAI-compatible chat completions |
 | Query controls | SQLGlot, allowlisted schema, read-only database role, statement timeout, row and byte limits |
-| Tests | Pytest, Vitest, Testing Library, Playwright, Ruff, ESLint |
+| Tests | Pytest, Vitest, Testing Library, Playwright, Axe, Ruff, ESLint |
 | Runtime | Docker Compose, Nginx |
 
 ## Start the application

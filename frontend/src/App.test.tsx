@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, expect, it, vi } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import { api } from "./lib/api";
 import { clarification, result, retailOverview } from "./test/fixtures";
@@ -25,16 +26,20 @@ beforeEach(() => {
 });
 
 async function submit() {
-  await userEvent.type(screen.getByLabelText("What would you like to understand?"), result.question);
-  await userEvent.click(screen.getByRole("button", { name: "Analyze market" }));
+  await userEvent.type(screen.getByLabelText("Ask a question about European retail"), result.question);
+  await userEvent.click(screen.getByRole("button", { name: "Ask analyst" }));
+}
+
+function renderApp(path = "/analyst") {
+  return render(<MemoryRouter initialEntries={[path]}><App /></MemoryRouter>);
 }
 
 it("shows the single-source dashboard, answer and auditable result", async () => {
   const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
-  render(<App />);
+  renderApp();
   await submit();
   expect(await screen.findByText(result.analysis!.answer)).toBeInTheDocument();
-  expect(screen.getByText("Eurostat · EU-27")).toBeInTheDocument();
+  expect(screen.getByText("Eurostat connected")).toBeInTheDocument();
   expect(screen.queryByText(/forecast/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/UCI/i)).not.toBeInTheDocument();
   expect(screen.getByRole("table")).toBeInTheDocument();
@@ -44,22 +49,22 @@ it("shows the single-source dashboard, answer and auditable result", async () =>
 });
 
 it("clears stale success when the next request fails", async () => {
-  render(<App />);
+  renderApp();
   await submit();
   await screen.findByText(result.analysis!.answer);
   vi.mocked(api.post).mockRejectedValueOnce(new Error("offline"));
-  await userEvent.click(screen.getByRole("button", { name: "Analyze market" }));
+  await userEvent.click(screen.getByRole("button", { name: "Ask analyst" }));
   expect(await screen.findByRole("alert")).toHaveTextContent("Request failed.");
   expect(screen.queryByText(result.analysis!.answer)).not.toBeInTheDocument();
 });
 
 it("continues clarification with original context", async () => {
   vi.mocked(api.post).mockResolvedValueOnce({ data: clarification }).mockResolvedValueOnce({ data: result });
-  render(<App />);
+  renderApp();
   await submit();
   await screen.findByText("Which country and retail category should be compared?");
   await userEvent.type(screen.getByLabelText("Your clarification"), "Germany, total retail");
-  await userEvent.click(screen.getByRole("button", { name: "Continue analysis" }));
+  await userEvent.click(screen.getByRole("button", { name: "Continue" }));
   await screen.findByText(result.analysis!.answer);
   expect(api.post).toHaveBeenLastCalledWith("/query", {
     question: result.question,
@@ -70,14 +75,14 @@ it("continues clarification with original context", async () => {
 it("scrolls to each completed result", async () => {
   const scroll = vi.fn();
   Element.prototype.scrollIntoView = scroll;
-  render(<App />);
+  renderApp();
   await submit();
   await screen.findByText(result.analysis!.answer);
   expect(scroll).toHaveBeenCalledWith(expect.objectContaining({ block: "start" }));
 });
 
 it("restores snapshots without another model call", async () => {
-  render(<App />);
+  renderApp();
   await waitFor(() => expect(screen.getByText(/1 saved/)).toBeInTheDocument());
   fireEvent.click(screen.getByRole("button", { name: /Recent analyses/ }));
   await userEvent.click(screen.getByRole("button", { name: new RegExp(result.question.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }));
@@ -86,8 +91,8 @@ it("restores snapshots without another model call", async () => {
 });
 
 it("does not discard success when history refresh fails", async () => {
-  render(<App />);
-  await screen.findByText("European retail intelligence");
+  renderApp();
+  await screen.findByText("Ask the market");
   vi.mocked(api.get).mockRejectedValue(new Error("history unavailable"));
   await submit();
   expect(await screen.findByText(/History could not refresh/)).toBeInTheDocument();
@@ -96,17 +101,32 @@ it("does not discard success when history refresh fails", async () => {
 
 it("announces initial load errors", async () => {
   vi.mocked(api.get).mockRejectedValue(new Error("offline"));
-  render(<App />);
-  expect(await screen.findByText(/Some workspace data could not load/)).toBeInTheDocument();
-  expect(screen.getByText("Market dashboard unavailable")).toBeInTheDocument();
+  renderApp("/overview");
+  expect(await screen.findByText("Market data unavailable")).toBeInTheDocument();
 });
 
 it("handles clipboard denial without losing SQL", async () => {
   Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: vi.fn().mockRejectedValue(new Error("denied")) } });
-  render(<App />);
+  renderApp();
   await submit();
   await screen.findByText(result.analysis!.answer);
   fireEvent.click(screen.getByText("Inspect SQL"));
   await userEvent.click(screen.getByRole("button", { name: "Copy SQL" }));
   expect(await screen.findByText(/Clipboard unavailable/)).toBeInTheDocument();
+});
+
+it("shows purposeful loading feedback while analysis is pending", async () => {
+  vi.mocked(api.post).mockImplementationOnce(() => new Promise(() => {}));
+  renderApp();
+  await userEvent.type(screen.getByLabelText("Ask a question about European retail"), result.question);
+  await userEvent.click(screen.getByRole("button", { name: "Ask analyst" }));
+  expect(screen.getByRole("button", { name: /Working through the data/ })).toBeDisabled();
+  expect(screen.getByRole("status")).toHaveTextContent("Building and validating your answer");
+});
+
+it("explains an empty successful result without fabricating findings", async () => {
+  vi.mocked(api.post).mockResolvedValueOnce({ data: { ...result, columns: [], rows: [], row_count: 0, analysis: null } });
+  renderApp();
+  await submit();
+  expect(await screen.findByText("No matching records were returned.")).toBeInTheDocument();
 });
