@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Download } from "lucide-react";
 import type { Cell } from "../types/query";
 import { downloadCsv, formatCell, label, numeric } from "../lib/results";
+import { Button } from "./ui/button";
 
 type Props = { columns: string[]; rows: Cell[][]; currency?: string | null };
 export function ResultsTableCard({ columns, rows, currency }: Props) {
@@ -27,28 +29,29 @@ export function ResultsTableCard({ columns, rows, currency }: Props) {
   return (
     <section aria-label="Result table">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-sm text-slate-500">
+        <p className="text-xs text-muted-foreground">
           {rows.length} returned {rows.length === 1 ? "row" : "rows"}
         </p>
-        <button
-          className="secondary"
+        <Button
+          variant="outline"
+          size="sm"
           disabled={!rows.length}
           onClick={() => downloadCsv(columns, sorted)}
         >
-          Export CSV
-        </button>
+          <Download /> Export CSV
+        </Button>
       </div>
       {!rows.length ? (
-        <p className="rounded-xl bg-slate-50 p-6 text-slate-500">
+        <p className="rounded-lg bg-muted p-6 text-sm text-muted-foreground">
           No matching data for these filters. Try a different date range.
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-slate-200">
+        <div className="result-table-wrap">
           <table className="w-full text-left text-sm">
             <caption className="sr-only">
               Query results, sortable by column
             </caption>
-            <thead className="bg-slate-50">
+            <thead>
               <tr>
                 {columns.map((column, index) => (
                   <th
@@ -60,10 +63,10 @@ export function ResultsTableCard({ columns, rows, currency }: Props) {
                           : "descending"
                         : "none"
                     }
-                    className="p-3"
+                    className="px-3 py-2.5"
                   >
                     <button
-                      className="whitespace-nowrap capitalize"
+                      className="inline-flex items-center gap-1.5 whitespace-nowrap capitalize"
                       onClick={() =>
                         setSort({
                           index,
@@ -72,24 +75,24 @@ export function ResultsTableCard({ columns, rows, currency }: Props) {
                         })
                       }
                     >
-                      {label(column)}{" "}
+                      {label(column)}
                       {sort?.index === index
                         ? sort.ascending
-                          ? "↑"
-                          : "↓"
-                        : "↕"}
+                          ? <ArrowUp aria-label="Sorted ascending" />
+                          : <ArrowDown aria-label="Sorted descending" />
+                        : <ArrowUpDown aria-label="Sort column" />}
                     </button>
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200">
+            <tbody>
               {sorted.map((row, index) => (
-                <tr key={index} className="hover:bg-slate-50">
+                <tr key={index}>
                   {row.map((cell, cellIndex) => (
                     <td
                       key={cellIndex}
-                      className="whitespace-nowrap p-3 tabular-nums text-slate-700"
+                      className="whitespace-nowrap px-3 py-2.5 tabular-nums text-foreground"
                     >
                       {formatCell(cell, columns[cellIndex], currency)}
                     </td>

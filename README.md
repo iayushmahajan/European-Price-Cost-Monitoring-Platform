@@ -39,7 +39,7 @@ The earlier forecasting view was removed. Its model did not consistently improve
 
 | Area | Technology |
 | --- | --- |
-| Frontend | React 19, TypeScript, Vite, Tailwind CSS, Recharts |
+| Frontend | React 19, TypeScript, Vite, Tailwind CSS, selected shadcn/ui primitives, Recharts |
 | API | FastAPI, Pydantic, SQLAlchemy |
 | Data | PostgreSQL 16, Alembic, Eurostat JSON-stat API |
 | AI providers | Groq or Microsoft Foundry Local through OpenAI-compatible chat completions |

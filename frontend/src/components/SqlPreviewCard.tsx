@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Check, Clipboard } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function SqlPreviewCard({ sql }: { sql: string }) {
   const [notice, setNotice] = useState("");
@@ -11,17 +13,17 @@ export function SqlPreviewCard({ sql }: { sql: string }) {
     }
   }
   return (
-    <details className="panel">
-      <summary className="cursor-pointer font-semibold">Inspect SQL</summary>
-      <div className="my-3 flex items-center gap-3">
-        <button className="secondary" onClick={() => void copy()}>
-          Copy SQL
-        </button>
-        <span role="status" className="text-sm text-slate-500">
+    <details className="sql-disclosure">
+      <summary>Inspect SQL</summary>
+      <div className="sql-toolbar">
+        <Button variant="outline" size="sm" onClick={() => void copy()}>
+          {notice === "SQL copied." ? <Check /> : <Clipboard />} Copy SQL
+        </Button>
+        <span role="status" className="text-xs text-muted-foreground">
           {notice}
         </span>
       </div>
-      <pre className="overflow-x-auto rounded-xl bg-slate-50 p-4 text-sm leading-6 text-violet-700">
+      <pre className="sql-code">
         <code>{sql}</code>
       </pre>
     </details>

@@ -79,7 +79,7 @@ it("scrolls to each completed result", async () => {
 it("restores snapshots without another model call", async () => {
   render(<App />);
   await waitFor(() => expect(screen.getByText(/1 saved/)).toBeInTheDocument());
-  fireEvent.click(screen.getByText("Recent analyses"));
+  fireEvent.click(screen.getByRole("button", { name: /Recent analyses/ }));
   await userEvent.click(screen.getByRole("button", { name: new RegExp(result.question.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }));
   await screen.findByText(result.analysis!.answer);
   expect(api.post).not.toHaveBeenCalled();

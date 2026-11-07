@@ -10,6 +10,7 @@ import type {
 import { QueryInputCard } from "./components/QueryInputCard";
 import { HistoryCard } from "./components/HistoryCard";
 import { AnalysisResult } from "./components/AnalysisResult";
+import { AppShell } from "./components/AppShell";
 
 const RetailDashboard = lazy(() =>
   import("./components/RetailDashboard").then((module) => ({
@@ -111,19 +112,7 @@ function App() {
   }
   const clarificationQuestion = result?.plan?.clarification_question;
   return (
-    <div className="app-shell">
-      <aside className="app-sidebar" aria-label="Workspace navigation">
-        <div className="brand-mark" aria-hidden="true">R<span>•</span></div>
-        <p className="sidebar-label">WORKSPACE</p>
-        <a href="#overview" className="nav-item active"><span>▦</span> Market overview</a>
-        <a href="#quality" className="nav-item"><span>⌁</span> Data quality</a>
-        <a href="#analyst" className="nav-item"><span>◌</span> Data analyst</a>
-        <div className="sidebar-bottom"><span className="sidebar-dot" /> Eurostat workspace<br/><small>Market intelligence</small></div>
-      </aside>
-      <main className="app-main">
-      <header className="app-topbar"><div><strong>European Retail Intelligence</strong><span> Platform</span></div>
-        <span className="data-source-label">Eurostat · EU-27</span>
-      </header>
+    <AppShell>
       <Suspense fallback={<div className="dashboard-empty">Loading market dashboard…</div>}>
         <RetailDashboard overview={overview} failed={dashboardFailed} />
       </Suspense>
@@ -238,8 +227,7 @@ function App() {
       </div>
       </section>
       <footer className="app-footer">Source: Eurostat monthly retail trade volume indices, seasonally and calendar adjusted, 2021=100. Dashboard metrics and natural-language queries use the same imported observations. Do not enter personal or confidential information.</footer>
-      </main>
-    </div>
+    </AppShell>
   );
 }
 export default App;

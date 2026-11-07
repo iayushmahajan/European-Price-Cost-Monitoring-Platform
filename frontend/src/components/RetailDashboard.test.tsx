@@ -6,12 +6,12 @@ import { RetailDashboard } from "./RetailDashboard";
 it("presents one Eurostat market workspace with comparable evidence", () => {
   render(<RetailDashboard overview={retailOverview} failed={false} />);
   expect(screen.getByText("European retail intelligence")).toBeInTheDocument();
-  expect(screen.getByText("One source, one analytical model.")).toBeInTheDocument();
+  expect(screen.getByText("One governed dataset")).toBeInTheDocument();
   expect(screen.getByText("104.2")).toBeInTheDocument();
   expect(screen.getByText("-0.4 pts")).toBeInTheDocument();
   expect(screen.getByText("9 of 27")).toBeInTheDocument();
   expect(screen.getByText("Germany and EU-27")).toBeInTheDocument();
-  expect(screen.getByText("Germany by retail segment")).toBeInTheDocument();
+  expect(screen.getByText("Distance from 2021")).toBeInTheDocument();
   expect(screen.getByText("Spain")).toBeInTheDocument();
   expect(screen.getByText(/score 4.6/)).toBeInTheDocument();
   expect(screen.getByText("15,320")).toBeInTheDocument();
