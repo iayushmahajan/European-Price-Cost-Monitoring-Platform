@@ -1,5 +1,13 @@
 import type { Cell } from "../types/query";
 
+export function analysisPresentation(answer: string, findings: string[], trends: string[], anomalies: string[]) {
+  const conclusion = answer.length > 180 && findings.length ? findings[0] : answer;
+  const highlights = [...findings, ...trends, ...anomalies]
+    .filter((item) => item !== conclusion)
+    .slice(0, 3);
+  return { conclusion, highlights, showFullAnswer: conclusion !== answer };
+}
+
 export function numeric(value: Cell): number | null {
   if (value === null || typeof value === "boolean" || value === "") return null;
   const number = Number(value);

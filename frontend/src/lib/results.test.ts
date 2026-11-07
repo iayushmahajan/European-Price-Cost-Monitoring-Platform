@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { chartShape, formatCell, toCsv } from "./results";
+import { analysisPresentation, chartShape, formatCell, toCsv } from "./results";
 
 describe("result presentation", () => {
   it("chooses charts only for supported shapes", () => {
@@ -32,5 +32,24 @@ describe("result presentation", () => {
   it("quotes CSV and neutralizes spreadsheet formulas", () => {
     expect(toCsv(["name", "value"], [['a,"b', 1], ['=HYPERLINK("bad")', null]])).toContain('"a,""b"');
     expect(toCsv(["name"], [["=cmd"]])).toContain("'=cmd");
+  });
+
+  it("uses a calculated finding for an unusually long answer and preserves the full answer", () => {
+    const answer = "From September 2025 to August 2026, Germany changed from one validated value to another while the EU-27 changed across the same period, including a deliberately long deterministic explanation of both movements and their relative percentages.";
+    const finding = "Germany finished 5.1 index points below the EU-27.";
+    expect(analysisPresentation(answer, [finding, "Germany was never above the EU-27."], ["The gap widened."], [])).toEqual({
+      conclusion: finding,
+      highlights: ["Germany was never above the EU-27.", "The gap widened."],
+      showFullAnswer: true,
+    });
+  });
+
+  it("keeps an already concise answer as the conclusion", () => {
+    const answer = "Germany's latest retail index is 104.2.";
+    expect(analysisPresentation(answer, ["It is 4.2 points above 2021."], [], [])).toEqual({
+      conclusion: answer,
+      highlights: ["It is 4.2 points above 2021."],
+      showFullAnswer: false,
+    });
   });
 });

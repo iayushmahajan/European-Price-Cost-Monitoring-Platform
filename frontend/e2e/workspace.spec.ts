@@ -28,10 +28,20 @@ test("market comparison chart, table, CSV and restored history", async ({ page }
   await page.goto("/");
   await expect(page).toHaveURL(/\/overview$/);
   await expect(page.getByRole("heading", { name: /Retail signals/ })).toBeVisible({ timeout: 15_000 });
+  const overviewLine = page.locator(".hero-visual .recharts-line-curve").first();
+  await expect(overviewLine).toBeVisible();
+  expect((await overviewLine.boundingBox())!.width).toBeGreaterThan(400);
   await page.getByRole("link", { name: "Explore markets" }).click();
   await expect(page).toHaveURL(/\/explore$/);
+  const exploreLine = page.locator(".light-chart .recharts-line-curve").first();
+  await expect(exploreLine).toBeVisible();
+  expect((await exploreLine.boundingBox())!.width).toBeGreaterThan(400);
+  await page.getByRole("tab", { name: "Categories" }).click();
+  await expect(page.getByRole("heading", { name: "Category position" })).toBeVisible();
   await page.getByRole("tab", { name: "Countries" }).click();
   await expect(page.getByRole("table", { name: "Country benchmark" })).toContainText("Germany");
+  await page.getByRole("tab", { name: "Change detection" }).click();
+  await expect(page.getByRole("heading", { name: "Unusual recent movements" })).toBeVisible();
   await page.getByRole("link", { name: "AI analyst" }).click();
   await page.getByLabel("Ask a question about European retail").fill("Compare latest annual change by country");
   await page.getByRole("button", { name: "Ask analyst" }).click();
@@ -39,14 +49,39 @@ test("market comparison chart, table, CSV and restored history", async ({ page }
   await expect(resultFigure).toBeVisible();
   await expect(resultFigure.locator(".recharts-line")).toHaveCount(3);
   await expect(resultFigure.locator(".difference-chart")).toBeVisible();
+  await page.getByText("Evidence & methodology").click();
+  await expect(page.getByText("Question interpreted as")).toBeVisible();
+  await page.getByText("Inspect SQL").click();
+  await expect(page.locator(".sql-code")).toContainText("SELECT");
   await page.getByRole("tab", { name: "Table", exact: true }).click();
   await expect(page.getByRole("table")).toContainText("-5.1 pts");
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export CSV" }).click();
   expect((await download).suggestedFilename()).toBe("eurostat-analysis.csv");
+  await page.getByRole("button", { name: result.analysis!.follow_up_questions[0] }).click();
+  await expect(page.getByLabel("Ask a question about European retail")).toHaveValue(result.analysis!.follow_up_questions[0]);
   await page.getByRole("button", { name: /Recent analyses/ }).click();
   await page.getByRole("button", { name: new RegExp(result.question.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) }).click();
   await expect(page.getByRole("table")).toContainText("104.2");
+});
+
+test("browser history and mobile navigation preserve route behavior", async ({ page }) => {
+  await page.goto("/overview");
+  await page.getByRole("link", { name: "Explore markets" }).click();
+  await page.getByRole("link", { name: "Data & sources" }).click();
+  await expect(page).toHaveURL(/\/data$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/explore$/);
+  await expect(page.getByRole("heading", { name: "Explore markets" })).toBeVisible();
+  await page.goForward();
+  await expect(page).toHaveURL(/\/data$/);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("link", { name: "AI analyst" }).click();
+  await expect(page).toHaveURL(/\/analyst$/);
+  await expect(page.getByRole("heading", { name: "Ask the market" })).toBeVisible();
 });
 
 test("clarification, line chart, and failed query on mobile", async ({ page }) => {
@@ -76,6 +111,7 @@ test("clarification, line chart, and failed query on mobile", async ({ page }) =
 });
 
 test("all four workspaces have no serious accessibility violations", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   for (const path of ["/overview", "/explore", "/analyst", "/data"]) {
     await page.goto(path);
     await page.waitForLoadState("networkidle");

@@ -130,3 +130,15 @@ it("explains an empty successful result without fabricating findings", async () 
   await submit();
   expect(await screen.findByText("No matching records were returned.")).toBeInTheDocument();
 });
+
+it("leads with a deterministic finding and preserves a long full explanation", async () => {
+  const full = "From September 2025 to August 2026, Germany decreased from 100.40 to 99.90 while EU-27 increased from 103.90 to 105, including the validated point and relative changes for both series across the complete comparison window.";
+  const conclusion = "In August 2026, Germany was 5.10 index points below EU-27.";
+  vi.mocked(api.post).mockResolvedValueOnce({ data: { ...result, analysis: { ...result.analysis!, answer: full, findings: [conclusion, "Germany was below EU-27 in every comparable month."] } } });
+  renderApp();
+  await submit();
+  expect(await screen.findByRole("heading", { name: conclusion })).toBeInTheDocument();
+  expect(screen.getByText(full)).not.toBeVisible();
+  await userEvent.click(screen.getByText("Evidence & methodology"));
+  expect(screen.getByText(full)).toBeVisible();
+});
