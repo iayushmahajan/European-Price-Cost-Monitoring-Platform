@@ -210,6 +210,15 @@ docker compose up --build -d backend frontend
 docker compose logs -f backend
 ```
 
+## Price and cost monitoring development
+
+The `feature/price-cost-monitoring` branch adds official fuel, HICP and ECB data
+alongside the existing retail application. See the
+[database architecture](docs/price-cost-database-architecture.md) and
+[synchronization operations guide](docs/price-cost-synchronization.md) for source
+mappings, historical backfill, incremental checks, CLI commands, the optional
+Docker scheduler, provenance, revision handling and artifact backup.
+
 ## Development and validation
 
 Backend unit/API tests use isolated in-memory SQLite and mock providers. PostgreSQL integration tests require explicitly disposable test URLs and `TEST_ALLOW_RESET=1`; CI provisions this environment automatically.

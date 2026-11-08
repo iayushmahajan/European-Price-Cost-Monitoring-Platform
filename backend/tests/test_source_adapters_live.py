@@ -35,3 +35,16 @@ def test_live_official_source_contracts():
     )
     ecb = ecb_adapter.parse(ecb_adapter.fetch())
     assert len(ecb.records) == 15
+
+
+def test_live_discovered_acquisition_plans():
+    from app.ingestion.sources import SOURCES, SourceConfig, acquire
+
+    config = SourceConfig(geographies=("DE",), categories=("TOTAL",), currencies=("USD",))
+    for source in SOURCES:
+        responses = list(
+            acquire(source, mode="backfill", since=date(2026, 10, 1), today=date(2026, 11, 8), config=config)
+        )
+        assert any(item.batch and item.batch.records for item in responses)
+        if source == SOURCES[0]:
+            assert len(responses) == 4  # landing page, both weekly books, archive

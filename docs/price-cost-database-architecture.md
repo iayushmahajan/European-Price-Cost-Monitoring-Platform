@@ -1,4 +1,4 @@
-# Price and cost database architecture — Milestone 2
+# Price and cost database architecture — Milestones 2–3
 
 Milestone 2 adds a PostgreSQL foundation for the European Price & Cost
 Monitoring Platform without removing or changing the existing retail schema.
@@ -156,7 +156,7 @@ artifact from becoming provenance for an Oil Bulletin observation.
 
 ### Raw-artifact retention policy
 
-Milestone 3 should write successful raw responses to a content-addressed local
+Milestone 3 writes validated raw responses to a content-addressed local
 Docker volume such as:
 
 ```text
@@ -171,8 +171,8 @@ current project and avoids introducing object storage prematurely.
 ### Synchronization and quality
 
 `synchronization_states` stores last attempt/success, last run, HTTP validators,
-a JSONB cursor, failure count, and freshness state. It is storage for a future
-orchestrator; no scheduler is implemented here.
+a JSONB cursor, failure count, and freshness state. The Milestone 3 orchestrator and independent Docker worker use this state;
+ordinary API requests do not trigger synchronization.
 
 `data_quality_events` stores explicit, source-scoped informational, warning, or
 error events. A missing HICP cell can be recorded with reference-period details
@@ -182,7 +182,7 @@ unless an ingestion policy explicitly determines that a publication was due.
 ## Revision strategy
 
 Current observation tables contain the latest verified value and its current
-run/artifact provenance. Before a changed value is applied, Milestone 3 will:
+run/artifact provenance. Before a changed value is applied, the synchronizer:
 
 1. Compare the incoming typed record with the current row.
 2. Insert a source-specific revision row containing previous and replacement
@@ -223,9 +223,9 @@ Milestone 3 may create deliberately flattened read models for application
 services. AI-facing analytical views remain a later, separate decision and
 must be individually allowlisted before receiving `SELECT` privileges.
 
-## Milestone 3 hand-off
+## Milestone 3 implementation
 
-Ingestion can now be implemented without changing the fact model:
+The implementation uses this fact model without a new schema migration:
 
 1. Resolve/fetch and hash official artifacts.
 2. Insert an ingestion run and attach its artifact metadata.
@@ -234,6 +234,7 @@ Ingestion can now be implemented without changing the fact model:
 5. Record revisions and explicit quality events.
 6. Advance synchronization state only after successful commit.
 
-Open implementation choices are limited to link discovery, local raw-file
-mounting, advisory-lock strategy, and transaction orchestration. The data
-grains, units, provenance, and revision semantics are fixed by this milestone.
+Implementation and operating instructions are in
+[Price/cost synchronization](price-cost-synchronization.md).
+`app.ingestion.mapping` is the explicit adapter-to-database mapping;
+`app.ingestion.service` owns publication, revisions, and audit transactions.

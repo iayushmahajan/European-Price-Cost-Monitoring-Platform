@@ -168,3 +168,22 @@ They are now resolved in
 typed current fact tables with source-specific revision tables, absent rows plus
 quality metadata for missing HICP cells, content-addressed local raw artifacts,
 and source-link/publication metadata retained separately from observation dates.
+
+## Milestone 3 acquisition and history
+
+The ingestion worker now discovers all current fuel and history URLs from the
+official landing page; the original adapter defaults remain verified samples for
+compatibility only. See [synchronization operations](price-cost-synchronization.md)
+for batching, source mappings, incremental revision windows and freshness policies.
+
+The historical fuel parser validates the two price sheets in the seven-sheet
+`Weekly_Oil_Bulletin_Prices_History_maticni_4web.xlsx` workbook, named EU-country
+motor-fuel columns and `1000 l` units. Source GR maps to catalogue EL. Selected
+prices are EUR per 1,000 litres; exchange-rate and other-product columns are not
+imported. The downloaded full workbook on 8 November 2026 had SHA-256
+`b55d86c3ee2c5fa3788b5b95e789d5d6b207558d54d455fd0120ed1e95e01ffb`.
+`oil_history_excerpt.xlsx` is a deterministic **derived fixture**: it retains
+original cell values for the two newest reference weeks and price headers, sheet
+names and a Notes boundary; unrelated sheets are empty. Its SHA-256 is
+`1a6a5922c2b3ccd1c389e1930d7432044e455bf4fdac1e4c06574d6f337eda66`.
+It is not represented as an unmodified official artifact.
