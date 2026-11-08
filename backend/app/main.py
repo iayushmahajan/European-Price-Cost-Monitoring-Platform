@@ -12,6 +12,7 @@ from app.api.routes.examples import router as examples_router
 from app.api.routes.health import router as health_router
 from app.api.routes.history import router as history_router
 from app.api.routes.price_cost import router as price_cost_router
+from app.api.routes.price_cost_analyst import router as price_cost_analyst_router
 from app.api.routes.query import router as query_router
 from app.api.routes.retail import router as retail_router
 from app.core.config import settings
@@ -87,6 +88,7 @@ for router in (
     query_router,
     retail_router,
     price_cost_router,
+    price_cost_analyst_router,
 ):
     app.include_router(router)
 

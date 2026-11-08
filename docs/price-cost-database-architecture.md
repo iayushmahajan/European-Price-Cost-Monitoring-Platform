@@ -1,4 +1,4 @@
-# Price and cost database architecture — Milestones 2–4
+# Price and cost database architecture — Milestones 2–5
 
 Milestone 2 adds a PostgreSQL foundation for the European Price & Cost
 Monitoring Platform without removing or changing the existing retail schema.
@@ -247,3 +247,12 @@ typed tables. No new database objects or privileges are required. Requests use
 read-only repeatable-read transactions on the existing application role, with
 bounded indexed reads and deterministic calculations/explanations. The AI reader
 remains limited to its existing retail tables; generated-SQL access is not added.
+
+
+## Milestone 5 governed analyst
+
+The [governed analyst](price-cost-analyst.md) invokes the Milestone 4 business
+services with validated intent operations instead of adding AI SQL views/grants.
+It stores dataset/domain/version metadata and frozen observation provenance inside
+the existing query-history JSON snapshots. Retail history and the AI reader's
+existing permissions remain separate and unchanged. No schema migration is needed.

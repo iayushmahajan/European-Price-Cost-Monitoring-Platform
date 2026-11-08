@@ -489,7 +489,16 @@ def test_database_error_is_sanitized_and_openapi_contracts_are_published(api_cli
     finally:
         app.dependency_overrides.pop(get_service, None)
     specification = api_client.get("/openapi.json").json()
-    assert len([path for path in specification["paths"] if path.startswith(PREFIX)]) == 12
+    assert (
+        len(
+            [
+                path
+                for path in specification["paths"]
+                if path.startswith(PREFIX) and not path.startswith(PREFIX + "/analyst")
+            ]
+        )
+        == 12
+    )
     schema = (
         specification["components"]["schemas"]["FuelMetric-Output"]
         if "FuelMetric-Output" in specification["components"]["schemas"]

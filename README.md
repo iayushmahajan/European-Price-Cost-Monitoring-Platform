@@ -220,6 +220,8 @@ mappings, historical backfill, incremental checks, CLI commands, the optional
 Docker scheduler, provenance, revision handling and artifact backup.
 The [API v1 guide](docs/price-cost-api.md) documents typed price/cost endpoints,
 comparison rules, deterministic explanations, freshness and provenance.
+The [governed analyst guide](docs/price-cost-analyst.md) covers natural-language
+price/cost questions, typed operations, evidence and versioned result restoration.
 
 ## Development and validation
 
