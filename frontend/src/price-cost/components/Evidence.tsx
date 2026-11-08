@@ -1,6 +1,11 @@
 import { useResource } from "../resource";
 import { priceCost } from "../api";
-import { period, safeExternal, timestamp } from "../format";
+import {
+  period,
+  safeExternal,
+  timestamp,
+  synchronizationLabel,
+} from "../format";
 import type {
   Explanation,
   ObservationStatus,
@@ -31,7 +36,7 @@ export function SourceWarnings({ sources }: { sources: SourceStatus[] }) {
           <p>
             <strong>{s.source.name}</strong> · Observation freshness:{" "}
             {s.observation_freshness}. Synchronization:{" "}
-            {s.synchronization_status}. Last successful sync:{" "}
+            {synchronizationLabel(s)}. Last successful sync:{" "}
             {timestamp(s.last_success_at)}.
           </p>
         </div>

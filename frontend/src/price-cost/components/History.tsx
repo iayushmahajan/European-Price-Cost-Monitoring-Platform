@@ -135,7 +135,12 @@ function HistoryData({
         </p>
       )}
       {table ? (
-        <div className="pc-table-scroll">
+        <div
+          className="pc-table-scroll"
+          role="region"
+          aria-label="Historical observations table"
+          tabIndex={0}
+        >
           <table>
             <caption>Exact historical observations · {unit}</caption>
             <thead>

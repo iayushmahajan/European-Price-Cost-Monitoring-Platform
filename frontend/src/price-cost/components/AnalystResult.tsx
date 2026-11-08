@@ -121,7 +121,12 @@ export function AnalystResult({
           />
         )
       ) : (
-        <div className="pc-table-scroll">
+        <div
+          className="pc-table-scroll"
+          role="region"
+          aria-label="Verified analysis table"
+          tabIndex={0}
+        >
           <table>
             <caption>Verified result data · exact backend values</caption>
             <thead>

@@ -90,7 +90,12 @@ export function CountryComparison({
                       unit={d.unit}
                     />
                   )}
-                  <div className="pc-table-scroll">
+                  <div
+                    className="pc-table-scroll"
+                    role="region"
+                    aria-label="Country comparison table"
+                    tabIndex={0}
+                  >
                     <table>
                       <caption>
                         Common-period values and backend-calculated differences

@@ -1,3 +1,4 @@
+import type { SourceStatus } from "./contracts";
 import type { Metric } from "./api";
 /** Display rounding uses decimal string digits, never binary floats or business calculations. */
 export function decimal(
@@ -104,4 +105,12 @@ export function safeExternal(value: string): string | undefined {
   } catch {
     return undefined;
   }
+}
+
+/** Both current/stale ingestion states mean a successful check; age is separate. */
+export function synchronizationLabel(source: SourceStatus): string {
+  return source.last_success_at &&
+    ["current", "stale"].includes(source.synchronization_status)
+    ? "Succeeded"
+    : source.synchronization_status;
 }

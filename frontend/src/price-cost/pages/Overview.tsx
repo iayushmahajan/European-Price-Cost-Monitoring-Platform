@@ -27,6 +27,7 @@ export default function OverviewPage() {
     start: shiftMonths(end, -3),
     end,
     tax: "with_tax",
+    category: "TOTAL",
     compare: "",
     comparisonDate: "",
     comparisonPeriod: "",
@@ -129,7 +130,9 @@ export default function OverviewPage() {
             data.exchange_rates.items[0],
           ].filter(
             (m): m is Metric =>
-              m !== undefined && m.observation_id !== primary?.observation_id,
+              m !== undefined &&
+              (m.source_code !== primary?.source_code ||
+                m.observation_id !== primary?.observation_id),
           );
           return (
             <>
@@ -168,7 +171,7 @@ export default function OverviewPage() {
               >
                 {supporting.map((m) => (
                   <button
-                    key={m.observation_id}
+                    key={`${m.source_code}:${m.observation_id}`}
                     onClick={() => {
                       if (m.measurement_type === "price")
                         update({ domain: "fuel", product: m.product });

@@ -93,8 +93,8 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.pc-app :is(button, a, input, select, textarea, summary, svg):focus-visible,
-.pc-panel :is(button, a, input, select, textarea, summary, svg):focus-visible {
+.pc-app :is(button, a, input, select, textarea, summary, svg, [tabindex]):focus-visible,
+.pc-panel :is(button, a, input, select, textarea, summary, svg, [tabindex]):focus-visible {
   outline: 2px solid var(--pc-focus);
   outline-offset: 4px;
 }

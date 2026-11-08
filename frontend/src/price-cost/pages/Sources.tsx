@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { priceCost } from "../api";
 import { useResource } from "../resource";
-import { period, safeExternal, timestamp } from "../format";
+import {
+  period,
+  safeExternal,
+  timestamp,
+  synchronizationLabel,
+} from "../format";
 import type { Catalogue, SourceStatus } from "../contracts";
 import { Panel, ResourceState } from "../components/Shared";
 export default function SourcesPage() {
@@ -73,7 +78,7 @@ export default function SourcesPage() {
                       </span>
                       <span>
                         <small>Synchronization health</small>
-                        {s.synchronization_status}
+                        {synchronizationLabel(s)}
                         {s.running ? " · in progress" : ""}
                       </span>
                       <span aria-hidden="true">↗</span>
@@ -143,7 +148,7 @@ function SourceDetails({ source: s }: { source: SourceStatus }) {
         </div>
         <div>
           <dt>Synchronization health</dt>
-          <dd>{s.synchronization_status}</dd>
+          <dd>{synchronizationLabel(s)}</dd>
         </div>
         <div>
           <dt>Latest observation</dt>
@@ -240,7 +245,12 @@ function Coverage({
 }) {
   const rows = c.coverage.filter((r) => r.source_code === source);
   return (
-    <div className="pc-table-scroll">
+    <div
+      className="pc-table-scroll"
+      role="region"
+      aria-label="Source series coverage table"
+      tabIndex={0}
+    >
       <table>
         <caption>Registered series and actual stored coverage</caption>
         <thead>

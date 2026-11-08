@@ -36,3 +36,23 @@ it("separates fresh observations from a failed synchronization and exposes actua
   await userEvent.click(within(d).getByText("Series coverage"));
   expect(await within(d).findByRole("table")).toHaveTextContent("Germany");
 });
+
+it("reports a successful check independently of stale observations", async () => {
+  vi.mocked(api.get).mockImplementation(async (url) => ({
+    data: url.endsWith("/sources")
+      ? [
+          {
+            ...pcFixture.sources[0],
+            synchronization_status: "stale",
+            observation_freshness: "stale",
+          },
+        ]
+      : fixtureResponse(url),
+  }));
+  render(<Sources />);
+  const row = await screen.findByRole("button", {
+    name: /European Commission/,
+  });
+  expect(row).toHaveTextContent("Observation freshnessstale");
+  expect(row).toHaveTextContent("Synchronization healthSucceeded");
+});
