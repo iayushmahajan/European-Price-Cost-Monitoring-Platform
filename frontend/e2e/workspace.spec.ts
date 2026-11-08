@@ -25,7 +25,7 @@ test("market comparison chart, table, CSV and restored history", async ({ page }
     rows: [["2026-07-01", "98.6", "104.9", "-6.3"], ["2026-08-01", "99.9", "105", "-5.1"]],
     row_count: 2,
   } }));
-  await page.goto("/");
+  await page.goto("/overview");
   await expect(page).toHaveURL(/\/overview$/);
   await expect(page.getByRole("heading", { name: /Retail signals/ })).toBeVisible({ timeout: 15_000 });
   const overviewLine = page.locator(".hero-visual .recharts-line-curve").first();

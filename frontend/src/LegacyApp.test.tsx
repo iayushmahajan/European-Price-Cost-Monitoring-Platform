@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
-import App from "./App";
+import App from "./LegacyApp";
 import { api } from "./lib/api";
 import { clarification, result, retailOverview } from "./test/fixtures";
 
