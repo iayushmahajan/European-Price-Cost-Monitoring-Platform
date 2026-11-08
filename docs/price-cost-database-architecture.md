@@ -1,4 +1,4 @@
-# Price and cost database architecture — Milestones 2–3
+# Price and cost database architecture — Milestones 2–4
 
 Milestone 2 adds a PostgreSQL foundation for the European Price & Cost
 Monitoring Platform without removing or changing the existing retail schema.
@@ -238,3 +238,12 @@ Implementation and operating instructions are in
 [Price/cost synchronization](price-cost-synchronization.md).
 `app.ingestion.mapping` is the explicit adapter-to-database mapping;
 `app.ingestion.service` owns publication, revisions, and audit transactions.
+
+
+## Milestone 4 product API
+
+The [API v1 guide](price-cost-api.md) describes the fixed-query read API over these
+typed tables. No new database objects or privileges are required. Requests use
+read-only repeatable-read transactions on the existing application role, with
+bounded indexed reads and deterministic calculations/explanations. The AI reader
+remains limited to its existing retail tables; generated-SQL access is not added.

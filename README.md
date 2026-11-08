@@ -218,6 +218,8 @@ alongside the existing retail application. See the
 [synchronization operations guide](docs/price-cost-synchronization.md) for source
 mappings, historical backfill, incremental checks, CLI commands, the optional
 Docker scheduler, provenance, revision handling and artifact backup.
+The [API v1 guide](docs/price-cost-api.md) documents typed price/cost endpoints,
+comparison rules, deterministic explanations, freshness and provenance.
 
 ## Development and validation
 
