@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+import sys
 from unittest.mock import Mock
 
 import pytest
@@ -26,8 +27,8 @@ def postgres():
     if not url or not reader_url or os.getenv("TEST_ALLOW_RESET") != "1":
         pytest.skip("Requires disposable TEST_DATABASE_URL, TEST_ANALYTICS_DATABASE_URL, TEST_ALLOW_RESET=1")
     env = dict(os.environ, DATABASE_URL=url)
-    subprocess.run(["alembic", "upgrade", "head"], check=True, env=env)
-    subprocess.run(["python", "-m", "app.scripts.apply_grants"], check=True, env=env)
+    subprocess.run([sys.executable, "-m", "alembic", "upgrade", "head"], check=True, env=env)
+    subprocess.run([sys.executable, "-m", "app.scripts.apply_grants"], check=True, env=env)
     owner = create_engine(url)
     reader = create_engine(reader_url)
     with owner.begin() as connection:

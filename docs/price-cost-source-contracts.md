@@ -149,7 +149,9 @@ and USD.
   inverse quote must be explicitly calculated as `1 / official rate`, labelled
   as derived, and retain sufficient decimal precision.
 
-## Known decisions deferred to Milestone 2
+## Milestone 2 resolution
+
+The following questions were carried into Milestone 2:
 
 - Whether source-native observations and revisions use separate typed fact
   tables or typed current tables plus an append-only revision table.
@@ -161,5 +163,8 @@ and USD.
 - The policy for retaining raw official artifacts outside test fixtures.
 - Current-link discovery and schema-versioning for future Oil Bulletin releases.
 
-These decisions do not affect the verified measurement semantics or parser
-correctness established here.
+They are now resolved in
+[Price and cost database architecture](price-cost-database-architecture.md):
+typed current fact tables with source-specific revision tables, absent rows plus
+quality metadata for missing HICP cells, content-addressed local raw artifacts,
+and source-link/publication metadata retained separately from observation dates.
