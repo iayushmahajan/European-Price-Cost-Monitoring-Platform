@@ -26,3 +26,6 @@ backend/.venv/
 frontend/test-results/
 frontend/playwright-report/
 .coverage
+
+# Local database recovery material (never commit data or credentials)
+.local-backups/
