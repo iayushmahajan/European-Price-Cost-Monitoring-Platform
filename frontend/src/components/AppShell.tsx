@@ -1,9 +1,10 @@
 import { useState, type ReactNode } from "react";
-import { BarChart3, Bot, Compass, Database, Menu, Sparkles } from "lucide-react";
+import { BarChart3, Bot, Compass, Database, Menu } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { cn } from "../lib/utils";
+import { ProductMark } from "./ProductMark";
 
 const navigation = [
   { to: "/overview", label: "Overview", icon: BarChart3 },
@@ -33,17 +34,15 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="global-header">
         <div className="global-header-inner">
           <NavLink className="brand-lockup" to="/overview" aria-label="European Retail Intelligence home">
-            <span className="brand-mark" aria-hidden="true"><Sparkles /></span>
+            <span className="brand-mark" aria-hidden="true"><ProductMark /></span>
             <span className="brand-name">European Retail <strong>Intelligence</strong></span>
           </NavLink>
           <Navigation />
-          <div className="header-context" title="Eurostat dataset status"><span className="status-dot" aria-hidden="true" /><span>Eurostat connected</span></div>
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild><Button className="mobile-menu-button" variant="ghost" size="icon" aria-label="Open navigation"><Menu /></Button></SheetTrigger>
             <SheetContent side="right" className="mobile-menu-sheet">
-              <div className="mobile-menu-heading"><span className="brand-mark" aria-hidden="true"><Sparkles /></span><div><SheetTitle>European Retail Intelligence</SheetTitle><SheetDescription>{current.label}</SheetDescription></div></div>
+              <div className="mobile-menu-heading"><span className="brand-mark" aria-hidden="true"><ProductMark /></span><div><SheetTitle>European Retail Intelligence</SheetTitle><SheetDescription>{current.label}</SheetDescription></div></div>
               <Navigation mobile onNavigate={() => setMenuOpen(false)} />
-              <p className="mobile-source-status"><span className="status-dot" /> Eurostat data connected</p>
             </SheetContent>
           </Sheet>
         </div>

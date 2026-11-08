@@ -21,6 +21,8 @@ it("organizes categories, countries and change detection into focused tabs", asy
   expect(screen.getByText("Category position")).toBeInTheDocument();
   await userEvent.click(screen.getByRole("tab", { name: "Countries" }));
   expect(screen.getByRole("table", { name: "Country benchmark" })).toHaveTextContent("Spain");
+  expect(screen.getByText(/these values may be revised by Eurostat/i)).toBeInTheDocument();
+  expect(screen.getByText("Provisional", { selector: ".provisional-status" })).toHaveAccessibleName(/may be revised by Eurostat/i);
   await userEvent.click(screen.getByRole("tab", { name: "Change detection" }));
   expect(screen.getByText(/score 4.6/)).toBeInTheDocument();
 });

@@ -39,7 +39,7 @@ it("shows the single-source dashboard, answer and auditable result", async () =>
   renderApp();
   await submit();
   expect(await screen.findByText(result.analysis!.answer)).toBeInTheDocument();
-  expect(screen.getByText("Eurostat connected")).toBeInTheDocument();
+  expect(screen.queryByText(/Eurostat (data )?connected/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/forecast/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/UCI/i)).not.toBeInTheDocument();
   expect(screen.getByRole("table")).toBeInTheDocument();
@@ -121,7 +121,7 @@ it("shows purposeful loading feedback while analysis is pending", async () => {
   await userEvent.type(screen.getByLabelText("Ask a question about European retail"), result.question);
   await userEvent.click(screen.getByRole("button", { name: "Ask analyst" }));
   expect(screen.getByRole("button", { name: /Working through the data/ })).toBeDisabled();
-  expect(screen.getByRole("status")).toHaveTextContent("Building and validating your answer");
+  expect(screen.getByRole("status")).toHaveTextContent("Building a query, checking its safety");
 });
 
 it("explains an empty successful result without fabricating findings", async () => {
