@@ -1,26 +1,42 @@
 # Verification record
 
-Verified locally on 8 October 2026. The populated `.env` was not read into output or modified.
+Verified locally on 8 November 2026. The populated `.env` was not printed or modified. PostgreSQL integration tests used a uniquely named disposable container rather than the populated demo database.
 
 | Check | Result |
 | --- | --- |
 | Backend Ruff | Passed |
-| Complete backend suite on PostgreSQL 16 | **91 passed** against a disposable database |
-| Frontend Vitest | **15 passed** |
-| Frontend ESLint and TypeScript production build | Passed |
-| Playwright Chromium desktop/mobile workflows | **2 passed** |
+| Complete backend suite on PostgreSQL 16 | **91 passed** |
+| Frontend Vitest | **21 passed** across 3 files |
+| Frontend ESLint | Passed |
+| Frontend TypeScript check | Passed |
+| Frontend production build | Passed |
+| Playwright Chromium workflows | **5 passed** |
+| Serious accessibility violations in tested routes | **0** |
 | Production dependency audit | **0 vulnerabilities** |
-| Docker Compose migration and service startup | Passed |
-| Live Eurostat import | **14,955 observations**, January 2015–August 2026 |
-| Live dashboard API | Passed through the Nginx `/api` proxy |
-| Live configured-provider query | Passed: typed plan → validated SQL → PostgreSQL → deterministic findings |
+| Docker Compose configuration | Passed |
+| Live application health | API, application database, analytics database and provider **ok** |
+| Live Eurostat snapshot | **14,955 observations**, January 2015–August 2026 |
+| Live configured-provider query | Passed: typed plan → validated SQL → PostgreSQL → deterministic answer |
+| Live clarification request | Passed without generating SQL |
 
-The live query asked for Germany's latest total-retail index. It returned August 2026 at **99.90 (2021=100)** and correctly explained that this is **0.10 index points below** the reference level. Provider generation took under one second in the observed run; SQL execution took eight milliseconds. These timings are environment-specific.
+## Demonstration checks
 
-The live Germany-versus-EU-27 comparison returned one aligned row per month with both series and their signed gap. Its findings reported each series' 12-month movement, the latest **5.10-point** gap, Germany's above-EU month count, and the change in that gap. Long-form provider results are also covered by a deterministic pivot fallback.
+- Direct navigation worked for Overview, Explore Markets, AI Analyst and Data & Sources.
+- Browser history, desktop navigation and the mobile menu preserved route behavior.
+- Explore tabs, chart/table switching, CSV export, follow-up questions and history restoration passed in Playwright.
+- Evidence and SQL disclosures opened correctly for a restored real analysis.
+- Loading, clarification, success and failed-query states passed browser tests.
+- All four workspaces remained usable at tablet and mobile widths.
+- Automated accessibility scans reported no serious Axe violations on the four primary routes.
 
-The test suite covers malformed provider output, provider errors, typed-plan gating, clarification, metric-policy mismatches, unsafe and unknown SQL, row/byte/time limits, result-context bounds, import dimension drift, invalid values, missing periods, deterministic derived metrics, anomaly thresholds, migration/model parity, retired-table removal, least-privilege database roles, history restoration, auto-scroll, unit formatting, CSV injection safety, charts, and mobile layout.
+A fresh provider-backed question for Germany's latest total-retail index returned August 2026 at **99.90 (2021=100)** with one row and validated read-only SQL. A fresh ambiguous request returned `needs_clarification` and no SQL.
 
-The Eurostat importer validated the current JSON-stat structure and atomically loaded 28 geographies and four categories. The latest country ranking contained 25 members with a reported value for the same latest month; missing source cells remain visible in data-quality metadata rather than being imputed.
+The restored Germany-versus-EU-27 comparison contained 12 aligned monthly rows. For August 2026 it returned Germany at **99.90**, the EU-27 at **105.00** and a signed difference of **-5.10 points**. An independent calculation from the returned cells reproduced the same difference, and the deterministic finding correctly described Germany as 5.10 points below the EU-27.
 
-One upstream Starlette/AnyIO deprecation warning appears in backend tests. The full frontend install reports advisories in development tooling, while `npm audit --omit=dev` reports zero vulnerabilities in production dependencies.
+## Data and build observations
+
+The imported snapshot contains 28 geographies and four retail categories. Missing source cells remain visible in quality metadata rather than being imputed. Current portfolio screenshots include fully rendered desktop and mobile views for all four workspaces plus a populated AI analysis.
+
+The frontend production build succeeds. Its largest route-loaded visualization chunk is approximately 391 kB (111 kB gzip), and the main application bundle is approximately 394 kB (129 kB gzip). These are acceptable for this portfolio application but remain measurable optimization opportunities.
+
+One upstream Starlette/AnyIO deprecation warning appears in backend tests. The full frontend development dependency tree reports moderate advisories in tooling; `npm audit --omit=dev` reports zero vulnerabilities in production dependencies. No forced dependency upgrades were applied.
