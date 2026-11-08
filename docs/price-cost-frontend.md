@@ -38,3 +38,11 @@ Type checking, production build and lint passed; 23 unit/component tests passed 
 Real catalogue/overview/latest/history/compare/evidence clients, URL validation, all three domains, table alternatives, status and irregular-interval display, gap-aware charts, bounded pagination and cancellation are implemented. The default country is disclosed, and the EU aggregate is confined to Explore inflation. Type/build/lint and 28 tests passed. Deterministic fixtures are generated/validated by the real Pydantic models and use backend Decimal calculations/templates; they are test-only and never imported by production routes.
 
 Live inspection found that the existing Docker image exposes only seven retail paths and the database is at Alembic `0007` with no price-cost observation tables. No migrations, database writes, volume changes or backend rebuilds were performed: schema changes are explicitly out of scope. This prevents populated live M4/M5 verification in the current deployment. Fixture validation is not represented as live validation.
+
+### Checkpoint 6B.3
+
+Analyst integrates `POST /analyst/query` and both history endpoints, retains original question/clarification context, supports all five result statuses, handles provider HTTP errors, allows browser cancellation, ignores late results after editing, and validates dataset/version/result bounds. The empty state has examples but no generated answer. Restored evidence uses frozen snapshot fields; links explicitly open current stored revisions separately. Follow-ups populate the composer without an automatic model call.
+
+Sources integrate `/sources` and catalogue coverage, distinguish observation freshness from synchronization health, and progressively disclose publication/retrieval/success timestamps, quality summaries, policy and methodology. Null metadata is never displayed as zero or current. Tests cover a current observation with a failed synchronization.
+
+Type checking, build and lint passed; 39 tests passed, including success/clarification/unavailable/blocked/failed, 429 handling, wrong-domain responses, unsupported history, exact continuation payload and cancellation. Live provider success is unverified because the running deployment lacks M4/M5 and its tables; no provider outage answer is fabricated.

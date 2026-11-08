@@ -25,3 +25,5 @@ Object.defineProperty(URL, "revokeObjectURL", {
   value: vi.fn(),
   writable: true,
 });
+Object.defineProperty(window, 'matchMedia', { writable: true, value: vi.fn((query: string) => ({ media: query, matches: false, onchange: null, addEventListener: vi.fn(), removeEventListener: vi.fn(), addListener: vi.fn(), removeListener: vi.fn(), dispatchEvent: vi.fn() })) });
+Object.defineProperty(window, 'scrollTo', { writable: true, value: vi.fn() });
