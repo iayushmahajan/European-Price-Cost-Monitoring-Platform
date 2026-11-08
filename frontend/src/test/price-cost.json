@@ -543,7 +543,7 @@
           "observation_id": 100,
           "series_id": 1,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-10-12",
           "value": "2.15",
           "status": {
@@ -593,7 +593,7 @@
           "observation_id": 101,
           "series_id": 1,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-10-19",
           "value": "2.18",
           "status": {
@@ -647,7 +647,7 @@
           "observation_id": 102,
           "series_id": 1,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-10-26",
           "value": "2.232",
           "status": {
@@ -701,7 +701,7 @@
           "observation_id": 103,
           "series_id": 1,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-11-02",
           "value": "2.282",
           "status": {
@@ -796,7 +796,7 @@
           "observation_id": 200,
           "series_id": 2,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-10-12",
           "value": "1.290",
           "status": {
@@ -846,7 +846,7 @@
           "observation_id": 201,
           "series_id": 2,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-10-19",
           "value": "1.308",
           "status": {
@@ -900,7 +900,7 @@
           "observation_id": 202,
           "series_id": 2,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-10-26",
           "value": "1.3392",
           "status": {
@@ -954,7 +954,7 @@
           "observation_id": 203,
           "series_id": 2,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in Germany",
+          "indicator_name": "Diesel",
           "period": "2026-11-02",
           "value": "1.3692",
           "status": {
@@ -1049,7 +1049,7 @@
           "observation_id": 300,
           "series_id": 3,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-12",
           "value": "1.996",
           "status": {
@@ -1099,7 +1099,7 @@
           "observation_id": 301,
           "series_id": 3,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-19",
           "value": "2.026",
           "status": {
@@ -1153,7 +1153,7 @@
           "observation_id": 302,
           "series_id": 3,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-26",
           "value": "2.078",
           "status": {
@@ -1207,7 +1207,7 @@
           "observation_id": 303,
           "series_id": 3,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-11-02",
           "value": "2.128",
           "status": {
@@ -1302,7 +1302,7 @@
           "observation_id": 400,
           "series_id": 4,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-12",
           "value": "1.1976",
           "status": {
@@ -1352,7 +1352,7 @@
           "observation_id": 401,
           "series_id": 4,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-19",
           "value": "1.2156",
           "status": {
@@ -1406,7 +1406,7 @@
           "observation_id": 402,
           "series_id": 4,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-26",
           "value": "1.2468",
           "status": {
@@ -1460,7 +1460,7 @@
           "observation_id": 403,
           "series_id": 4,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in Germany",
+          "indicator_name": "Petrol (95)",
           "period": "2026-11-02",
           "value": "1.2768",
           "status": {
@@ -1555,7 +1555,7 @@
           "observation_id": 500,
           "series_id": 5,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-10-12",
           "value": "2.03",
           "status": {
@@ -1605,7 +1605,7 @@
           "observation_id": 501,
           "series_id": 5,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-10-19",
           "value": "2.06",
           "status": {
@@ -1659,7 +1659,7 @@
           "observation_id": 502,
           "series_id": 5,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-10-26",
           "value": "2.112",
           "status": {
@@ -1713,7 +1713,7 @@
           "observation_id": 503,
           "series_id": 5,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-11-02",
           "value": "2.162",
           "status": {
@@ -1808,7 +1808,7 @@
           "observation_id": 600,
           "series_id": 6,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-10-12",
           "value": "1.218",
           "status": {
@@ -1858,7 +1858,7 @@
           "observation_id": 601,
           "series_id": 6,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-10-19",
           "value": "1.236",
           "status": {
@@ -1912,7 +1912,7 @@
           "observation_id": 602,
           "series_id": 6,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-10-26",
           "value": "1.2672",
           "status": {
@@ -1966,7 +1966,7 @@
           "observation_id": 603,
           "series_id": 6,
           "indicator_id": "fuel_price",
-          "indicator_name": "Diesel in France",
+          "indicator_name": "Diesel",
           "period": "2026-11-02",
           "value": "1.2972",
           "status": {
@@ -2061,7 +2061,7 @@
           "observation_id": 700,
           "series_id": 7,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-12",
           "value": "1.876",
           "status": {
@@ -2111,7 +2111,7 @@
           "observation_id": 701,
           "series_id": 7,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-19",
           "value": "1.906",
           "status": {
@@ -2165,7 +2165,7 @@
           "observation_id": 702,
           "series_id": 7,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-26",
           "value": "1.958",
           "status": {
@@ -2219,7 +2219,7 @@
           "observation_id": 703,
           "series_id": 7,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-11-02",
           "value": "2.008",
           "status": {
@@ -2314,7 +2314,7 @@
           "observation_id": 800,
           "series_id": 8,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-12",
           "value": "1.1256",
           "status": {
@@ -2364,7 +2364,7 @@
           "observation_id": 801,
           "series_id": 8,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-19",
           "value": "1.1436",
           "status": {
@@ -2418,7 +2418,7 @@
           "observation_id": 802,
           "series_id": 8,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-10-26",
           "value": "1.1748",
           "status": {
@@ -2472,7 +2472,7 @@
           "observation_id": 803,
           "series_id": 8,
           "indicator_id": "fuel_price",
-          "indicator_name": "Petrol (95) in France",
+          "indicator_name": "Petrol (95)",
           "period": "2026-11-02",
           "value": "1.2048",
           "status": {
@@ -2567,7 +2567,7 @@
           "observation_id": 900,
           "series_id": 9,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-05-01",
           "value": "2.2",
           "status": {
@@ -2621,7 +2621,7 @@
           "observation_id": 901,
           "series_id": 9,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-06-01",
           "value": "2.0",
           "status": {
@@ -2679,7 +2679,7 @@
           "observation_id": 902,
           "series_id": 9,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-07-01",
           "value": "2.3",
           "status": {
@@ -2737,7 +2737,7 @@
           "observation_id": 903,
           "series_id": 9,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-08-01",
           "value": "2.9",
           "status": {
@@ -2795,7 +2795,7 @@
           "observation_id": 904,
           "series_id": 9,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-09-01",
           "value": "3.3",
           "status": {
@@ -2853,7 +2853,7 @@
           "observation_id": 905,
           "series_id": 9,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-10-01",
           "value": "2.8",
           "status": {
@@ -2953,7 +2953,7 @@
           "observation_id": 1000,
           "series_id": 10,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-05-01",
           "value": "0.2",
           "status": {
@@ -3007,7 +3007,7 @@
           "observation_id": 1001,
           "series_id": 10,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-06-01",
           "value": "0.1",
           "status": {
@@ -3065,7 +3065,7 @@
           "observation_id": 1002,
           "series_id": 10,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-07-01",
           "value": "0.3",
           "status": {
@@ -3123,7 +3123,7 @@
           "observation_id": 1003,
           "series_id": 10,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-08-01",
           "value": "0.2",
           "status": {
@@ -3181,7 +3181,7 @@
           "observation_id": 1004,
           "series_id": 10,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-09-01",
           "value": "0.6",
           "status": {
@@ -3239,7 +3239,7 @@
           "observation_id": 1005,
           "series_id": 10,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-10-01",
           "value": "-0.1",
           "status": {
@@ -3339,7 +3339,7 @@
           "observation_id": 1100,
           "series_id": 11,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-05-01",
           "value": "102.8",
           "status": {
@@ -3393,7 +3393,7 @@
           "observation_id": 1101,
           "series_id": 11,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-06-01",
           "value": "103.1",
           "status": {
@@ -3451,7 +3451,7 @@
           "observation_id": 1102,
           "series_id": 11,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-07-01",
           "value": "103.2",
           "status": {
@@ -3509,7 +3509,7 @@
           "observation_id": 1103,
           "series_id": 11,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-08-01",
           "value": "103.36",
           "status": {
@@ -3567,7 +3567,7 @@
           "observation_id": 1104,
           "series_id": 11,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-09-01",
           "value": "103.93",
           "status": {
@@ -3625,7 +3625,7 @@
           "observation_id": 1105,
           "series_id": 11,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-10-01",
           "value": "103.8",
           "status": {
@@ -3725,7 +3725,7 @@
           "observation_id": 1200,
           "series_id": 12,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-05-01",
           "value": "3.0",
           "status": {
@@ -3779,7 +3779,7 @@
           "observation_id": 1201,
           "series_id": 12,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-06-01",
           "value": "2.8",
           "status": {
@@ -3837,7 +3837,7 @@
           "observation_id": 1202,
           "series_id": 12,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-07-01",
           "value": "3.1",
           "status": {
@@ -3895,7 +3895,7 @@
           "observation_id": 1203,
           "series_id": 12,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-08-01",
           "value": "3.7",
           "status": {
@@ -3953,7 +3953,7 @@
           "observation_id": 1204,
           "series_id": 12,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-09-01",
           "value": "4.1",
           "status": {
@@ -4011,7 +4011,7 @@
           "observation_id": 1205,
           "series_id": 12,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Annual inflation",
           "period": "2026-10-01",
           "value": "3.6",
           "status": {
@@ -4111,7 +4111,7 @@
           "observation_id": 1300,
           "series_id": 13,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-05-01",
           "value": "1.0",
           "status": {
@@ -4165,7 +4165,7 @@
           "observation_id": 1301,
           "series_id": 13,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-06-01",
           "value": "0.9",
           "status": {
@@ -4223,7 +4223,7 @@
           "observation_id": 1302,
           "series_id": 13,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-07-01",
           "value": "1.1",
           "status": {
@@ -4281,7 +4281,7 @@
           "observation_id": 1303,
           "series_id": 13,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-08-01",
           "value": "1.0",
           "status": {
@@ -4339,7 +4339,7 @@
           "observation_id": 1304,
           "series_id": 13,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-09-01",
           "value": "1.4",
           "status": {
@@ -4397,7 +4397,7 @@
           "observation_id": 1305,
           "series_id": 13,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "Germany",
+          "indicator_name": "Monthly inflation",
           "period": "2026-10-01",
           "value": "0.7",
           "status": {
@@ -4497,7 +4497,7 @@
           "observation_id": 1400,
           "series_id": 14,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-05-01",
           "value": "103.6",
           "status": {
@@ -4551,7 +4551,7 @@
           "observation_id": 1401,
           "series_id": 14,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-06-01",
           "value": "103.9",
           "status": {
@@ -4609,7 +4609,7 @@
           "observation_id": 1402,
           "series_id": 14,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-07-01",
           "value": "104.0",
           "status": {
@@ -4667,7 +4667,7 @@
           "observation_id": 1403,
           "series_id": 14,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-08-01",
           "value": "104.16",
           "status": {
@@ -4725,7 +4725,7 @@
           "observation_id": 1404,
           "series_id": 14,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-09-01",
           "value": "104.73",
           "status": {
@@ -4783,7 +4783,7 @@
           "observation_id": 1405,
           "series_id": 14,
           "indicator_id": "inflation_index",
-          "indicator_name": "Germany",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-10-01",
           "value": "104.6",
           "status": {
@@ -4883,7 +4883,7 @@
           "observation_id": 1500,
           "series_id": 15,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-05-01",
           "value": "1.9",
           "status": {
@@ -4937,7 +4937,7 @@
           "observation_id": 1501,
           "series_id": 15,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-06-01",
           "value": "1.7",
           "status": {
@@ -4995,7 +4995,7 @@
           "observation_id": 1502,
           "series_id": 15,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-07-01",
           "value": "2.0",
           "status": {
@@ -5053,7 +5053,7 @@
           "observation_id": 1503,
           "series_id": 15,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-08-01",
           "value": "2.6",
           "status": {
@@ -5111,7 +5111,7 @@
           "observation_id": 1504,
           "series_id": 15,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-09-01",
           "value": "3.0",
           "status": {
@@ -5169,7 +5169,7 @@
           "observation_id": 1505,
           "series_id": 15,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-10-01",
           "value": "2.5",
           "status": {
@@ -5269,7 +5269,7 @@
           "observation_id": 1600,
           "series_id": 16,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-05-01",
           "value": "-0.1",
           "status": {
@@ -5323,7 +5323,7 @@
           "observation_id": 1601,
           "series_id": 16,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-06-01",
           "value": "-0.2",
           "status": {
@@ -5381,7 +5381,7 @@
           "observation_id": 1602,
           "series_id": 16,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-07-01",
           "value": "0.0",
           "status": {
@@ -5439,7 +5439,7 @@
           "observation_id": 1603,
           "series_id": 16,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-08-01",
           "value": "-0.1",
           "status": {
@@ -5497,7 +5497,7 @@
           "observation_id": 1604,
           "series_id": 16,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-09-01",
           "value": "0.3",
           "status": {
@@ -5555,7 +5555,7 @@
           "observation_id": 1605,
           "series_id": 16,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-10-01",
           "value": "-0.4",
           "status": {
@@ -5655,7 +5655,7 @@
           "observation_id": 1700,
           "series_id": 17,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-05-01",
           "value": "102.5",
           "status": {
@@ -5709,7 +5709,7 @@
           "observation_id": 1701,
           "series_id": 17,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-06-01",
           "value": "102.8",
           "status": {
@@ -5767,7 +5767,7 @@
           "observation_id": 1702,
           "series_id": 17,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-07-01",
           "value": "102.9",
           "status": {
@@ -5825,7 +5825,7 @@
           "observation_id": 1703,
           "series_id": 17,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-08-01",
           "value": "103.06",
           "status": {
@@ -5883,7 +5883,7 @@
           "observation_id": 1704,
           "series_id": 17,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-09-01",
           "value": "103.63",
           "status": {
@@ -5941,7 +5941,7 @@
           "observation_id": 1705,
           "series_id": 17,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-10-01",
           "value": "103.5",
           "status": {
@@ -6041,7 +6041,7 @@
           "observation_id": 1800,
           "series_id": 18,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-05-01",
           "value": "2.7",
           "status": {
@@ -6095,7 +6095,7 @@
           "observation_id": 1801,
           "series_id": 18,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-06-01",
           "value": "2.5",
           "status": {
@@ -6153,7 +6153,7 @@
           "observation_id": 1802,
           "series_id": 18,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-07-01",
           "value": "2.8",
           "status": {
@@ -6211,7 +6211,7 @@
           "observation_id": 1803,
           "series_id": 18,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-08-01",
           "value": "3.4",
           "status": {
@@ -6269,7 +6269,7 @@
           "observation_id": 1804,
           "series_id": 18,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-09-01",
           "value": "3.8",
           "status": {
@@ -6327,7 +6327,7 @@
           "observation_id": 1805,
           "series_id": 18,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "France",
+          "indicator_name": "Annual inflation",
           "period": "2026-10-01",
           "value": "3.3",
           "status": {
@@ -6427,7 +6427,7 @@
           "observation_id": 1900,
           "series_id": 19,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-05-01",
           "value": "0.7",
           "status": {
@@ -6481,7 +6481,7 @@
           "observation_id": 1901,
           "series_id": 19,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-06-01",
           "value": "0.6",
           "status": {
@@ -6539,7 +6539,7 @@
           "observation_id": 1902,
           "series_id": 19,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-07-01",
           "value": "0.8",
           "status": {
@@ -6597,7 +6597,7 @@
           "observation_id": 1903,
           "series_id": 19,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-08-01",
           "value": "0.7",
           "status": {
@@ -6655,7 +6655,7 @@
           "observation_id": 1904,
           "series_id": 19,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-09-01",
           "value": "1.1",
           "status": {
@@ -6713,7 +6713,7 @@
           "observation_id": 1905,
           "series_id": 19,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "France",
+          "indicator_name": "Monthly inflation",
           "period": "2026-10-01",
           "value": "0.4",
           "status": {
@@ -6813,7 +6813,7 @@
           "observation_id": 2000,
           "series_id": 20,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-05-01",
           "value": "103.3",
           "status": {
@@ -6867,7 +6867,7 @@
           "observation_id": 2001,
           "series_id": 20,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-06-01",
           "value": "103.6",
           "status": {
@@ -6925,7 +6925,7 @@
           "observation_id": 2002,
           "series_id": 20,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-07-01",
           "value": "103.7",
           "status": {
@@ -6983,7 +6983,7 @@
           "observation_id": 2003,
           "series_id": 20,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-08-01",
           "value": "103.86",
           "status": {
@@ -7041,7 +7041,7 @@
           "observation_id": 2004,
           "series_id": 20,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-09-01",
           "value": "104.43",
           "status": {
@@ -7099,7 +7099,7 @@
           "observation_id": 2005,
           "series_id": 20,
           "indicator_id": "inflation_index",
-          "indicator_name": "France",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-10-01",
           "value": "104.3",
           "status": {
@@ -7199,7 +7199,7 @@
           "observation_id": 2100,
           "series_id": 21,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-05-01",
           "value": "2.2",
           "status": {
@@ -7253,7 +7253,7 @@
           "observation_id": 2101,
           "series_id": 21,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-06-01",
           "value": "2.0",
           "status": {
@@ -7311,7 +7311,7 @@
           "observation_id": 2102,
           "series_id": 21,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-07-01",
           "value": "2.3",
           "status": {
@@ -7369,7 +7369,7 @@
           "observation_id": 2103,
           "series_id": 21,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-08-01",
           "value": "2.9",
           "status": {
@@ -7427,7 +7427,7 @@
           "observation_id": 2104,
           "series_id": 21,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-09-01",
           "value": "3.3",
           "status": {
@@ -7485,7 +7485,7 @@
           "observation_id": 2105,
           "series_id": 21,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-10-01",
           "value": "2.8",
           "status": {
@@ -7585,7 +7585,7 @@
           "observation_id": 2200,
           "series_id": 22,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-05-01",
           "value": "0.2",
           "status": {
@@ -7639,7 +7639,7 @@
           "observation_id": 2201,
           "series_id": 22,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-06-01",
           "value": "0.1",
           "status": {
@@ -7697,7 +7697,7 @@
           "observation_id": 2202,
           "series_id": 22,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-07-01",
           "value": "0.3",
           "status": {
@@ -7755,7 +7755,7 @@
           "observation_id": 2203,
           "series_id": 22,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-08-01",
           "value": "0.2",
           "status": {
@@ -7813,7 +7813,7 @@
           "observation_id": 2204,
           "series_id": 22,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-09-01",
           "value": "0.6",
           "status": {
@@ -7871,7 +7871,7 @@
           "observation_id": 2205,
           "series_id": 22,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-10-01",
           "value": "-0.1",
           "status": {
@@ -7971,7 +7971,7 @@
           "observation_id": 2300,
           "series_id": 23,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-05-01",
           "value": "102.8",
           "status": {
@@ -8025,7 +8025,7 @@
           "observation_id": 2301,
           "series_id": 23,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-06-01",
           "value": "103.1",
           "status": {
@@ -8083,7 +8083,7 @@
           "observation_id": 2302,
           "series_id": 23,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-07-01",
           "value": "103.2",
           "status": {
@@ -8141,7 +8141,7 @@
           "observation_id": 2303,
           "series_id": 23,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-08-01",
           "value": "103.36",
           "status": {
@@ -8199,7 +8199,7 @@
           "observation_id": 2304,
           "series_id": 23,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-09-01",
           "value": "103.93",
           "status": {
@@ -8257,7 +8257,7 @@
           "observation_id": 2305,
           "series_id": 23,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-10-01",
           "value": "103.8",
           "status": {
@@ -8357,7 +8357,7 @@
           "observation_id": 2400,
           "series_id": 24,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-05-01",
           "value": "3.0",
           "status": {
@@ -8411,7 +8411,7 @@
           "observation_id": 2401,
           "series_id": 24,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-06-01",
           "value": "2.8",
           "status": {
@@ -8469,7 +8469,7 @@
           "observation_id": 2402,
           "series_id": 24,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-07-01",
           "value": "3.1",
           "status": {
@@ -8527,7 +8527,7 @@
           "observation_id": 2403,
           "series_id": 24,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-08-01",
           "value": "3.7",
           "status": {
@@ -8585,7 +8585,7 @@
           "observation_id": 2404,
           "series_id": 24,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-09-01",
           "value": "4.1",
           "status": {
@@ -8643,7 +8643,7 @@
           "observation_id": 2405,
           "series_id": 24,
           "indicator_id": "inflation_annual_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Annual inflation",
           "period": "2026-10-01",
           "value": "3.6",
           "status": {
@@ -8743,7 +8743,7 @@
           "observation_id": 2500,
           "series_id": 25,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-05-01",
           "value": "1.0",
           "status": {
@@ -8797,7 +8797,7 @@
           "observation_id": 2501,
           "series_id": 25,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-06-01",
           "value": "0.9",
           "status": {
@@ -8855,7 +8855,7 @@
           "observation_id": 2502,
           "series_id": 25,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-07-01",
           "value": "1.1",
           "status": {
@@ -8913,7 +8913,7 @@
           "observation_id": 2503,
           "series_id": 25,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-08-01",
           "value": "1.0",
           "status": {
@@ -8971,7 +8971,7 @@
           "observation_id": 2504,
           "series_id": 25,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-09-01",
           "value": "1.4",
           "status": {
@@ -9029,7 +9029,7 @@
           "observation_id": 2505,
           "series_id": 25,
           "indicator_id": "inflation_monthly_rate",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Monthly inflation",
           "period": "2026-10-01",
           "value": "0.7",
           "status": {
@@ -9129,7 +9129,7 @@
           "observation_id": 2600,
           "series_id": 26,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-05-01",
           "value": "103.6",
           "status": {
@@ -9183,7 +9183,7 @@
           "observation_id": 2601,
           "series_id": 26,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-06-01",
           "value": "103.9",
           "status": {
@@ -9241,7 +9241,7 @@
           "observation_id": 2602,
           "series_id": 26,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-07-01",
           "value": "104.0",
           "status": {
@@ -9299,7 +9299,7 @@
           "observation_id": 2603,
           "series_id": 26,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-08-01",
           "value": "104.16",
           "status": {
@@ -9357,7 +9357,7 @@
           "observation_id": 2604,
           "series_id": 26,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-09-01",
           "value": "104.73",
           "status": {
@@ -9415,7 +9415,7 @@
           "observation_id": 2605,
           "series_id": 26,
           "indicator_id": "inflation_index",
-          "indicator_name": "European Union (27)",
+          "indicator_name": "Price index (2025=100)",
           "period": "2026-10-01",
           "value": "104.6",
           "status": {
@@ -9515,7 +9515,7 @@
           "observation_id": 2700,
           "series_id": 27,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "GBP per euro",
+          "indicator_name": "ECB EUR/GBP reference rate",
           "period": "2026-10-30",
           "value": "0.83482",
           "status": {
@@ -9566,7 +9566,7 @@
           "observation_id": 2701,
           "series_id": 27,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "GBP per euro",
+          "indicator_name": "ECB EUR/GBP reference rate",
           "period": "2026-11-02",
           "value": "0.83448",
           "status": {
@@ -9621,7 +9621,7 @@
           "observation_id": 2702,
           "series_id": 27,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "GBP per euro",
+          "indicator_name": "ECB EUR/GBP reference rate",
           "period": "2026-11-03",
           "value": "0.83358",
           "status": {
@@ -9717,7 +9717,7 @@
           "observation_id": 2800,
           "series_id": 28,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "USD per euro",
+          "indicator_name": "ECB EUR/USD reference rate",
           "period": "2026-10-30",
           "value": "1.08764",
           "status": {
@@ -9768,7 +9768,7 @@
           "observation_id": 2801,
           "series_id": 28,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "USD per euro",
+          "indicator_name": "ECB EUR/USD reference rate",
           "period": "2026-11-02",
           "value": "1.08730",
           "status": {
@@ -9823,7 +9823,7 @@
           "observation_id": 2802,
           "series_id": 28,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "USD per euro",
+          "indicator_name": "ECB EUR/USD reference rate",
           "period": "2026-11-03",
           "value": "1.08640",
           "status": {
@@ -9919,7 +9919,7 @@
           "observation_id": 2900,
           "series_id": 29,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "CHF per euro",
+          "indicator_name": "ECB EUR/CHF reference rate",
           "period": "2026-10-30",
           "value": "0.94244",
           "status": {
@@ -9970,7 +9970,7 @@
           "observation_id": 2901,
           "series_id": 29,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "CHF per euro",
+          "indicator_name": "ECB EUR/CHF reference rate",
           "period": "2026-11-02",
           "value": "0.94210",
           "status": {
@@ -10025,7 +10025,7 @@
           "observation_id": 2902,
           "series_id": 29,
           "indicator_id": "exchange-rates_reference_rate",
-          "indicator_name": "CHF per euro",
+          "indicator_name": "ECB EUR/CHF reference rate",
           "period": "2026-11-03",
           "value": "0.94120",
           "status": {
@@ -10080,6 +10080,2662 @@
     }
   },
   "comparisons": {
+    "fuel:DE:FR:automotive_diesel:with_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "DE",
+      "category_or_product": "automotive_diesel",
+      "measurement_type": "price",
+      "tax_basis": "with_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.282",
+          "difference_from_base": "0.000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 103,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.162",
+          "difference_from_base": "-0.120",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "-5.258545135845749343",
+          "observation_id": 503,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:FR:DE:automotive_diesel:with_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "FR",
+      "category_or_product": "automotive_diesel",
+      "measurement_type": "price",
+      "tax_basis": "with_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.162",
+          "difference_from_base": "0.000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 503,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.282",
+          "difference_from_base": "0.120",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "5.550416281221091582",
+          "observation_id": 103,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:DE:FR:automotive_diesel:without_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "DE",
+      "category_or_product": "automotive_diesel",
+      "measurement_type": "price",
+      "tax_basis": "without_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "1.3692",
+          "difference_from_base": "0.0000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 203,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "1.2972",
+          "difference_from_base": "-0.0720",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "-5.258545135845749343",
+          "observation_id": 603,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:FR:DE:automotive_diesel:without_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "FR",
+      "category_or_product": "automotive_diesel",
+      "measurement_type": "price",
+      "tax_basis": "without_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "1.2972",
+          "difference_from_base": "0.0000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 603,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "1.3692",
+          "difference_from_base": "0.0720",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "5.550416281221091582",
+          "observation_id": 203,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:DE:FR:euro_super_95:with_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "DE",
+      "category_or_product": "euro_super_95",
+      "measurement_type": "price",
+      "tax_basis": "with_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.128",
+          "difference_from_base": "0.000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 303,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.008",
+          "difference_from_base": "-0.120",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "-5.639097744360902256",
+          "observation_id": 703,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:FR:DE:euro_super_95:with_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "FR",
+      "category_or_product": "euro_super_95",
+      "measurement_type": "price",
+      "tax_basis": "with_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.008",
+          "difference_from_base": "0.000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 703,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.128",
+          "difference_from_base": "0.120",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "5.976095617529880478",
+          "observation_id": 303,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:DE:FR:euro_super_95:without_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "DE",
+      "category_or_product": "euro_super_95",
+      "measurement_type": "price",
+      "tax_basis": "without_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "1.2768",
+          "difference_from_base": "0.0000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 403,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "1.2048",
+          "difference_from_base": "-0.0720",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "-5.639097744360902256",
+          "observation_id": 803,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "fuel:FR:DE:euro_super_95:without_tax": {
+      "available": true,
+      "period": "2026-11-02",
+      "base_geography": "FR",
+      "category_or_product": "euro_super_95",
+      "measurement_type": "price",
+      "tax_basis": "without_tax",
+      "unit": "EUR/litre",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "1.2048",
+          "difference_from_base": "0.0000",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "0E-18",
+          "observation_id": 803,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "1.2768",
+          "difference_from_base": "0.0720",
+          "difference_unit": "EUR/litre",
+          "relative_difference_percent": "5.976095617529880478",
+          "observation_id": 403,
+          "status": {
+            "source_status": null,
+            "estimated": null,
+            "provisional": null
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "ec_weekly_oil_bulletin",
+            "name": "European Commission \u00b7 Weekly Oil Bulletin",
+            "official_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "weekly",
+          "latest_observation": "2026-11-02",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:FR:TOTAL:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "TOTAL",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.5",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:EU27_2020:TOTAL:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "TOTAL",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2105,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:DE:TOTAL:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "TOTAL",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.5",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:EU27_2020:TOTAL:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "TOTAL",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.5",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2105,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:DE:TOTAL:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "TOTAL",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2105,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:FR:TOTAL:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "TOTAL",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "2.8",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2105,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "2.5",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:FR:TOTAL:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "TOTAL",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1005,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "-0.4",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1605,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:EU27_2020:TOTAL:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "TOTAL",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1005,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:DE:TOTAL:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "TOTAL",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "-0.4",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1605,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1005,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:EU27_2020:TOTAL:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "TOTAL",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "-0.4",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1605,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:DE:TOTAL:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "TOTAL",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1005,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:FR:TOTAL:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "TOTAL",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "-0.1",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "-0.4",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1605,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:FR:CP01:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "CP01",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "3.3",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1805,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:EU27_2020:CP01:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "CP01",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2405,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:DE:CP01:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "CP01",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "3.3",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1805,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:EU27_2020:CP01:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "CP01",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "3.3",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1805,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2405,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:DE:CP01:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "CP01",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2405,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1205,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:FR:CP01:annual_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "CP01",
+      "measurement_type": "annual_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "3.6",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2405,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "3.3",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1805,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:FR:CP01:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "CP01",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1305,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "0.4",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:DE:EU27_2020:CP01:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "DE",
+      "category_or_product": "CP01",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1305,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and Germany are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:DE:CP01:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "CP01",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "0.4",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1305,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:FR:EU27_2020:CP01:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "FR",
+      "category_or_product": "CP01",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "0.4",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "European Union (27) and France are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:DE:CP01:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "CP01",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "DE",
+            "name": "Germany"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1305,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "Germany and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
+    "inflation:EU27_2020:FR:CP01:monthly_rate": {
+      "available": true,
+      "period": "2026-10-01",
+      "base_geography": "EU27_2020",
+      "category_or_product": "CP01",
+      "measurement_type": "monthly_rate",
+      "tax_basis": null,
+      "unit": "percent",
+      "missing_selections": [],
+      "items": [
+        {
+          "geography": {
+            "code": "EU27_2020",
+            "name": "European Union (27)"
+          },
+          "value": "0.7",
+          "difference_from_base": "0.0",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 2505,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        },
+        {
+          "geography": {
+            "code": "FR",
+            "name": "France"
+          },
+          "value": "0.4",
+          "difference_from_base": "-0.3",
+          "difference_unit": "percentage_points",
+          "relative_difference_percent": null,
+          "observation_id": 1905,
+          "status": {
+            "source_status": "e",
+            "estimated": true,
+            "provisional": false
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": {
+            "code": "eurostat_prc_hicp_minr",
+            "name": "Eurostat \u00b7 HICP",
+            "official_url": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
+            "methodology": "Illustrative contract fixture. Official measurement definitions apply."
+          },
+          "available": true,
+          "expected_frequency": "monthly",
+          "latest_observation": "2026-10-01",
+          "oldest_series_latest": null,
+          "observation_freshness": "current",
+          "synchronization_status": "current",
+          "running": false,
+          "last_attempt_at": "2026-11-08T10:00:00Z",
+          "last_success_at": "2026-11-08T10:00:00Z",
+          "source_updated_at": null,
+          "latest_artifact_publication_date": null,
+          "latest_artifact_published_at": null,
+          "freshness_policy": "Fixture policy; not a live freshness assessment.",
+          "quality": {
+            "checked_run_id": null,
+            "missing_cells_in_last_successful_check": null,
+            "revised_observations_in_last_successful_check": null,
+            "warning_or_error_codes": [],
+            "sparse_absence_policy": null
+          }
+        }
+      ],
+      "explanation": {
+        "rule_version": "1",
+        "what_changed": "France and European Union (27) are compared at the same reference period.",
+        "what_it_means": "These are same-period differences, not changes over time.",
+        "why_it_might_matter": "National indicators provide comparison context; actual costs may differ.",
+        "limitations": [
+          "Illustrative contract fixture."
+        ]
+      }
+    },
     "fuel": {
       "available": true,
       "period": "2026-11-02",

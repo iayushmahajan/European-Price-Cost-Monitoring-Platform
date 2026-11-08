@@ -38,7 +38,7 @@ def build(domain, country, category, measurement, tax, quote, dates, values):
         comparison=change(domain,measurement,p,v,previous)
         name=(products[category]+" in "+names[country]) if domain=="fuel" else names[country] if domain=="inflation" else quote+" per euro"
         explanation=explain(domain,name=name,value=v,period=p,comparison=comparison,measurement=measurement,category=catnames.get(category,""),quote=quote or "",tax_basis=tax or "with_tax",status=status)
-        common=dict(observation_id=sid*100+i,series_id=sid,indicator_id=domain+"_"+measurement,indicator_name=name,period=p,value=v,status=status,source_code=source.source.code,observation_freshness="current",comparison=comparison,explanation=explanation,evidence_path=f"/v1/price-cost/evidence/{domain}/{sid*100+i}")
+        common=dict(observation_id=sid*100+i,series_id=sid,indicator_id=domain+"_"+measurement,indicator_name=products[category] if domain=='fuel' else units[measurement] if domain=='inflation' else 'ECB EUR/'+quote+' reference rate',period=p,value=v,status=status,source_code=source.source.code,observation_freshness="current",comparison=comparison,explanation=explanation,evidence_path=f"/v1/price-cost/evidence/{domain}/{sid*100+i}")
         if domain=="fuel": m=s.FuelMetric(**common,geography=s.NamedCode(code=country,name=names[country]),product=category,tax_basis=tax)
         elif domain=="inflation": m=s.InflationMetric(**common,geography=s.NamedCode(code=country,name=names[country]),category=s.NamedCode(code=category,name=catnames[category]),measurement_type=measurement,unit="index_points" if measurement=="index" else "percent",index_base_year=2025 if measurement=="index" else None)
         else: m=s.ExchangeMetric(**common,quote_currency=quote,unit=quote+"/EUR",source_precision=5,inverse_rate=ratio(D(1),v),inverse_unit="EUR/"+quote,inverse_is_derived=True)
@@ -67,10 +67,18 @@ for response in histories.values():
     coverage.append(s.Coverage(series_id=m.series_id,source_code=m.source_code,geography_code=getattr(getattr(m,'geography',None),'code',None),category_code=m.product.value if isinstance(m,s.FuelMetric) else m.category.code if isinstance(m,s.InflationMetric) else None,measurement_type=m.measurement_type,tax_basis=m.tax_basis.value if isinstance(m,s.FuelMetric) else None,quote_currency=m.quote_currency if isinstance(m,s.ExchangeMetric) else None,unit_code=m.unit,first_period=response.items[0].period,latest_period=m.period))
 catalogue=s.Catalogue(geographies=[s.NamedCode(code=k,name=v) for k,v in names.items()],fuel_products=[s.NamedCode(code=k,name=v) for k,v in products.items()],inflation_categories=[s.NamedCode(code=k,name=v) for k,v in catnames.items()],inflation_measurements=[s.NamedCode(code=k,name=v) for k,v in units.items()],quote_currencies=[s.NamedCode(code=k,name=v) for k,v in quotes.items()],coverage=coverage)
 comparisons={}
-for domain,code,measurement in [('fuel','automotive_diesel','price'),('inflation','TOTAL','annual_rate')]:
-    points=[histories[f'fuel:{geo}:{code}:with_tax' if domain=='fuel' else f'inflation:{geo}:{code}:{measurement}'].items[-1] for geo in ['DE','FR']]
-    base=points[0]
-    comparisons[domain]=s.CountryComparison(available=True,period=base.period,base_geography='DE',category_or_product=code,measurement_type=measurement,tax_basis='with_tax' if domain=='fuel' else None,unit=base.unit,missing_selections=[],sources=[sources[0 if domain=='fuel' else 1]],explanation=s.Explanation(what_changed='France and Germany are compared at the same reference period.',what_it_means='These are same-period differences, not changes over time.',why_it_might_matter='National indicators provide comparison context; actual costs may differ.',limitations=['Illustrative contract fixture.']),items=[s.CountryDifference(geography=m.geography,value=m.value,difference_from_base=m.value-base.value,difference_unit='EUR/litre' if domain=='fuel' else 'percentage_points',relative_difference_percent=ratio(m.value-base.value,base.value,D(100)) if domain=='fuel' else None,observation_id=m.observation_id,status=m.status) for m in points])
+specs=[('fuel',product,'price',tax) for product in products for tax in ['with_tax','without_tax']]+[('inflation',category,measurement,None) for category in catnames for measurement in ['annual_rate','monthly_rate']]
+for domain,code,measurement,tax in specs:
+    geos=['DE','FR'] if domain=='fuel' else list(names)
+    for base_geo in geos:
+        for other_geo in geos:
+            if base_geo==other_geo: continue
+            points=[histories[f'fuel:{geo}:{code}:{tax}' if domain=='fuel' else f'inflation:{geo}:{code}:{measurement}'].items[-1] for geo in [base_geo,other_geo]]
+            base=points[0]
+            key=f'{domain}:{base_geo}:{other_geo}:{code}:{tax if domain=="fuel" else measurement}'
+            comparisons[key]=s.CountryComparison(available=True,period=base.period,base_geography=base_geo,category_or_product=code,measurement_type=measurement,tax_basis=tax,unit=base.unit,missing_selections=[],sources=[sources[0 if domain=='fuel' else 1]],explanation=s.Explanation(what_changed=f'{names[other_geo]} and {names[base_geo]} are compared at the same reference period.',what_it_means='These are same-period differences, not changes over time.',why_it_might_matter='National indicators provide comparison context; actual costs may differ.',limitations=['Illustrative contract fixture.']),items=[s.CountryDifference(geography=m.geography,value=m.value,difference_from_base=m.value-base.value,difference_unit='EUR/litre' if domain=='fuel' else 'percentage_points',relative_difference_percent=ratio(m.value-base.value,base.value,D(100)) if domain=='fuel' else None,observation_id=m.observation_id,status=m.status) for m in points])
+comparisons['fuel']=comparisons['fuel:DE:FR:automotive_diesel:with_tax']
+comparisons['inflation']=comparisons['inflation:DE:FR:TOTAL:annual_rate']
 evidence={}
 frozen=[]
 for m in metrics:

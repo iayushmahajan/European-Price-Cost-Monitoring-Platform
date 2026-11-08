@@ -27,6 +27,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title="European Retail Intelligence Platform · Legacy";
     const controller = new AbortController(); const config = { signal: controller.signal };
     void Promise.allSettled([api.get<ExampleItem[]>("/examples", config), api.get<HistoryItem[]>("/history", config), api.get<RetailOverview>("/retail/overview", config)]).then(([ex, hist, retail]) => {
       if (controller.signal.aborted) return;

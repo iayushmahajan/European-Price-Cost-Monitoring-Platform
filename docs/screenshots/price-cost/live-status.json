@@ -1,0 +1,13 @@
+{
+  "note": "New frontend; GET requests forwarded through existing Docker /api proxy. No data or model fixtures.",
+  "responses": [
+    {
+      "path": "/api/v1/price-cost/catalogue",
+      "status": 404
+    },
+    {
+      "path": "/api/v1/price-cost/catalogue",
+      "status": 404
+    }
+  ]
+}

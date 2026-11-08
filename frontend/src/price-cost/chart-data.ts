@@ -1,10 +1,18 @@
-import type { Metric } from './api';
-export interface ChartPoint { period:string; value:string; label:string; gap?:boolean }
-export function metricPoints(items:Metric[],inverse=false):ChartPoint[] {
-  return items.flatMap(m=>{
-    const v=inverse&&m.measurement_type==='reference_rate'?m.inverse_rate:m.value;
-    if(v===null)return [];
-    const p={period:m.period,value:v,label:v};
-    return m.comparison.consecutive===false?[{...p,gap:true},p]:[p];
+import type { Metric } from "./api";
+export interface ChartPoint {
+  period: string;
+  value: string;
+  label: string;
+  gap?: boolean;
+}
+export function metricPoints(items: Metric[], inverse = false): ChartPoint[] {
+  return items.flatMap((m) => {
+    const v =
+      inverse && m.measurement_type === "reference_rate"
+        ? m.inverse_rate
+        : m.value;
+    if (v === null) return [];
+    const p = { period: m.period, value: v, label: v };
+    return m.comparison.consecutive === false ? [{ ...p, gap: true }, p] : [p];
   });
 }
