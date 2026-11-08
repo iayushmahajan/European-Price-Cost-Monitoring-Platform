@@ -28,3 +28,13 @@ One page-level navy gradient surrounds near-white analytical surfaces. Semantic 
 ## Validation log
 
 Checkpoint results and final limitations are recorded as implementation proceeds. Backend, ingestion and database schemas are outside this migration's scope.
+
+### Checkpoint 6B.1
+
+Type checking, production build and lint passed; 23 unit/component tests passed after separating legacy App tests from the new root. Local commit `94be60f`.
+
+### Checkpoint 6B.2
+
+Real catalogue/overview/latest/history/compare/evidence clients, URL validation, all three domains, table alternatives, status and irregular-interval display, gap-aware charts, bounded pagination and cancellation are implemented. The default country is disclosed, and the EU aggregate is confined to Explore inflation. Type/build/lint and 28 tests passed. Deterministic fixtures are generated/validated by the real Pydantic models and use backend Decimal calculations/templates; they are test-only and never imported by production routes.
+
+Live inspection found that the existing Docker image exposes only seven retail paths and the database is at Alembic `0007` with no price-cost observation tables. No migrations, database writes, volume changes or backend rebuilds were performed: schema changes are explicitly out of scope. This prevents populated live M4/M5 verification in the current deployment. Fixture validation is not represented as live validation.

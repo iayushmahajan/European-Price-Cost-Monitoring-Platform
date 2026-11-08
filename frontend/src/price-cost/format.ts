@@ -26,7 +26,7 @@ export function metricUnit(m: Metric): string { return m.measurement_type === 'p
 export function changeText(m: Metric): string {
   const c = m.comparison;
   if (!c.available || c.absolute_change == null) return c.unavailable_reason || 'Comparison unavailable';
-  return `${c.absolute_change.startsWith('-') ? '' : '+'}${decimal(c.absolute_change)} ${c.absolute_change_unit} vs ${period(c.reference_period, m.period_type === 'reference_month')}`;
+  return `${c.absolute_change.startsWith('-') ? '' : '+'}${decimal(c.absolute_change)} ${c.absolute_change_unit === 'percentage_points' ? 'percentage points' : c.absolute_change_unit === 'index_points' ? 'index points' : c.absolute_change_unit === 'quote_currency_units_per_EUR' ? m.unit : c.absolute_change_unit} vs ${period(c.reference_period, m.period_type === 'reference_month')}`;
 }
 export function today(): string { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Brussels', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
 export function safeExternal(value: string): string | undefined { try { const u = new URL(value); return ['https:', 'http:'].includes(u.protocol) ? u.href : undefined; } catch { return undefined; } }
