@@ -1,0 +1,24 @@
+[
+  {
+    "id": 23,
+    "question": "What is the latest diesel price in Germany including taxes?",
+    "domain": "fuel",
+    "status": "success",
+    "answer": "For the week of 2026-11-02, Automotive diesel in Germany was \u20ac2.282 per litre, including taxes.",
+    "assessment_date": "2026-11-08",
+    "schema_version": 1,
+    "row_count": 1,
+    "evidence_count": 2
+  },
+  {
+    "id": 31,
+    "question": "What is the latest EUR to GBP reference exchange rate?",
+    "domain": "exchange-rates",
+    "status": "success",
+    "answer": "On 2026-11-06, 1 EUR equalled 0.83415 GBP at the ECB reference rate.",
+    "assessment_date": "2026-11-08",
+    "schema_version": 1,
+    "row_count": 1,
+    "evidence_count": 2
+  }
+]

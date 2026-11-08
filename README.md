@@ -1,3 +1,11 @@
+# European Price & Cost Monitoring Platform
+
+The current application monitors official European fuel prices, HICP inflation and ECB reference rates, with governed natural-language analysis. Run the aligned Docker application at **http://localhost:5173/**. See [WSL startup and recovery instructions](docs/price-cost-local-running.md), [Milestone 7 live validation](docs/milestone-7-validation.md) and [live screenshots](docs/screenshots/milestone-7/README.md).
+
+The original retail application and its history remain available at `/overview`, `/explore`, `/analyst` and `/data`. The documentation below describes that preserved retail implementation; the current price-cost product uses the linked domain documentation and `/app/*` routes.
+
+---
+
 # European Retail Intelligence Platform
 
 A governed analytics application for people who need to understand European retail activity without writing SQL. It combines an interactive market workspace with natural-language analysis over one official dataset: Eurostat's monthly retail trade volume index (`sts_trtu_m`).
