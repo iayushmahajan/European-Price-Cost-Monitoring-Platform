@@ -1,0 +1,2 @@
+# Preserve official binary/raw source fixtures byte-for-byte.
+backend/tests/fixtures/source_samples/*.csv binary

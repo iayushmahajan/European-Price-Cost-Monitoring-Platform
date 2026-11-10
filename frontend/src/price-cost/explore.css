@@ -1,0 +1,325 @@
+/* Explore owns this layout; shared chart/data behavior remains unchanged. */
+.pc-explore-page {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.pc-explore-page .pc-heading {
+  align-items: center;
+  margin-bottom: 16px;
+}
+.pc-explore-page h1 {
+  font-size: 32px;
+  letter-spacing: -0.035em;
+}
+.pc-explore-page .pc-domain-tabs {
+  margin-bottom: 16px;
+}
+.pc-explore-page .pc-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.pc-explore-page .pc-filters .pc-field {
+  min-width: 0;
+  max-width: none;
+}
+.pc-explore-page .pc-field {
+  font-size: 13px;
+}
+.pc-explore-page .pc-explore-periods {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.pc-explore-page .pc-presets {
+  flex-shrink: 0;
+  gap: 8px;
+}
+.pc-explore-page .pc-presets button[aria-pressed="true"] {
+  background: var(--pc-ice, #dbf2fc);
+  color: var(--pc-navy);
+  border-color: var(--pc-ice, #dbf2fc);
+  box-shadow: inset 0 -2px #fd6e88;
+}
+.pc-explore-page .pc-explore-custom {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.pc-explore-page .pc-explore-custom summary,
+.pc-explore-page .pc-explore-advanced summary {
+  min-height: 44px;
+  padding: 10px 0;
+  font-size: 13px;
+  line-height: 24px;
+  cursor: pointer;
+  color: var(--pc-support);
+}
+.pc-explore-page .pc-explore-custom summary span {
+  margin-left: 16px;
+  color: var(--pc-muted);
+}
+.pc-explore-page .pc-date-controls {
+  margin: 12px 0 0;
+}
+.pc-explore-page .pc-explore-advanced {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+.pc-explore-page .pc-explore-advanced .pc-field {
+  margin-block: 8px;
+}
+.pc-explore-page .pc-explore-results {
+  min-width: 0;
+}
+.pc-explore-page .pc-analysis {
+  padding: 24px 28px 16px;
+}
+.pc-explore-page .pc-metric {
+  position: relative;
+  padding-right: 320px;
+}
+.pc-explore-page .pc-metric-header {
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+.pc-explore-page .pc-metric-header h2 {
+  font-size: 18px;
+}
+.pc-explore-page .pc-metric-header > span {
+  font-size: 13px;
+}
+.pc-explore-page .pc-value {
+  font-size: 40px;
+  margin: 8px 0;
+}
+.pc-explore-page .pc-metric-actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+.pc-explore-page .pc-metric-actions .pc-text-link {
+  font-size: 13px;
+}
+.pc-explore-page .pc-history {
+  margin-top: 16px;
+  padding-top: 8px;
+}
+.pc-explore-page .pc-visual-toolbar {
+  margin: 0 0 12px;
+}
+.pc-explore-page .pc-chart-frame {
+  height: 280px;
+}
+.pc-explore-page .pc-note {
+  font-size: 13px;
+}
+.pc-explore-page .pc-chart > .pc-note {
+  margin-bottom: 0;
+}
+.pc-explore-page table {
+  font-size: 14px;
+}
+.pc-explore-page :is(td, th) {
+  padding: 14px 12px;
+}
+.pc-explore-page .pc-analysis > .pc-notice {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+@media (max-width: 800px) {
+  .pc-explore-page .pc-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .pc-explore-page .pc-filters > .pc-field:first-child {
+    grid-column: 1 / -1;
+  }
+  .pc-explore-page .pc-explore-periods {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .pc-explore-page .pc-explore-custom {
+    width: 100%;
+  }
+  .pc-explore-page .pc-metric {
+    padding-right: 0;
+  }
+  .pc-explore-page .pc-metric-actions {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin-top: 4px;
+  }
+  .pc-explore-page .pc-analysis {
+    padding: 20px;
+  }
+  .pc-explore-page .pc-chart-frame {
+    height: 270px;
+  }
+}
+@media (max-width: 420px) {
+  .pc-explore-page .pc-heading {
+    gap: 12px;
+    flex-direction: row;
+    align-items: center;
+  }
+  .pc-explore-page .pc-heading-actions {
+    width: auto;
+  }
+  .pc-explore-page .pc-heading-actions .pc-button {
+    padding-inline: 12px;
+    font-size: 12px;
+  }
+  .pc-explore-page .pc-domain-tabs {
+    gap: 4px;
+  }
+  .pc-explore-page .pc-domain-tabs button {
+    padding: 10px 8px;
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .pc-explore-page .pc-presets {
+    width: 100%;
+  }
+  .pc-explore-page .pc-presets .pc-button {
+    flex: 1;
+    padding-inline: 10px;
+  }
+  .pc-explore-page .pc-explore-custom summary span {
+    display: block;
+    margin-left: 16px;
+  }
+  .pc-explore-page .pc-analysis {
+    padding: 16px 12px;
+  }
+  .pc-explore-page .pc-value {
+    font-size: 36px;
+  }
+  .pc-explore-page .pc-metric-header h2 {
+    margin-bottom: 0;
+  }
+  .pc-explore-page .pc-metric-header {
+    display: flex;
+    gap: 4px 12px;
+  }
+  .pc-explore-page .pc-field select {
+    width: 100%;
+  }
+  .pc-explore-page .pc-date-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .pc-explore-page .pc-explore-periods > .pc-note {
+    margin: 0;
+  }
+}
+@media (min-width: 1000px) {
+  .pc-explore-page .pc-metric {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.1fr) minmax(150px, 0.7fr) minmax(0, 1fr)
+      auto;
+    align-items: center;
+    column-gap: 24px;
+    padding-right: 0;
+  }
+  .pc-explore-page .pc-metric-header {
+    grid-column: 1;
+    grid-row: 1;
+    display: block;
+  }
+  .pc-explore-page .pc-metric > .pc-note {
+    grid-column: 1;
+  }
+  .pc-explore-page .pc-metric > .pc-value {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .pc-explore-page .pc-metric > .pc-change {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+  .pc-explore-page .pc-metric > .pc-status {
+    grid-column: 3;
+  }
+  .pc-explore-page .pc-metric > .pc-notice,
+  .pc-explore-page .pc-metric > .pc-inverse {
+    grid-column: 1 / -1;
+  }
+  .pc-explore-page .pc-metric-actions {
+    position: static;
+    grid-column: 4;
+    grid-row: 1 / span 2;
+  }
+}
+@media (min-width: 1000px) {
+  .pc-explore-page {
+    position: relative;
+  }
+  .pc-explore-page .pc-heading {
+    min-height: 44px;
+    margin-bottom: 20px;
+  }
+  .pc-explore-page > .pc-domain-tabs {
+    position: absolute;
+    top: 0;
+    left: 180px;
+    margin: 0;
+  }
+  .pc-explore-page .pc-metric > .pc-note:nth-of-type(2) {
+    grid-column: 1 / -1;
+  }
+}
+.pc-explore-page .pc-series-history {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.pc-explore-page .pc-series-history > .pc-visual-toolbar {
+  border-top: 1px solid var(--pc-line);
+  margin-top: 16px;
+  padding-top: 8px;
+}
+@media (min-width: 1100px) {
+  .pc-explore-page .pc-heading {
+    margin-bottom: 12px;
+  }
+  .pc-explore-page .pc-filters {
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .pc-explore-page .pc-explore-periods {
+    margin-bottom: 12px;
+  }
+  .pc-explore-page .pc-chart-frame {
+    height: 240px;
+  }
+  .pc-explore-page .pc-series-history > .pc-visual-toolbar {
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+}
+@media (min-width: 1100px) {
+  .pc-explore-page .pc-analysis {
+    padding-top: 20px;
+    padding-bottom: 12px;
+  }
+  .pc-explore-page .pc-explore-periods {
+    margin-bottom: 8px;
+  }
+}

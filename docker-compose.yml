@@ -78,5 +78,32 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
+  price-cost-sync:
+    profiles: [price-cost-sync]
+    build:
+      context: ./backend
+      target: production
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 90s
+    environment:
+      DATABASE_URL: postgresql://analytics_app:${APP_DB_PASSWORD}@db:5432/analytics_db
+      PRICE_COST_ARTIFACT_ROOT: /var/lib/price-cost
+      SYNC_FUEL_INTERVAL_SECONDS: ${SYNC_FUEL_INTERVAL_SECONDS:-604800}
+      SYNC_HICP_INTERVAL_SECONDS: ${SYNC_HICP_INTERVAL_SECONDS:-86400}
+      SYNC_ECB_INTERVAL_SECONDS: ${SYNC_ECB_INTERVAL_SECONDS:-21600}
+      SYNC_BACKFILL_INTERVAL_DAYS: ${SYNC_BACKFILL_INTERVAL_DAYS:-30}
+      SYNC_OVERLAP_DAYS: ${SYNC_OVERLAP_DAYS:-400}
+      SYNC_HICP_GEOS: ${SYNC_HICP_GEOS:-EU27_2020,AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,EL,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SK,SI,ES,SE}
+      SYNC_HICP_CATEGORIES: ${SYNC_HICP_CATEGORIES:-TOTAL,CP01,CP03,CP04,CP06,CP07,CP11}
+      SYNC_HICP_UNITS: ${SYNC_HICP_UNITS:-I25,RCH_M,RCH_A}
+      SYNC_ECB_CURRENCIES: ${SYNC_ECB_CURRENCIES:-CZK,DKK,HUF,PLN,RON,SEK,GBP,CHF,USD}
+    command: [python, -m, app.scripts.sync_price_cost, schedule]
+    volumes:
+      - price_cost_raw:/var/lib/price-cost
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
 volumes:
+  price_cost_raw:
   postgres_data:

@@ -1,0 +1,117 @@
+/* Shared evidence drawer only; unrelated dialogs retain their layout. */
+.pc-panel.pc-evidence-panel {
+  width: min(560px, 100%);
+  padding: 32px;
+}
+.pc-evidence-panel > h2 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.pc-evidence-panel > p {
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.pc-evidence-panel .pc-evidence-source {
+  color: var(--pc-muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.pc-evidence-panel .pc-evidence-summary h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  margin-bottom: 8px;
+}
+.pc-evidence-context,
+.pc-evidence-period {
+  color: var(--pc-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.pc-evidence-period {
+  margin-top: 16px;
+}
+.pc-evidence-value {
+  font-size: 28px;
+  font-weight: 550;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+  margin: 8px 0 20px;
+  overflow-wrap: anywhere;
+}
+.pc-evidence-status {
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.pc-evidence-status strong {
+  font-weight: 550;
+}
+.pc-evidence-status span {
+  color: var(--pc-muted);
+}
+.pc-evidence-disclosures {
+  margin-top: 28px;
+}
+.pc-evidence-panel .pc-evidence-disclosures details {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--pc-line);
+}
+.pc-evidence-disclosures > details:last-child {
+  border-bottom: 1px solid var(--pc-line);
+}
+.pc-evidence-disclosures summary {
+  min-height: 48px;
+  padding: 12px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.pc-evidence-panel .pc-evidence-disclosures details > p {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+.pc-evidence-panel .pc-evidence-disclosures dl {
+  margin: 8px 0 16px;
+}
+.pc-evidence-panel .pc-evidence-disclosures dl > div {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 16px;
+  padding: 12px 0;
+  font-size: 13px;
+}
+.pc-evidence-panel .pc-evidence-disclosures dd {
+  min-width: 0;
+}
+.pc-evidence-panel .pc-evidence-disclosures pre {
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0 0 16px;
+  max-width: 100%;
+}
+.pc-evidence-panel .pc-evidence-disclosures a {
+  display: inline-block;
+  min-height: 44px;
+  padding-block: 10px;
+}
+.pc-evidence-official {
+  margin-top: 24px;
+  min-height: 44px;
+}
+@media (max-width: 600px) {
+  .pc-panel.pc-evidence-panel {
+    padding: 28px 20px;
+  }
+  .pc-evidence-panel > h2 {
+    font-size: 20px;
+  }
+  .pc-evidence-panel .pc-evidence-summary h3 {
+    font-size: 22px;
+  }
+  .pc-evidence-panel .pc-evidence-disclosures dl > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}

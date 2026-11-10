@@ -33,3 +33,11 @@ def client(db):
     with TestClient(app) as client:
         yield client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def reset_provider_cooldowns():
+    from app.services.provider_limits import cooldowns
+    cooldowns.clear()
+    yield
+    cooldowns.clear()

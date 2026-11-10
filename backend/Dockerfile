@@ -5,7 +5,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 COPY migrations ./migrations
 COPY alembic.ini .
-RUN useradd --create-home appuser
+RUN useradd --create-home appuser && mkdir -p /var/lib/price-cost && chown appuser:appuser /var/lib/price-cost
 USER appuser
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 

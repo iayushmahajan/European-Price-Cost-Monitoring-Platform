@@ -1,264 +1,179 @@
-# European Retail Intelligence Platform
+# European Price & Cost Monitoring Platform
 
-A governed analytics application for people who need to understand European retail activity without writing SQL. It combines an interactive market workspace with natural-language analysis over one official dataset: Eurostat's monthly retail trade volume index (`sts_trtu_m`).
+Explore official European fuel prices, consumer inflation and euro exchange rates through clear charts, comparable observations and evidence-backed natural-language analysis.
 
-The project is designed around an important constraint: an AI-generated query is never trusted as executable SQL. The model must produce a typed query plan; the backend checks the requested metric and SQL structure, runs the statement through a least-privilege PostgreSQL role, bounds the result, and exposes the evidence to the user.
+A full-stack portfolio application built with React, FastAPI and PostgreSQL. The frontend presents a focused navy-and-white workspace; deterministic backend services handle numerical calculations, source semantics and provenance.
 
-## The problem it solves
+![European Price & Cost Monitoring Platform homepage](docs/screenshots/portfolio/home.png)
 
-Official market data is credible but difficult for non-technical stakeholders to navigate. Definitions, units, missing observations and revisions matter, while an ordinary text-to-SQL interface can hide mistakes or execute unsafe statements.
+## What works today
 
-This application provides:
+- **Overview:** country-level fuel and inflation indicators, ECB reference rates, dated changes and historical trends.
+- **Explore:** petrol/diesel, tax-inclusive/exclusive prices, HICP categories and annual/monthly/index measurements, EUR currency pairs and explicitly derived inverses. URL-based filters, chart/table alternatives and source evidence are supported.
+- **Historical comparisons:** matched weekly fuel observations, country price gaps, ranking reversals and labelled 50-litre examples. Inflation-rate differences use percentage points; national index levels are not treated as comparable basket costs.
+- **AI Analyst:** natural-language intent planning, clarification, approved domain operations, verified numerical results, follow-up questions and restorable analysis history.
+- **Data & Sources:** actual stored coverage, observation freshness, synchronization health, quality annotations, publication/check dates and detailed provenance.
+- **Synchronization:** official-source validation, historical backfill, incremental revision checks, transactional publication, source locking, raw-artifact hashes and an independent configurable scheduler.
 
-- a concise overview of Germany against the EU-27 benchmark;
-- focused exploration of performance, categories, country rankings and unusual movements;
-- natural-language questions with clarification when the scope is ambiguous;
-- deterministic findings, charts, tables, CSV export and restorable analysis history;
-- visible metric definitions, filters, source tables and validated SQL; and
-- data coverage, freshness, quality, provenance and methodology in the product itself.
+No combined cost score, forecasts or unsupported explanations of economic causes are generated.
 
-## Finished interface
+## Inside the application
 
 ### Overview
 
-![European Retail Intelligence overview](docs/screenshots/overview.png)
+![Country overview with actual observation dates](docs/screenshots/portfolio/overview.png)
 
-The entry workspace presents the latest Germany and EU-27 signals, their difference and the recent market trend.
+### Explore
 
-### Explore Markets
+![Price and cost exploration workspace](docs/screenshots/portfolio/explore.png)
 
-![European Retail Intelligence market exploration](docs/screenshots/explore-markets.png)
+### Governed AI analysis
 
-Performance, retail categories, country benchmarks and change detection are separated into focused views with explicit units and baselines.
+![A genuine saved successful price-cost analysis](docs/screenshots/portfolio/analyst.png)
 
-### AI Analyst
-
-![Germany and EU-27 natural-language comparison result](docs/screenshots/ai-analyst-result.png)
-
-The analyst leads with a concise answer and calculated findings. The full explanation, assumptions, methodology and validated SQL remain available as evidence.
+The Analyst screenshot restores an actual successful saved analysis. Its assessment and observation dates are historical; restoration does not call the model again. All screenshots use real stored application data, not illustrative fixtures or a claim about today's prices.
 
 ### Data & Sources
 
-![European Retail Intelligence data and sources](docs/screenshots/data-sources.png)
+![Source coverage, freshness and synchronization status](docs/screenshots/portfolio/sources.png)
 
-Coverage, freshness, quality, provenance and technical methodology are kept together for non-technical review and deeper inspection.
+<details>
+<summary>Historical Germany–France fuel comparison</summary>
 
-## Architecture and data flow
+![Historical Germany–France diesel comparison](docs/screenshots/portfolio/fuel-comparison.png)
+
+</details>
+
+## Architecture
 
 ```mermaid
 flowchart LR
-    E[Eurostat JSON-stat API] --> I[Validated atomic importer]
-    I --> P[(PostgreSQL 16)]
-    U[React + TypeScript client] -->|REST| F[FastAPI]
-    F -->|typed prompt| M[Groq or Foundry Local]
-    M -->|Pydantic query plan| F
-    F --> V[Metric policy + SQLGlot validation]
-    V -->|read-only role| P
-    F -->|application role: bounded history snapshot| P
-    P -->|bounded rows| A[Deterministic result analysis]
-    A --> F
-    F --> U
+    S[EC / Eurostat / ECB] --> I[Validated source adapters and sync worker]
+    I --> R[Content-addressed raw artifacts]
+    I --> D[(PostgreSQL observations and revisions)]
+    U[React + TypeScript] --> A[FastAPI typed REST APIs]
+    A --> B[Deterministic domain services]
+    B --> D
+    A --> P[Governed AI intent planner]
+    P --> L[Configured model provider]
+    P --> B
 ```
 
-For a natural-language request:
+Source observations retain their periods, units, status flags and provenance. Backend Decimal calculations produce comparisons and contextual insights; the frontend formats verified values without replacing their underlying precision. Failed synchronization preserves the last successfully published dataset.
 
-1. FastAPI supplies the model with the supported schema, metric catalogue and analytical rules.
-2. The provider returns a typed `ready`, `needs_clarification` or `blocked` plan.
-3. Pydantic validates the contract; the metric policy checks the declared source and required filters.
-4. SQLGlot parses the statement and rejects writes, multiple statements, unknown objects and unsafe constructs.
-5. A separate PostgreSQL reader role executes the query in a read-only transaction with time, row and byte limits.
-6. Deterministic code interprets the validated rows, including aligned country comparisons.
-7. The client renders the answer, evidence, chart/table, export and restorable bounded snapshot.
+The price-cost Analyst uses constrained typed operations through these same services. It is **not an unrestricted SQL agent**. The preserved retail analyst separately retains its SQLGlot validation and bounded read-only database access; its tables, routes, migrations and historical records remain compatible without appearing in the current product navigation.
 
-Overview and exploration endpoints use deterministic SQL and do not require an AI provider.
-
-## Data and analytical meaning
-
-The curated dataset covers the EU-27 aggregate and all 27 member states from January 2015 onward for four categories:
-
-- total retail;
-- food, beverages and tobacco;
-- non-food excluding automotive fuel; and
-- automotive fuel.
-
-All observations use Eurostat's seasonally and calendar-adjusted volume index with `2021=100`. Values measure sales volume, not money. A level of `105` means estimated retail volume is 5% above its average 2021 level. Moving from `103.9` to `105.0` is an increase of 1.1 index points, or approximately 1.1% relative to the starting value (`1.1 / 103.9`).
-
-The importer derives monthly and annual change, rolling volatility and a robust anomaly score from each series. An anomaly flag identifies an unusual movement relative to up to 36 preceding monthly changes; it does not claim a cause. Missing source observations remain missing rather than being imputed.
-
-The analyst cannot answer questions about revenue, customers, products, profit, prices or individual companies because those fields do not exist in this dataset.
-
-## Security boundaries
-
-The application uses layered controls rather than relying on prompt instructions alone:
-
-- strict Pydantic plans gate clarification, blocked and executable responses;
-- the metric catalogue ties business definitions to permitted source fields;
-- SQLGlot enforces one read-only query, allowlisted relations/functions and a static row cap;
-- `analytics_reader` has no write, DDL or history-table privileges;
-- every execution uses a read-only transaction, restricted search path and statement timeout;
-- returned rows, columns, bytes and result-analysis context are bounded; and
-- the UI exposes SQL and assumptions because safety checks cannot prove semantic correctness.
-
-User questions are sent to the configured AI provider. The demo is a shared workspace, so users should not enter personal or confidential information.
-
-## Technology stack
-
-| Area | Technology |
-| --- | --- |
-| Frontend | React 19, TypeScript, Vite, Tailwind CSS, selected shadcn/ui-style primitives, Recharts |
-| API | FastAPI, Pydantic, SQLAlchemy |
-| Data | PostgreSQL 16, Alembic, Eurostat JSON-stat API |
-| AI providers | Groq or Microsoft Foundry Local through OpenAI-compatible chat completions |
-| Query controls | SQLGlot, metric catalogue, allowlisted schema, read-only role, execution bounds |
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, TypeScript, Vite, Inter, Recharts, Radix UI |
+| Backend | Python 3.11, FastAPI, Pydantic, SQLAlchemy |
+| Storage | PostgreSQL 16, Alembic, persistent raw-artifact volume |
+| AI | Provider abstraction for Groq or Foundry Local; validated intent plans |
 | Quality | Pytest, Vitest, Testing Library, Playwright, Axe, Ruff, ESLint |
-| Runtime | Docker Compose and Nginx |
+| Runtime | Docker Compose, Nginx, independent synchronization worker |
 
-## Repository structure
+## Official data sources
 
-```text
-backend/
-  app/api/          FastAPI routes and response contracts
-  app/services/     provider, policy, SQL validation/execution and analysis
-  app/scripts/      Eurostat import, grants and maintenance commands
-  alembic/          database migrations
-  tests/            unit, API and isolated PostgreSQL integration tests
-database/           first-volume PostgreSQL role initialization
-frontend/
-  src/components/   reusable shell, UI, charts and analyst components
-  src/pages/        four routed workspaces
-  src/services/     typed API client
-  tests/            component and browser workflows
-docs/screenshots/   deterministic portfolio screenshots
-.github/workflows/  backend and frontend CI
-```
+| Source | Measurements | Meaning |
+|---|---|---|
+| [European Commission Weekly Oil Bulletin](https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en) | Petrol (95) and diesel; both tax bases | National weekly averages normalized to EUR/L |
+| [Eurostat HICP — `prc_hicp_minr`](https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table) | Annual/monthly rates and 2025-based indices | Consumer-price changes and index levels, not prices in euros |
+| [ECB exchange rates — EXR](https://data.ecb.europa.eu/data/datasets/EXR) | Working-day reference rates | Official direction: 1 EUR = X quote-currency units; inverses are labelled derived |
 
-## Run with Docker Compose
+Coverage depends on configured series and successful imports. Missing observations remain missing. Publication dates, observation periods and synchronization timestamps are distinct. Fuel averages can differ from station prices; HICP is not an individual's cost basket; ECB reference rates are not guaranteed transaction quotes.
 
-Prerequisites: Docker Desktop/Engine with Compose, internet access for the Eurostat import, and optionally a Groq key or a running Foundry Local server for AI Analyst.
+## Run locally with Docker
 
-Copy the environment template and generate **three different** database passwords:
+Requires Docker Engine/Desktop with Compose. For WSL, enable Docker Desktop's WSL integration. Internet access is needed to build images and retrieve official data. A model provider is optional for Overview, Explore and Sources.
 
 ```bash
+git clone https://github.com/iayushmahajan/European-Retail-Intelligence-Platform.git
+cd European-Retail-Intelligence-Platform
 cp .env.example .env
-openssl rand -hex 24  # POSTGRES_PASSWORD
-openssl rand -hex 24  # APP_DB_PASSWORD
-openssl rand -hex 24  # ANALYTICS_DB_PASSWORD
 ```
 
-Place the values in `.env`; do not commit that file. Start the services, then import Eurostat:
+Set **three distinct, URL-safe database passwords** in `.env`: `POSTGRES_PASSWORD`, `APP_DB_PASSWORD`, and `ANALYTICS_DB_PASSWORD`. Generate each with `openssl rand -hex 24`. Keep `.env` private. For an existing database, retain its existing passwords and take a backup before upgrades.
 
 ```bash
-docker compose up --build -d
-docker compose --profile eurostat-data run --build --rm eurostat-data
-docker compose ps
+# Build the UI/API, initialize roles on a new volume, and apply compatible migrations.
+docker compose up -d --build
+
+# Initial official-data import, bounded to January 2025 onward.
+docker compose --profile price-cost-sync run --build --rm --no-deps price-cost-sync \
+  python -m app.scripts.sync_price_cost sync --mode backfill --since 2025-01-01
+
+# Optional independent periodic checks.
+docker compose --profile price-cost-sync up -d price-cost-sync
 ```
 
-Open <http://localhost:5173>. API documentation is available at <http://localhost:5173/api/docs>.
+Open **http://localhost:5173**. API documentation: **http://localhost:5173/api/docs**. The five main routes are `/`, `/app/overview`, `/app/explore`, `/app/analyst` and `/app/sources`.
 
-Database roles are created only when PostgreSQL initializes an empty volume. If you change database passwords after the first start, update the roles manually or, for a disposable local demo only, recreate the volume:
+Browser requests pass through Nginx `/api` to the internal backend and PostgreSQL services; no host database or backend port is needed. On a fresh install the data pages remain empty until ingestion succeeds. Source failures are reported independently; use the [synchronization guide](docs/price-cost-synchronization.md) for retry, backfill and backup procedures.
 
 ```bash
-# Destructive: deletes the local database and saved analysis history.
-docker compose down -v
-docker compose up --build -d
-docker compose --profile eurostat-data run --build --rm eurostat-data
+# Read persisted synchronization status without importing data.
+docker compose --profile price-cost-sync run --rm --no-deps price-cost-sync \
+  python -m app.scripts.sync_price_cost status
+
+# Stop safely; named database and artifact volumes remain intact.
+docker compose --profile price-cost-sync stop
 ```
 
-Re-run the import command to fetch a newer Eurostat snapshot. The importer validates dimensions, countries, categories, values and response size before replacing observations in one transaction. For reproducibility, it can also import a downloaded response with `--payload` and verify `--expected-sha256`.
+Never delete volumes to fix a deployment mismatch. See [WSL startup, development, backup and recovery](docs/price-cost-local-running.md) for full instructions. The optional Vite development workflow runs on port 4173 against the same Docker API.
 
-## Configure AI Analyst
+## AI configuration and limits
 
-The other three workspaces run without an AI provider. Natural-language analysis requires one of these OpenAI-compatible configurations.
-
-### Groq
+Set `AI_PROVIDER`, `AI_MODEL`, `AI_API_URL` and, for a hosted provider, `AI_API_KEY` in `.env`. For example:
 
 ```dotenv
 AI_PROVIDER=groq
 AI_MODEL=openai/gpt-oss-20b
 AI_API_URL=https://api.groq.com/openai/v1/chat/completions
-AI_API_KEY=your_groq_key
-AI_REQUEST_TIMEOUT_SECONDS=120
+AI_API_KEY=YOUR_PRIVATE_PROVIDER_KEY
 ```
 
-Groq's free tier has account-specific rate and usage limits that can change. Treat the key as a secret and rotate any key pasted into chat, logs or source control.
+Foundry Local is also supported; use its reported OpenAI-compatible endpoint and a model available on your machine. Recreate the backend after changing its environment. See the [Analyst guide](docs/price-cost-analyst.md) and [provider rate-limit notes](docs/price-cost-analyst-rate-limits.md).
 
-### Microsoft Foundry Local
+The model primarily interprets intent. Typed plans, approved operations, bounded requests and deterministic calculations govern the result. Unsupported questions are blocked or clarified. Provider quotas, billing, availability and model quality can still prevent an answer; temporary throttling and exhausted quota are distinguished. No answer is fabricated when the provider fails. Questions are sent to the configured provider; avoid confidential input in this shared portfolio workspace.
 
-Start the server and load Phi-4 Mini:
-
-```bash
-foundry --version
-foundry server start --idle-timeout 0
-foundry model load phi-4-mini
-foundry server status
-```
-
-The port is dynamic. Use the URL reported by `foundry server status`; for Docker Desktop, replace `127.0.0.1` with `host.docker.internal`:
-
-```dotenv
-AI_PROVIDER=foundry_local
-AI_MODEL=phi-4-mini
-AI_API_URL=http://host.docker.internal:PORT/v1/chat/completions
-AI_API_KEY=
-AI_REQUEST_TIMEOUT_SECONDS=120
-```
-
-Local inference has no per-request API charge but can be slow and memory intensive on CPU. Groq is generally faster and lighter on the laptop. After changing provider settings, recreate the relevant services:
-
-```bash
-docker compose up --build -d backend frontend
-docker compose logs -f backend
-```
-
-## Development and validation
-
-Backend unit/API tests use isolated in-memory SQLite and mock providers. PostgreSQL integration tests require explicitly disposable test URLs and `TEST_ALLOW_RESET=1`; CI provisions this environment automatically.
-
-Python virtual-environment launchers contain absolute paths. If you move or rename an existing checkout, recreate `backend/.venv` before using its console commands; Docker-based development is unaffected.
-
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements-dev.txt
-ruff check .
-pytest -q -m "not integration"
-```
+## Validation
 
 ```bash
 cd frontend
 npm ci
-npm test
-npm run lint
 npm run typecheck
+npm run lint
+npm test
 npm run build
+npx playwright install --with-deps chromium
 npm run test:e2e
-npm audit --omit=dev
 ```
 
-With the application running and seeded with a successful analysis, regenerate stable screenshots with:
+Frontend tests use deterministic, contract-compatible fixtures for success and failure scenarios. Live portfolio captures are separate and restore existing successful history without model calls: `npm run screenshots` (with the populated Docker application running).
+
+Backend tests require Python dependencies from `backend/requirements-dev.txt`. PostgreSQL integration tests must use a **separate disposable database**, never the application database:
 
 ```bash
-cd frontend
-npm run screenshots
+# Once, with Docker running: create only the explicitly disposable test database.
+docker compose exec -T db createdb -U postgres -O analytics_app price_cost_m7_test
+docker compose -f docker-compose.yml -f docker-compose.test.yml build backend-tests
+docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps backend-tests
 ```
 
-CI runs the complete backend suite against PostgreSQL 16, both container builds, frontend component tests, linting, type checking, the production build and Playwright workflows. See [the verification record](docs/verification.md) for the latest local results.
+The tests intentionally reset that test database. If it already exists, reuse it. CI runs backend/frontend validation and container builds. See the [release verification record](docs/verification.md) for executed results, live checks and limitations.
 
-## A concise demonstration path
+## Documentation
 
-1. **Overview:** explain `2021=100`, the latest Germany/EU-27 difference and the common time series.
-2. **Explore Markets:** switch category and country views; show that anomalies and missing coverage are explicit.
-3. **AI Analyst:** ask “Compare Germany and the EU-27 over the latest 12 months.” Highlight the concise finding, aligned chart/table and follow-up actions.
-4. **Evidence:** expand assumptions and SQL; explain typed plans, SQLGlot and the read-only database role.
-5. **Data & Sources:** close with Eurostat provenance, freshness, coverage and methodology.
+- [Source contracts](docs/price-cost-source-contracts.md) · [Database architecture](docs/price-cost-database-architecture.md)
+- [Synchronization and retention](docs/price-cost-synchronization.md) · [Local operations](docs/price-cost-local-running.md)
+- [Price-cost APIs](docs/price-cost-api.md) · [Governed Analyst](docs/price-cost-analyst.md) · [Frontend architecture](docs/price-cost-frontend.md)
 
-## Scope and limitations
+## Known limitations
 
-This is a portfolio analytics application, not a production multi-tenant BI service. It has shared history and no authentication, scheduled ingestion, alert delivery, observability stack or deployment infrastructure. Eurostat values may be missing, provisional or revised. AI-generated queries can be technically safe yet semantically imperfect, which is why evidence remains inspectable. The manually mirrored frontend API types could drift from backend contracts without tests.
+This is a shared local portfolio application, not a hosted multi-tenant service. Authentication, tenant isolation and delivered alerts/reports are not implemented. Official series can be sparse, estimated, provisional, revised or temporarily unavailable. Synchronization health and observation freshness must both be inspected. HICP index-derived changes can differ slightly from published rates; cross-country index levels do not establish absolute cost-of-living differences.
 
-Forecasting is intentionally not implemented. An earlier model did not consistently beat transparent baselines, and a national retail index is not a defensible company-demand target. A future forecast would require a specific decision, target, evaluation window and baseline—not another dashboard card.
+History is bounded and paginated. Source coverage is not guaranteed to include every historical observation. Model access depends on external configuration and account limits. Automated accessibility checks complement, but do not replace, physical-device and screen-reader testing.
 
-Possible future expansion is deliberately separated from implemented functionality: authentication and tenant isolation, scheduled imports, production observability, generated OpenAPI client types and a defensible forecasting use case. None of these are claimed as current features.
+## Future development
 
-Source: [Eurostat monthly retail trade volume index (`sts_trtu_m`)](https://ec.europa.eu/eurostat/databrowser/view/sts_trtu_m/default/table).
+Broader inflation-monitoring workflows and automated reporting are planned evolution, not additional capabilities claimed by this release. Any future work will build on the current source semantics, evidence and governed calculations rather than introduce unsupported forecasts or business-cost claims.

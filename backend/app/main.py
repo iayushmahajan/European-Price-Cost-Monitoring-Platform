@@ -11,6 +11,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.api.routes.examples import router as examples_router
 from app.api.routes.health import router as health_router
 from app.api.routes.history import router as history_router
+from app.api.routes.price_cost import router as price_cost_router
+from app.api.routes.price_cost_analyst import router as price_cost_analyst_router
 from app.api.routes.query import router as query_router
 from app.api.routes.retail import router as retail_router
 from app.core.config import settings
@@ -25,7 +27,7 @@ app.add_middleware(
     allow_origin_regex=settings.CORS_ALLOWED_ORIGIN_REGEX,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
-    expose_headers=["X-Request-ID"],
+    expose_headers=["X-Request-ID", "Retry-After"],
 )
 
 
@@ -53,7 +55,11 @@ async def invalid_request(request: Request, exc: RequestValidationError):
         content={
             "error": {
                 "code": "invalid_request",
-                "message": "Check the question and clarification fields and their length limits.",
+                "message": (
+                    "Check the supported query parameters, selection codes, and date/size limits."
+                    if request.url.path.startswith("/v1/price-cost")
+                    else "Check the question and clarification fields and their length limits."
+                ),
             },
             "request_id": request.state.request_id,
         },
@@ -75,7 +81,15 @@ async def database_unavailable(request: Request, exc: SQLAlchemyError):
     )
 
 
-for router in (health_router, examples_router, history_router, query_router, retail_router):
+for router in (
+    health_router,
+    examples_router,
+    history_router,
+    query_router,
+    retail_router,
+    price_cost_router,
+    price_cost_analyst_router,
+):
     app.include_router(router)
 
 

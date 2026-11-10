@@ -1,0 +1,148 @@
+/* Homepage only: operational workspaces retain their existing visual system. */
+.pc-app.pc-home-shell {
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(
+      ellipse 85% 105% at 50% 32%,
+      rgba(34, 86, 133, 0.42),
+      transparent 75%
+    ),
+    linear-gradient(145deg, #072d59 36%, #06294f 100%);
+}
+.pc-home-shell .pc-header {
+  width: min(1320px, calc(100% - 80px));
+}
+.pc-home-shell .pc-content {
+  display: flex;
+  flex: 1;
+  padding-top: 0;
+}
+.pc-home-introduction {
+  align-self: center;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  padding: 80px 0 96px;
+  text-align: center;
+}
+.pc-home-shell .pc-home-introduction h1 {
+  max-width: 960px;
+  margin-inline: auto;
+  font-size: clamp(64px, 6vw, 88px);
+  line-height: 1.06;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.pc-home-introduction h1 span {
+  color: #dbf2fc;
+}
+.pc-home-introduction .pc-home-description {
+  max-width: 560px;
+  margin: 32px auto 0;
+  color: #c1dceb;
+  font-size: 18px;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+.pc-home-action {
+  margin-top: 32px;
+}
+.pc-home-action .pc-button {
+  min-height: 52px;
+  padding: 13px 24px;
+  gap: 24px;
+  font-size: 15px;
+}
+.pc-home-shell .pc-home-footer {
+  width: min(1320px, calc(100% - 80px));
+  margin-top: 0;
+  padding: 20px 0 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  font-size: 13px;
+  gap: 32px;
+}
+.pc-home-footer .pc-home-sources {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 32px;
+}
+.pc-home-footer > a {
+  justify-self: end;
+  color: #dbf2fc;
+  gap: 6px;
+}
+.pc-home-enter > h1,
+.pc-home-enter > .pc-home-description,
+.pc-home-enter > .pc-home-action {
+  animation: pc-home-arrive 540ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pc-home-enter > .pc-home-description {
+  animation-delay: 80ms;
+}
+.pc-home-enter > .pc-home-action {
+  animation-delay: 160ms;
+}
+@keyframes pc-home-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 1000px) {
+  .pc-home-shell .pc-header,
+  .pc-home-shell .pc-home-footer {
+    width: calc(100% - 48px);
+  }
+}
+@media (max-width: 600px) {
+  .pc-home-introduction {
+    padding: 64px 0;
+  }
+  .pc-home-shell .pc-home-introduction h1 {
+    font-size: clamp(38px, 11.3vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.05em;
+  }
+  .pc-home-introduction .pc-home-description {
+    margin-top: 24px;
+    max-width: 34ch;
+    font-size: 16px;
+  }
+  .pc-home-action {
+    margin-top: 32px;
+  }
+  .pc-home-shell .pc-header {
+    width: calc(100% - 36px);
+  }
+  .pc-home-shell .pc-home-footer {
+    width: calc(100% - 36px);
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 16px;
+    padding: 16px 0 24px;
+  }
+  .pc-home-footer .pc-home-sources {
+    display: grid;
+    justify-items: center;
+    gap: 0;
+  }
+  .pc-home-footer > a {
+    justify-self: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-home-enter > h1,
+  .pc-home-enter > .pc-home-description,
+  .pc-home-enter > .pc-home-action {
+    animation: none;
+  }
+}
