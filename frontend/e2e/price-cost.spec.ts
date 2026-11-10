@@ -1,3 +1,4 @@
+import { analystAnswer } from "../src/price-cost/analyst-presentation";
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { fixtureResponse, pcFixture } from "../src/test/price-cost-fixtures";
@@ -18,24 +19,6 @@ async function submit(page: Page, q = pcFixture.analysis.question) {
   await page.getByLabel("Your price or cost question").fill(q);
   await page.getByRole("button", { name: "Analyze question" }).click();
 }
-async function capture(page: Page, name: string, viewport = false) {
-  await page.evaluate(() => {
-    if (document.querySelector(".pc-fixture-label")) return;
-    const banner = document.createElement("p");
-    banner.className = "pc-fixture-label";
-    banner.textContent =
-      "Contract fixture · illustrative observations, not live official data";
-    banner.style.cssText =
-      "color:#DBF2FC;background:#05274D;padding:8px 18px;margin:0;font:12px/1.6 InterVariable,Inter,sans-serif;text-align:center";
-    document.querySelector(".pc-header")?.after(banner);
-  });
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.mouse.move(0, 0);
-  await page.screenshot({
-    path: `../docs/screenshots/price-cost/fixture-${name}.png`,
-    fullPage: !viewport,
-  });
-}
 test.beforeEach(async ({ page }) => {
   await fixtures(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -46,7 +29,7 @@ test("landing, direct routes, country URL state, Back/Forward and product/tax se
 }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: /Everyday prices/ }),
+    page.getByRole("heading", { name: /Europe’s prices/ }),
   ).toBeVisible();
   await page
     .getByRole("link", { name: "Open the workspace", exact: true })
@@ -80,12 +63,13 @@ test("common-period country comparison, meaningful removal and observation revis
   await page.getByRole("dialog").getByRole("combobox").selectOption("FR");
   await page.getByRole("button", { name: "Apply country comparison" }).click();
   await expect(
-    page.getByRole("heading", { name: "Same-period country comparison" }),
+    page.getByRole("heading", { name: "Fuel prices over time" }),
   ).toBeVisible();
-  await expect(page.getByRole("table")).toContainText("-0.120");
+  await page.getByRole("button", { name: "Table", exact: true }).click();
+  await expect(page.getByRole("table")).toContainText("−0.120");
   await expect(page.getByRole("table")).toContainText("France");
   await page
-    .getByRole("button", { name: "Inspect observation" })
+    .getByRole("button", { name: /Inspect observation/ })
     .first()
     .click();
   const dialog = page.getByRole("dialog");
@@ -97,11 +81,11 @@ test("common-period country comparison, meaningful removal and observation revis
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
   await expect(
-    page.getByRole("button", { name: "Inspect observation" }).first(),
+    page.getByRole("button", { name: /Inspect observation/ }).first(),
   ).toBeFocused();
   await page.getByRole("button", { name: "Remove France comparison" }).click();
   await expect(
-    page.getByRole("heading", { name: "Same-period country comparison" }),
+    page.getByRole("heading", { name: "Fuel prices over time" }),
   ).not.toBeVisible();
 });
 test("HICP rates, estimated flags, index restrictions and EUR derived inverse semantics", async ({
@@ -110,7 +94,7 @@ test("HICP rates, estimated flags, index restrictions and EUR derived inverse se
   await page.goto(
     "/app/explore?domain=inflation&start=2026-05-01&end=2026-11-01",
   );
-  await expect(page.locator(".pc-value")).toContainText("2.8%");
+  await expect(page.locator(".pc-value")).toContainText("2.80%");
   await expect(page.locator(".pc-change")).toContainText("percentage points");
   await expect(
     page.getByText("Estimated", { exact: true }).first(),
@@ -124,9 +108,11 @@ test("HICP rates, estimated flags, index restrictions and EUR derived inverse se
   await page.goto(
     "/app/explore?domain=exchange-rates&inverse=true&start=2026-10-01&end=2026-11-08&view=table",
   );
-  await expect(page.locator(".pc-value")).toContainText("0.83358");
-  await expect(page.locator(".pc-inverse")).toContainText("1.199645");
-  await expect(page.getByText(/Official direction:/)).toContainText("1 EUR");
+  await expect(page.locator(".pc-value")).toContainText("1.200");
+  await expect(page.locator(".pc-value")).toContainText("EUR/GBP");
+  await expect(
+    page.getByRole("heading", { name: "1 GBP in EUR · derived inverse" }),
+  ).toContainText("1 GBP");
   await expect(page.getByRole("table")).toContainText("EUR/GBP");
   await expect(page.getByRole("table")).not.toContainText("31 Oct 2026");
   await expect(page.getByRole("table")).not.toContainText("1 Nov 2026");
@@ -141,6 +127,8 @@ test("missing data, partial/stale sources and irregular observations stay explic
     data.items[2].comparison.consecutive = false;
     data.items[2].comparison.elapsed_days = 14;
     data.items[2].status.provisional = true;
+    data.sources[0].synchronization_status = "failed";
+    data.sources[0].observation_freshness = "stale";
     await route.fulfill({ json: data });
   });
   await page.route("**/api/v1/price-cost/fuel/latest?**", async (route) => {
@@ -158,7 +146,7 @@ test("missing data, partial/stale sources and irregular observations stay explic
   await expect(page.getByText(/Observation freshness: stale/)).toContainText(
     "Synchronization: failed",
   );
-  await page.route("**/api/v1/price-cost/fuel/latest?**", (route) =>
+  await page.route("**/api/v1/price-cost/fuel/history?**", (route) =>
     route.fulfill({
       json: {
         ...pcFixture.histories["fuel:DE:automotive_diesel:with_tax"],
@@ -170,7 +158,7 @@ test("missing data, partial/stale sources and irregular observations stay explic
   );
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "No observations available" }),
+    page.getByText(/No observations in the selected date range/),
   ).toBeVisible();
   await expect(page.locator(".pc-value")).toHaveCount(0);
 });
@@ -187,11 +175,14 @@ test("source health and captured evidence distinguish periods and synchronizatio
   );
   await page.goto("/app/sources");
   const row = page.getByRole("button", { name: /European Commission/ });
-  await expect(row).toContainText("current");
+  await expect(row).toContainText("Within expected period");
   await expect(row).toContainText("failed");
   await row.click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByText("Last successful sync")).toBeVisible();
+  await dialog
+    .getByText("Publication & check details", { exact: true })
+    .click();
   await expect(dialog.getByText("Artifact publication date")).toBeVisible();
   await dialog.getByText("Data quality indicators").click();
   await expect(dialog.getByText("Not reported").first()).toBeVisible();
@@ -234,21 +225,19 @@ test("analyst success, real clarification payload, failure and model-free histor
     });
   });
   await page.goto("/app/analyst");
-  await expect(
-    page.getByText(/No answer has been generated yet/),
-  ).toBeVisible();
+  await expect(page.getByText("Try a question")).toBeVisible();
   await submit(page, "Compare fuel prices");
   await page
     .getByLabel("Your clarification")
     .fill("Germany and France, diesel including taxes");
   await page.getByRole("button", { name: "Continue analysis" }).click();
   await expect(
-    page.getByRole("heading", { name: pcFixture.analysis.answer }),
+    page.getByRole("heading", { name: analystAnswer(pcFixture.analysis) }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Analyze question" }).click();
   await expect(page.getByRole("alert")).toContainText("timed out");
   await expect(
-    page.getByRole("heading", { name: pcFixture.analysis.answer }),
+    page.getByRole("heading", { name: analystAnswer(pcFixture.analysis) }),
   ).not.toBeVisible();
   await page.getByRole("button", { name: "Recent analyses" }).click();
   await page
@@ -256,7 +245,7 @@ test("analyst success, real clarification payload, failure and model-free histor
     .getByRole("button", { name: /Compare diesel/ })
     .click();
   await expect(
-    page.getByRole("heading", { name: pcFixture.analysis.answer }),
+    page.getByRole("heading", { name: analystAnswer(pcFixture.analysis) }),
   ).toBeVisible();
   expect(calls).toBe(3);
   await expect(page.getByText(/Saved analysis · assessed/)).toBeVisible();
@@ -264,8 +253,8 @@ test("analyst success, real clarification payload, failure and model-free histor
 test("browser race ignores superseded countries and pagination preserves current selection", async ({
   page,
 }) => {
-  await page.route("**/api/v1/price-cost/fuel/latest?**", async (route) => {
-    if (new URL(route.request().url()).searchParams.get("countries") === "DE")
+  await page.route("**/api/v1/price-cost/fuel/history?**", async (route) => {
+    if (new URL(route.request().url()).searchParams.get("country") === "DE")
       await new Promise((r) => setTimeout(r, 350));
     await route
       .fulfill({ json: fixtureResponse(route.request().url()) })
@@ -281,40 +270,40 @@ test("browser race ignores superseded countries and pagination preserves current
       pcFixture.histories["fuel:DE:automotive_diesel:with_tax"],
     );
     const next =
-      new URL(route.request().url()).searchParams.get("start") === "2026-10-20";
-    data.items = next ? data.items.slice(2) : data.items.slice(0, 2);
+      new URL(route.request().url()).searchParams.get("end") === "2026-10-19";
+    data.items = next ? data.items.slice(0, 2) : data.items.slice(2);
     data.page = {
       has_more: !next,
-      next_start: next ? null : "2026-10-20",
+      next_start: null,
+      previous_end: next ? null : "2026-10-19",
       limit: 2,
     };
     await route.fulfill({ json: data });
   });
   await page.goto("/app/explore?view=table");
   await expect(page.getByRole("table").locator("tbody tr")).toHaveCount(2);
-  await page.getByRole("button", { name: "Load more observations" }).click();
+  await page.getByRole("button", { name: "Load older observations" }).click();
   await expect(page.getByRole("table").locator("tbody tr")).toHaveCount(4);
   await expect(
-    page.getByRole("button", { name: "Load more observations" }),
+    page.getByRole("button", { name: "Load older observations" }),
   ).not.toBeVisible();
 });
-test("real frontend screenshots, keyboard dialogs, responsive shell, contrast and reduced motion", async ({
+test("keyboard dialogs, responsive shell, contrast and reduced motion", async ({
   page,
 }) => {
   test.setTimeout(120000);
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.setViewportSize({ width: 1440, height: 1000 });
-  for (const [path, name] of [
-    ["/", "landing"],
-    ["/app/overview", "overview"],
-    ["/app/explore", "explore"],
-    ["/app/analyst", "analyst-empty"],
-    ["/app/sources", "sources"],
+  for (const path of [
+    "/",
+    "/app/overview",
+    "/app/explore",
+    "/app/analyst",
+    "/app/sources",
   ]) {
     await page.goto(path);
     await page.waitForLoadState("networkidle");
-    await capture(page, name + "-desktop");
     const result = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
@@ -326,9 +315,8 @@ test("real frontend screenshots, keyboard dialogs, responsive shell, contrast an
   await page.goto("/app/analyst");
   await submit(page);
   await expect(
-    page.getByRole("heading", { name: pcFixture.analysis.answer }),
+    page.getByRole("heading", { name: analystAnswer(pcFixture.analysis) }),
   ).toBeVisible();
-  await capture(page, "analyst-result-desktop");
   const result = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
@@ -337,26 +325,27 @@ test("real frontend screenshots, keyboard dialogs, responsive shell, contrast an
   await page.getByRole("button", { name: "Inspect source evidence" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.evaluate(() => window.scrollTo(0, 0));
-  await capture(page, "evidence-desktop", true);
   await page.keyboard.press("Escape");
   await expect(
     page.getByRole("button", { name: "Inspect source evidence" }),
   ).toBeFocused();
   for (const width of [320, 390, 768]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const [path, name] of [
-      ["/", "landing"],
-      ["/app/overview", "overview"],
-      ["/app/explore", "explore"],
-      ["/app/analyst", "analyst"],
-      ["/app/sources", "sources"],
+    for (const path of [
+      "/",
+      "/app/overview",
+      "/app/explore",
+      "/app/analyst",
+      "/app/sources",
     ]) {
       await page.goto(path);
       await page.waitForLoadState("networkidle");
       if (path === "/app/analyst") {
         await submit(page);
         await expect(
-          page.getByRole("heading", { name: pcFixture.analysis.answer }),
+          page.getByRole("heading", {
+            name: analystAnswer(pcFixture.analysis),
+          }),
         ).toBeVisible();
       }
       expect(
@@ -365,7 +354,6 @@ test("real frontend screenshots, keyboard dialogs, responsive shell, contrast an
         ),
         `${path} at ${width}px`,
       ).toBe(true);
-      if (width !== 768) await capture(page, `${name}-mobile-${width}`);
       if (width === 320 || width === 390) {
         const r = await new AxeBuilder({ page })
           .withTags(["wcag2a", "wcag2aa", "wcag21aa"])

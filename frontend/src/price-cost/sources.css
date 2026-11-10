@@ -1,0 +1,66 @@
+.pc-sources-page {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.pc-sources-page .pc-heading {
+  align-items: center;
+  margin-bottom: 24px;
+}
+.pc-sources-page .pc-heading .pc-note {
+  margin-top: 8px;
+  font-size: 14px;
+}
+.pc-sources-page .pc-source-columns {
+  font-size: 14px;
+}
+.pc-sources-page .pc-source-row small {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pc-sources-page .pc-source-row > span:nth-child(2),
+.pc-sources-page .pc-source-row > span:nth-child(3) {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pc-sources-page .pc-source-row {
+  padding-block: 20px;
+}
+.pc-sources-page .pc-methodology {
+  margin-top: 24px;
+  gap: 32px;
+  grid-template-columns: 1fr 2fr;
+}
+.pc-sources-page .pc-methodology h2 {
+  font-size: 20px;
+}
+.pc-sources-page .pc-methodology summary {
+  min-height: 44px;
+  padding-block: 12px;
+}
+.pc-source-details {
+  width: min(640px, 100%);
+}
+.pc-source-details > dl > div {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 16px;
+}
+.pc-source-details :is(dt, dd, p, summary) {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.pc-source-details summary {
+  min-height: 44px;
+}
+@media (max-width: 600px) {
+  .pc-sources-page .pc-heading {
+    align-items: flex-start;
+  }
+  .pc-sources-page .pc-methodology {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .pc-source-details > dl > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}

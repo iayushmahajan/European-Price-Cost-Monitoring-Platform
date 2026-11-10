@@ -39,7 +39,7 @@ export default function Shell() {
     </nav>
   );
   return (
-    <div className="pc-app">
+    <div className={`pc-app${landing ? " pc-home-shell" : ""}`}>
       <a className="pc-skip" href="#pc-content">
         Skip to content
       </a>
@@ -57,7 +57,6 @@ export default function Shell() {
         {landing ? (
           <nav className="pc-landing-nav" aria-label="Introduction navigation">
             <Link to="/app/sources">Data & Sources</Link>
-            <Link to="/app/overview">Enter workspace ↗</Link>
           </nav>
         ) : (
           <div className="pc-desktop-nav">{navigation}</div>
@@ -81,14 +80,44 @@ export default function Shell() {
           <Outlet />
         </Suspense>
       </main>
-      <footer className="pc-footer">
-        <span>Official European reference indicators</span>
-        <div>
-          <Link to={landing ? "/app/overview" : "/"}>
-            {landing ? "Open workspace" : "About the platform"} ↗
-          </Link>
-          <Link to="/overview">Legacy retail</Link>
-        </div>
+      <footer className={`pc-footer${landing ? " pc-home-footer" : ""}`}>
+        {landing ? (
+          <>
+            <nav className="pc-home-sources" aria-label="Official data sources">
+              <a
+                href="https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en"
+                target="_blank"
+                rel="noreferrer"
+              >
+                European Commission
+              </a>
+              <a
+                href="https://ec.europa.eu/eurostat/web/hicp"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Eurostat
+              </a>
+              <a
+                href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+                target="_blank"
+                rel="noreferrer"
+              >
+                European Central Bank
+              </a>
+            </nav>
+            <Link to="/app/analyst">
+              AI Analyst <span aria-hidden="true">↗</span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <span>Official European reference indicators</span>
+            <div>
+              <Link to="/">About the platform ↗</Link>
+            </div>
+          </>
+        )}
       </footer>
       {menu && (
         <Panel

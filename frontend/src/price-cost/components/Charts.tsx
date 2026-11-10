@@ -11,16 +11,25 @@ import {
   Bar,
   ReferenceLine,
 } from "recharts";
-import { numeric, period } from "../format";
+import {
+  numeric,
+  period,
+  displayMeasurement,
+  displayUnit,
+  axisNumber,
+  chartPrecision,
+} from "../format";
 import type { ChartPoint } from "../chart-data";
 export function TrendChart({
   points,
   unit,
   label,
+  showPeriodRange = true,
 }: {
   points: ChartPoint[];
   unit: string;
   label: string;
+  showPeriodRange?: boolean;
 }) {
   const data = points.map((p) => ({
     ...p,
@@ -33,22 +42,39 @@ export function TrendChart({
     times[Math.floor((times.length - 1) / 2)],
     times.at(-1),
   ].filter((v): v is number => v !== undefined);
+  const monthly = points.some((p) => p.monthly);
   const fx = unit.includes("/") && unit !== "EUR/litre";
+  const axisValues = data.flatMap((p) =>
+    p.coordinate === null ? [] : [p.coordinate],
+  );
+  const axisWidth = Math.min(
+    96,
+    Math.max(
+      fx ? 76 : 54,
+      ...(axisValues.length
+        ? [Math.min(...axisValues), Math.max(...axisValues)]
+        : []
+      ).map((v) => axisNumber(v, unit, axisValues).length * 7 + 24),
+    ),
+  );
   return (
     <figure className="pc-chart" aria-label={label}>
       <figcaption>
-        {unit}
-        <span>
-          {times.length
-            ? `${period(points[0].period)} – ${period(points.at(-1)!.period)}`
-            : ""}
-        </span>
+        {displayUnit(unit)}
+        {showPeriodRange && (
+          <span>
+            {times.length
+              ? `${period(points[0].period, monthly)} – ${period(points.at(-1)!.period, monthly)}`
+              : ""}
+          </span>
+        )}
       </figcaption>
       <div className="pc-chart-frame">
         <ResponsiveContainer width="100%" height="100%" minWidth={0}>
           <ComposedChart
             data={data}
-            margin={{ top: 18, right: 18, bottom: 10, left: 0 }}
+            // Reserve a separate label band below the plot, including on narrow screens.
+            margin={{ top: 18, right: 24, bottom: 16, left: 4 }}
             accessibilityLayer
           >
             <CartesianGrid
@@ -64,7 +90,9 @@ export function TrendChart({
               ticks={[...new Set(ticks)]}
               tickFormatter={(v) =>
                 new Date(v).toLocaleDateString("en-GB", {
-                  day: "numeric",
+                  ...(monthly
+                    ? ({ year: "numeric" } as const)
+                    : ({ day: "numeric" } as const)),
                   month: "short",
                   timeZone: "UTC",
                 })
@@ -72,17 +100,19 @@ export function TrendChart({
               tick={{ fill: "#526B85", fontSize: 12 }}
               tickLine={false}
               axisLine={false}
-              minTickGap={20}
+              height={40}
+              tickMargin={12}
+              padding={{ left: 8, right: 8 }}
+              interval="preserveStartEnd"
+              minTickGap={24}
             />
             <YAxis
               domain={["auto", "auto"]}
-              width={fx ? 76 : 54}
+              width={axisWidth}
+              tickMargin={10}
+              padding={{ top: 4, bottom: 12 }}
               tick={{ fill: "#526B85", fontSize: 12 }}
-              tickFormatter={(v) =>
-                new Intl.NumberFormat("en-GB", {
-                  maximumFractionDigits: fx ? 5 : 2,
-                }).format(v)
-              }
+              tickFormatter={(v) => axisNumber(v, unit, axisValues)}
               axisLine={false}
               tickLine={false}
             />
@@ -93,9 +123,14 @@ export function TrendChart({
                   | undefined;
                 return active && p && !p.gap ? (
                   <div className="pc-chart-tooltip">
-                    {period(p.period)}
+                    {period(p.period, monthly)}
                     <strong>
-                      {p.label} {unit}
+                      {displayMeasurement(
+                        p.value,
+                        unit,
+                        false,
+                        chartPrecision(unit, axisValues),
+                      )}
                     </strong>
                   </div>
                 ) : null;
@@ -103,7 +138,7 @@ export function TrendChart({
             />
             <Area
               dataKey="coordinate"
-              name={unit}
+              name={displayUnit(unit)}
               fill="#DBF2FC"
               fillOpacity={0.65}
               stroke="none"
@@ -113,7 +148,7 @@ export function TrendChart({
             />
             <Line
               dataKey="coordinate"
-              name={unit}
+              name={displayUnit(unit)}
               stroke="#072D59"
               strokeWidth={2.6}
               dot={(props) => {
@@ -147,8 +182,7 @@ export function TrendChart({
         </ResponsiveContainer>
       </div>
       <p className="pc-note">
-        Actual available observations. Switch to Table for exact values and
-        evidence.
+        Actual available observations. Switch to Table for values and evidence.
       </p>
     </figure>
   );
@@ -168,7 +202,7 @@ export function ComparisonChart({
     high = Math.max(0, ...values);
   return (
     <figure className="pc-chart" aria-label={"Same-period comparison, " + unit}>
-      <figcaption>{unit} · common observation period</figcaption>
+      <figcaption>{displayUnit(unit)} · common observation period</figcaption>
       <div
         className="pc-comparison-frame"
         style={{ height: Math.max(210, rows.length * 55) }}
@@ -183,6 +217,7 @@ export function ComparisonChart({
             <CartesianGrid horizontal={false} stroke="rgba(7,45,89,.12)" />
             <XAxis
               type="number"
+              tickFormatter={(v) => axisNumber(v, unit, [0, ...values])}
               domain={[low, high === low ? low + 1 : high]}
               tick={{ fill: "#526B85", fontSize: 12 }}
             />
@@ -204,7 +239,12 @@ export function ComparisonChart({
                   <div className="pc-chart-tooltip">
                     {r.name}
                     <strong>
-                      {r.value} {unit}
+                      {displayMeasurement(
+                        r.value,
+                        unit,
+                        false,
+                        chartPrecision(unit, [0, ...values]),
+                      )}
                     </strong>
                   </div>
                 ) : null;
@@ -212,7 +252,7 @@ export function ComparisonChart({
             />
             <Bar
               dataKey="coordinate"
-              name={unit}
+              name={displayUnit(unit)}
               fill="#072D59"
               barSize={22}
               isAnimationActive={false}

@@ -8,7 +8,7 @@ from pathlib import Path
 from app.main import app
 
 schemas = app.openapi()["components"]["schemas"]
-roots = ["Overview", "Catalogue", "SourceStatus", "FuelResponse", "InflationResponse", "ExchangeResponse", "CountryComparison", "Evidence", "AnalysisResponse", "AnalysisHistoryItem"]
+roots = ["Overview", "Catalogue", "SourceStatus", "FuelResponse", "InflationResponse", "ExchangeResponse", "CountryComparison", "Evidence", "AnalysisResponse", "AnalysisHistoryItem", "FuelHistoryComparison", "MeasurementInsights"]
 seen = set()
 
 def name(ref):

@@ -41,7 +41,11 @@ def build(domain, country, category, measurement, tax, quote, dates, values):
         common=dict(observation_id=sid*100+i,series_id=sid,indicator_id=domain+"_"+measurement,indicator_name=products[category] if domain=='fuel' else units[measurement] if domain=='inflation' else 'ECB EUR/'+quote+' reference rate',period=p,value=v,status=status,source_code=source.source.code,observation_freshness="current",comparison=comparison,explanation=explanation,evidence_path=f"/v1/price-cost/evidence/{domain}/{sid*100+i}")
         if domain=="fuel": m=s.FuelMetric(**common,geography=s.NamedCode(code=country,name=names[country]),product=category,tax_basis=tax)
         elif domain=="inflation": m=s.InflationMetric(**common,geography=s.NamedCode(code=country,name=names[country]),category=s.NamedCode(code=category,name=catnames[category]),measurement_type=measurement,unit="index_points" if measurement=="index" else "percent",index_base_year=2025 if measurement=="index" else None)
-        else: m=s.ExchangeMetric(**common,quote_currency=quote,unit=quote+"/EUR",source_precision=5,inverse_rate=ratio(D(1),v),inverse_unit="EUR/"+quote,inverse_is_derived=True)
+        else:
+            inverse_change=change(domain,measurement,p,ratio(D(1),v),
+                                 (previous[0],ratio(D(1),previous[1]),previous[2]) if previous else None)
+            inverse_change.absolute_change_unit="EUR/"+quote
+            m=s.ExchangeMetric(**common,quote_currency=quote,unit=quote+"/EUR",source_precision=5,inverse_rate=ratio(D(1),v),inverse_unit="EUR/"+quote,inverse_is_derived=True,inverse_comparison=inverse_change)
         result.append(m);metrics.append(m);previous=(p,v,status.source_status)
     return result
 
@@ -100,6 +104,40 @@ def dump(obj):
     if isinstance(obj,dict):return {k:dump(v) for k,v in obj.items()}
     if isinstance(obj,list):return [dump(v) for v in obj]
     return obj
-output=dict(catalogue=catalogue,sources=sources,histories=histories,comparisons=comparisons,evidence=evidence,analysis=analysis)
+from app.services.price_cost.insights import summary, insights_for_metrics
+from app.services.price_cost.context import comparison_context
+historical_comparisons = {}
+for key, comparison in comparisons.items():
+    if not key.startswith('fuel:'):
+        continue
+    _, base_geo, peer_geo, product, tax = key.split(':')
+    base_items = histories[f'fuel:{base_geo}:{product}:{tax}'].items
+    peer_items = histories[f'fuel:{peer_geo}:{product}:{tax}'].items
+    pairs = [s.MatchedFuelWeek(period=b.period, base=b, peer=p, gap=p.value-b.value,
+                              consecutive=None if i == 0 else True)
+             for i, (b,p) in enumerate(zip(base_items,peer_items))]
+    delta=abs(pairs[-1].gap)-abs(pairs[0].gap)
+    historical_comparisons[key]=s.FuelHistoryComparison(
+        available=True, latest=comparison, observations=pairs, insights=comparison_context(pairs),
+        summaries=[s.FuelPeriodSummary(geography=group[0].geography, history=summary(group))
+                   for group in [base_items,peer_items]], unmatched_weeks=[],
+        absolute_gap_change=delta, gap_direction='widened' if delta>0 else 'narrowed' if delta<0 else 'unchanged')
+insights={}
+for key,response in histories.items():
+    domain=key.split(':')[0]
+    for i,metric in [(len(response.items)-1, response.items[-1])]:
+        supporting, aggregate = [], None
+        if domain == 'inflation':
+            index_items = histories[f'inflation:{metric.geography.code}:{metric.category.code}:index'].items
+            target = date(metric.period.year-1,metric.period.month,1) if metric.measurement_type == 'annual_rate' else date(metric.period.year,metric.period.month-1,1) if metric.measurement_type == 'monthly_rate' else index_items[0].period
+            old = next((p for p in index_items if p.period == target),None)
+            current = next((p for p in index_items if p.period == metric.period),None)
+            supporting = [old,current] if old is not None and current is not None else []
+            if metric.measurement_type != 'index':
+                aggregate = histories[f'inflation:EU27_2020:{metric.category.code}:{metric.measurement_type}'].items[-1]
+        insights[f'{domain}/{metric.observation_id}']=insights_for_metrics(domain,metric,response.items[max(0,i-11):i+1],indices=supporting,aggregate=aggregate)
+        if domain=='exchange-rates':
+            insights[f'{domain}/{metric.observation_id}?inverse=true']=insights_for_metrics(domain,metric,response.items[max(0,i-11):i+1],inverse=True)
+output=dict(catalogue=catalogue,sources=sources,histories=histories,comparisons=comparisons,evidence=evidence,analysis=analysis,historical_comparisons=historical_comparisons,insights=insights)
 Path('frontend/src/test/price-cost.json').write_text(json.dumps(dump(output),indent=2)+'\n')
 print(f'Validated fixture: {len(histories)} series, {len(metrics)} observations, analyst snapshot and provenance. All illustrative.')

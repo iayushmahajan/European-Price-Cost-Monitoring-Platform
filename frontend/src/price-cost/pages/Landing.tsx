@@ -1,66 +1,31 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "../landing.css";
+
+// Remember the first entrance until a full reload; returning home stays still.
+let introductionShown = false;
+
 export default function Landing() {
+  const [enter] = useState(() => !introductionShown);
+  useEffect(() => {
+    introductionShown = true;
+  }, []);
+
   return (
-    <section className="pc-introduction">
-      <div className="pc-intro-copy">
-        <span className="pc-kicker">Fuel · Inflation · Exchange rates</span>
-        <h1>
-          Everyday prices.
-          <br />
-          <span>Clearer context.</span>
-        </h1>
-        <div>
-          <p>
-            Explore European fuel prices, consumer inflation and euro reference
-            rates. Official sources, clear comparisons.
-          </p>
-          <div className="pc-actions">
-            <Link className="pc-button pc-primary" to="/app/overview">
-              Open the workspace <span aria-hidden="true">→</span>
-            </Link>
-            <Link className="pc-text-link" to="/app/analyst">
-              Ask a question ↗
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="pc-canvas pc-intro-preview">
-        <div>
-          <span>European prices, explained</span>
-          <h2>
-            One measurement.
-            <br />
-            Its context, made clear.
-          </h2>
-          <p>
-            Choose a country, compare a reference period, and inspect the
-            official source.
-          </p>
-        </div>
-        <div
-          className="pc-preview-lines"
-          aria-label="Product capabilities, no illustrative prices"
-        >
-          <div>
-            <strong>Fuel prices</strong>
-            <span>EUR/litre · weekly observations</span>
-          </div>
-          <div>
-            <strong>Consumer inflation</strong>
-            <span>Annual rates · monthly rates · indices</span>
-          </div>
-          <div>
-            <strong>Euro exchange rates</strong>
-            <span>1 EUR = foreign-currency units</span>
-          </div>
-          <Link to="/app/explore">Explore prices & costs →</Link>
-        </div>
-      </div>
-      <div className="pc-attribution">
-        <span>European Commission</span>
-        <span>Eurostat</span>
-        <span>European Central Bank</span>
-        <Link to="/app/sources">Meet the sources →</Link>
+    <section className={`pc-home-introduction${enter ? " pc-home-enter" : ""}`}>
+      <h1>
+        Europe’s prices,
+        <br />
+        <span>in perspective.</span>
+      </h1>
+      <p className="pc-home-description">
+        Explore fuel prices, consumer inflation and euro exchange rates, with
+        clear comparisons from official European sources.
+      </p>
+      <div className="pc-home-action">
+        <Link className="pc-button pc-primary" to="/app/overview">
+          Open the workspace <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import { ComparisonChart, TrendChart } from "./Charts";
 import { metricPoints } from "../chart-data";
 import { SourceWarnings } from "./Evidence";
 import EvidencePanel from "./Evidence";
+import { analystDisplay, analystAnswer } from "../analyst-presentation";
 export function AnalystResult({
   result: r,
   onFollowUp,
@@ -18,6 +19,7 @@ export function AnalystResult({
   const [table, setTable] = useState(false),
     [evidence, setEvidence] = useState<string | null>(null);
   const data = r.verified_data;
+  const display = analystDisplay(r);
   const history =
     r.plan?.status === "ready" && r.plan.operation.kind.endsWith("_history");
   let points: Metric[] = [];
@@ -53,10 +55,26 @@ export function AnalystResult({
         {restored ? "Saved analysis" : "Analysis"} · assessed{" "}
         {period(r.assessment_date)}
       </p>
-      <p className="pc-result-question">{r.question}</p>
       <h2 tabIndex={-1} id="pc-answer">
-        {r.answer || "No analytical answer available."}
+        {analystAnswer(r) || "No analytical answer available."}
       </h2>
+      {display.figures.length > 0 && (
+        <dl className="pc-answer-figures" aria-label="Key verified figures">
+          {display.figures.map((f, i) => (
+            <div key={i}>
+              <dt>{f.label}</dt>
+              <dd title={f.exact}>
+                <span className="pc-key-value">
+                  {f.value}
+                  {f.unit && <small>{f.unit}</small>}
+                </span>
+                <span className="pc-key-context">{f.context}</span>
+                {f.flag && <span className="pc-key-flag">{f.flag}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
       {r.findings.length > 0 && (
         <ul className="pc-findings">
           {r.findings.map((f, i) => (
@@ -92,6 +110,10 @@ export function AnalystResult({
           </div>
         )}
       </div>
+      <p className="pc-result-context">{display.context}</p>
+      {(table || !hasChart) && display.columns.length > 3 && (
+        <p className="pc-reader-hint">Scroll the table to see all columns →</p>
+      )}
       {!table && hasChart ? (
         comparison ? (
           <ComparisonChart
@@ -122,59 +144,75 @@ export function AnalystResult({
         )
       ) : (
         <div
-          className="pc-table-scroll"
+          className="pc-table-scroll pc-reader-table"
           role="region"
           aria-label="Verified analysis table"
           tabIndex={0}
         >
-          <table>
-            <caption>Verified result data · exact backend values</caption>
+          <table
+            className={
+              display.columns.length <= 3 ? "pc-short-table" : undefined
+            }
+          >
+            <caption className="sr-only">Verified observations</caption>
             <thead>
               <tr>
-                {r.table.columns.map((c) => (
-                  <th key={c.key}>{c.label}</th>
+                {display.columns.map((column) => (
+                  <th scope="col" key={column}>
+                    {column}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {r.table.rows.map((row, i) => (
+              {display.rows.map((row, i) => (
                 <tr key={i}>
-                  {r.table.columns.map((c) => (
-                    <td key={c.key}>
-                      {row[c.key] === null || row[c.key] === undefined
-                        ? "—"
-                        : typeof row[c.key] === "boolean"
-                          ? row[c.key]
-                            ? "Yes"
-                            : "No"
-                          : c.value_type === "decimal"
-                            ? decimal(String(row[c.key]))
-                            : String(row[c.key])}
+                  {row.cells.map((cell, j) => (
+                    <td key={j} title={cell.exact}>
+                      {cell.text}
+                      {cell.note && <small>{cell.note}</small>}
                     </td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
-          {r.table.rows.length === 0 && (
+          {display.rows.length === 0 && (
             <p>No tabular observations returned.</p>
           )}
         </div>
       )}
-      {r.summary_comparison && (
-        <p className="pc-note">
-          {r.summary_comparison.explanation.what_changed}{" "}
-          {r.summary_comparison.direction === "inverse"
-            ? "This summary uses the derived inverse; original observations keep the EUR base."
-            : ""}
-        </p>
-      )}
+      {r.summary_comparison &&
+        !r.findings.includes(r.summary_comparison.explanation.what_changed) && (
+          <p className="pc-note">
+            {r.summary_comparison.explanation.what_changed}{" "}
+            {r.summary_comparison.direction === "inverse"
+              ? "This summary uses the derived inverse; original observations keep the EUR base."
+              : ""}
+          </p>
+        )}
       {r.explanation &&
         !r.findings.includes(r.explanation.why_it_might_matter) && (
           <p className="pc-note">{r.explanation.why_it_might_matter}</p>
         )}
+      {r.follow_up_questions.length > 0 && (
+        <div className="pc-followups">
+          <span>Follow-up questions</span>
+          {r.follow_up_questions.map((q, i) => (
+            <button key={i} onClick={() => onFollowUp(q)}>
+              {q}
+              <span aria-hidden="true">→</span>
+            </button>
+          ))}
+        </div>
+      )}
       <details>
-        <summary>Evidence, assumptions & technical details</summary>
+        <summary>Sources, evidence & details</summary>
+        <p className="pc-result-question">Question: {r.question}</p>
+        <details>
+          <summary>Original backend answer</summary>
+          <p>{r.answer}</p>
+        </details>
         <p className="pc-note">
           Frozen snapshot created {timestamp(r.created_at)}. Source health below
           is as assessed on {period(r.assessment_date)}.
@@ -245,6 +283,47 @@ export function AnalystResult({
           </details>
         ))}
         <details>
+          <summary>Full data & source precision</summary>
+          <div
+            className="pc-table-scroll pc-raw-table"
+            role="region"
+            aria-label="Full analysis data"
+            tabIndex={0}
+          >
+            <table>
+              <caption>Complete saved result · exact backend values</caption>
+              <thead>
+                <tr>
+                  {r.table.columns.map((c) => (
+                    <th scope="col" key={c.key}>
+                      {c.label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {r.table.rows.map((row, i) => (
+                  <tr key={i}>
+                    {r.table.columns.map((c) => (
+                      <td key={c.key}>
+                        {row[c.key] == null
+                          ? "—"
+                          : typeof row[c.key] === "boolean"
+                            ? row[c.key]
+                              ? "Yes"
+                              : "No"
+                            : c.value_type === "decimal"
+                              ? decimal(String(row[c.key]))
+                              : String(row[c.key])}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+        <details>
           <summary>Validated operation</summary>
           <pre>{JSON.stringify(r.plan, null, 2)}</pre>
         </details>
@@ -253,17 +332,6 @@ export function AnalystResult({
           Request {r.request_id}
         </p>
       </details>
-      {r.follow_up_questions.length > 0 && (
-        <div className="pc-followups">
-          <span>Continue exploring</span>
-          {r.follow_up_questions.map((q, i) => (
-            <button key={i} onClick={() => onFollowUp(q)}>
-              {q}
-              <span aria-hidden="true">→</span>
-            </button>
-          ))}
-        </div>
-      )}
       {evidence && (
         <EvidencePanel path={evidence} onClose={() => setEvidence(null)} />
       )}

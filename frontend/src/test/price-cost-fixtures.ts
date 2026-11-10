@@ -1,6 +1,8 @@
 /** Only test/browser code imports this module. Values are illustrative, validated by Pydantic. */
 import raw from "./price-cost.json" with { type: "json" };
 import type {
+  FuelHistoryComparison,
+  MeasurementInsights,
   AnalysisResponse,
   Catalogue,
   CountryComparison,
@@ -13,6 +15,8 @@ import type {
 } from "../price-cost/contracts";
 import type { Domain, Metrics, Metric } from "../price-cost/api";
 export const pcFixture = raw as unknown as {
+  historical_comparisons: Record<string, FuelHistoryComparison>;
+  insights: Record<string, MeasurementInsights>;
   catalogue: Catalogue;
   sources: SourceStatus[];
   histories: Record<string, Omit<Metrics, "items"> & { items: Metric[] }>;
@@ -30,6 +34,22 @@ export function fixtureResponse(url: string): unknown {
     category = q.get("category") || "TOTAL",
     measure = q.get("measurement") || "annual_rate",
     currency = q.get("currency") || q.get("currencies")?.split(",")[0] || "GBP";
+  if (path.startsWith("/insights/"))
+    return structuredClone(
+      pcFixture.insights[
+        path.slice("/insights/".length) +
+          (q.get("inverse") === "true" ? "?inverse=true" : "")
+      ],
+    );
+  if (path === "/fuel/compare-history") {
+    const [base, peer] = (q.get("countries") || "DE,FR").split(",");
+    const key = `fuel:${q.get("base_country") || base}:${peer}:${product}:${tax}`;
+    const data = structuredClone(pcFixture.historical_comparisons[key]);
+    if (!data) throw new Error("Unsupported historical comparison fixture");
+    if (q.get("period") && q.get("period") !== data.latest.period)
+      return { ...data, available: false, observations: [], summaries: [] };
+    return data;
+  }
   if (path === "/catalogue") return pcFixture.catalogue;
   if (path === "/sources") return pcFixture.sources;
   if (path === "/overview") {
@@ -112,13 +132,35 @@ export function fixtureResponse(url: string): unknown {
         : `exchange-rates:${currency}`;
   const data = structuredClone(pcFixture.histories[key]);
   if (!data) throw new Error("Unknown fixture query " + url);
-  if (path.endsWith("/history"))
+  if (path.endsWith("/history")) {
     data.items = data.items.filter(
       (m) =>
         (!q.get("start") || m.period >= q.get("start")!) &&
         (!q.get("end") || m.period <= q.get("end")!),
     );
-  else
+    const limit = Number(q.get("limit") || 260);
+    const descending = q.get("order") === "desc";
+    const hasMore = data.items.length > limit;
+    data.items = descending
+      ? data.items.slice(-limit)
+      : data.items.slice(0, limit);
+    const cursor = (value: string, step: number) => {
+      const date = new Date(value + "T00:00:00Z");
+      date.setUTCDate(date.getUTCDate() + step);
+      if (domain === "inflation") date.setUTCDate(1);
+      return date.toISOString().slice(0, 10);
+    };
+    data.page = {
+      limit,
+      has_more: hasMore,
+      next_start:
+        hasMore && !descending
+          ? cursor(data.items.at(-1)!.period, domain === "inflation" ? 32 : 1)
+          : null,
+      previous_end:
+        hasMore && descending ? cursor(data.items[0].period, -1) : null,
+    };
+  } else
     data.items = data.items
       .filter((m) => !q.get("as_of") || m.period <= q.get("as_of")!)
       .slice(-1);
@@ -130,6 +172,7 @@ export function fixtureResponse(url: string): unknown {
             inverse_rate: null,
             inverse_unit: null,
             inverse_is_derived: null,
+            inverse_comparison: null,
           }
         : m,
     );

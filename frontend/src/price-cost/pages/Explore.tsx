@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCatalogue } from "../catalogue-context";
 import { parseSelection, shiftMonths } from "../selection";
-import { today } from "../format";
+import { today, period } from "../format";
+import "../explore.css";
 import { useSelectionUpdate } from "../use-selection";
 import { CountrySelect, DomainTabs } from "../components/Controls";
 import { Field, Panel, State } from "../components/Shared";
@@ -22,24 +23,24 @@ export default function ExplorePage() {
   const noCompare =
     s.domain === "exchange-rates" ||
     (s.domain === "inflation" && s.measurement === "index");
+  const presetEnd =
+    s.domain === "inflation" ? today().slice(0, 7) + "-01" : today();
+  const activePreset = [3, 12, 60].find(
+    (months) =>
+      s.end === presetEnd && s.start === shiftMonths(presetEnd, -months),
+  );
   function preset(months: number) {
     const end =
       s.domain === "inflation" ? today().slice(0, 7) + "-01" : today();
     update({ end, start: shiftMonths(end, -months) });
   }
   return (
-    <>
+    <div className="pc-explore-page">
       <header className="pc-heading">
         <div>
-          <span className="pc-kicker">Explore prices & costs</span>
-          <h1>{s.compare ? "Make the comparison." : "Follow the change."}</h1>
+          <h1>Explore</h1>
         </div>
         <div className="pc-heading-actions">
-          <CountrySelect
-            country={s.country}
-            domain={s.domain}
-            onChange={(country) => update({ country })}
-          />
           {!noCompare && (
             <button
               className="pc-button pc-primary"
@@ -62,7 +63,12 @@ export default function ExplorePage() {
         </div>
       </header>
       <DomainTabs domain={s.domain} onChange={(domain) => update({ domain })} />
-      <div className="pc-filters">
+      <div className="pc-filters" role="group" aria-label="Series selection">
+        <CountrySelect
+          country={s.country}
+          domain={s.domain}
+          onChange={(country) => update({ country })}
+        />
         {s.domain === "fuel" ? (
           <>
             <Field label="Fuel product">
@@ -136,14 +142,20 @@ export default function ExplorePage() {
               />
               Show derived inverse
             </label>
-            <Field label="Optional comparison on/before">
-              <input
-                type="date"
-                value={s.comparisonDate}
-                max={s.end}
-                onChange={(e) => update({ comparisonDate: e.target.value })}
-              />
-            </Field>
+            <details
+              className="pc-explore-advanced"
+              open={s.comparisonDate ? true : undefined}
+            >
+              <summary>Rate comparison date</summary>
+              <Field label="Optional comparison on/before">
+                <input
+                  type="date"
+                  value={s.comparisonDate}
+                  max={s.end}
+                  onChange={(e) => update({ comparisonDate: e.target.value })}
+                />
+              </Field>
+            </details>
           </>
         )}
         {s.compare && (
@@ -155,56 +167,46 @@ export default function ExplorePage() {
           </button>
         )}
       </div>
-      <div className="pc-date-controls">
+      <div className="pc-explore-periods">
         {s.compare ? (
           <>
-            <Field
-              label={
-                s.domain === "inflation"
-                  ? "Exact reference month (first day), optional"
-                  : "Exact reference week, optional"
-              }
-            >
-              <input
-                type="date"
-                value={s.comparisonPeriod}
-                max={s.end}
-                onChange={(e) => update({ comparisonPeriod: e.target.value })}
-              />
-            </Field>
             <p className="pc-note">
-              Without a period, the latest exact shared period within 400 days
-              is selected by the backend.
+              Comparing {geo} and {compareName}
+              {s.comparisonPeriod
+                ? " at the selected reference period."
+                : " at the latest shared reference period."}
             </p>
+            <details
+              className="pc-explore-custom"
+              open={s.comparisonPeriod ? true : undefined}
+            >
+              <summary>Choose comparison period</summary>
+              <div className="pc-date-controls">
+                <Field
+                  label={
+                    s.domain === "inflation"
+                      ? "Exact reference month (first day), optional"
+                      : "Exact reference week, optional"
+                  }
+                >
+                  <input
+                    type="date"
+                    value={s.comparisonPeriod}
+                    max={s.end}
+                    onChange={(e) =>
+                      update({ comparisonPeriod: e.target.value })
+                    }
+                  />
+                </Field>
+                <p className="pc-note">
+                  Without a period, the backend selects the latest exact shared
+                  period within 400 days.
+                </p>
+              </div>
+            </details>
           </>
         ) : (
           <>
-            <Field
-              label={
-                s.domain === "inflation"
-                  ? "Start month (first day)"
-                  : "Start date"
-              }
-            >
-              <input
-                type="date"
-                value={s.start}
-                max={s.end}
-                onChange={(e) => update({ start: e.target.value })}
-              />
-            </Field>
-            <Field
-              label={
-                s.domain === "inflation" ? "End month (first day)" : "End date"
-              }
-            >
-              <input
-                type="date"
-                value={s.end}
-                max={today()}
-                onChange={(e) => update({ end: e.target.value })}
-              />
-            </Field>
             <div className="pc-presets" role="group" aria-label="Date presets">
               {[
                 [3, "3 months"],
@@ -213,6 +215,7 @@ export default function ExplorePage() {
               ].map(([months, label]) => (
                 <button
                   className="pc-button"
+                  aria-pressed={activePreset === months}
                   key={label}
                   onClick={() => preset(Number(months))}
                 >
@@ -220,6 +223,50 @@ export default function ExplorePage() {
                 </button>
               ))}
             </div>
+            <details
+              className="pc-explore-custom"
+              open={!activePreset || s.error ? true : undefined}
+            >
+              <summary>
+                Custom range
+                {!activePreset && (
+                  <span>
+                    {period(s.start, s.domain === "inflation")} –{" "}
+                    {period(s.end, s.domain === "inflation")}
+                  </span>
+                )}
+              </summary>
+              <div className="pc-date-controls">
+                <Field
+                  label={
+                    s.domain === "inflation"
+                      ? "Start month (first day)"
+                      : "Start date"
+                  }
+                >
+                  <input
+                    type="date"
+                    value={s.start}
+                    max={s.end}
+                    onChange={(e) => update({ start: e.target.value })}
+                  />
+                </Field>
+                <Field
+                  label={
+                    s.domain === "inflation"
+                      ? "End month (first day)"
+                      : "End date"
+                  }
+                >
+                  <input
+                    type="date"
+                    value={s.end}
+                    max={today()}
+                    onChange={(e) => update({ end: e.target.value })}
+                  />
+                </Field>
+              </div>
+            </details>
           </>
         )}
       </div>
@@ -229,19 +276,7 @@ export default function ExplorePage() {
           comparison is available for inflation rates.
         </p>
       )}
-      <div className="pc-workspace-layout">
-        <aside className="pc-context">
-          <h2>{s.compare ? "Selected comparison" : "Selected series"}</h2>
-          <p>{s.domain === "exchange-rates" ? "EUR / " + s.currency : geo}</p>
-          {s.compare && <p>{compareName}</p>}
-          <p className="pc-note">
-            {s.domain === "fuel"
-              ? "Same fuel and tax basis."
-              : s.domain === "inflation"
-                ? "Rates, rate differences and index levels have different meanings."
-                : "ECB reference rates are informational and exclude fees."}
-          </p>
-        </aside>
+      <div className="pc-explore-results">
         <div className="pc-workspace-main">
           {s.error ? (
             <section className="pc-canvas">
@@ -298,6 +333,6 @@ export default function ExplorePage() {
           </form>
         </Panel>
       )}
-    </>
+    </div>
   );
 }

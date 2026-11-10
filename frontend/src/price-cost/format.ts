@@ -36,6 +36,96 @@ export function decimal(
     (places ? text.slice(0, -places) + "." + text.slice(-places) : text)
   );
 }
+/** Presentation only: fuel thousandths and currency quotes benefit from a third digit.
+ * Tiny nonzero values use explicit extra precision (or scientific notation), never zero.
+ * Exact API strings remain untouched in evidence and all calculations.
+ */
+export function displayNumber(
+  value: string | null | undefined,
+  unit = "",
+  places?: number,
+): string {
+  const expanded = decimal(value);
+  if (expanded === "—") return expanded;
+  const precision =
+    places ??
+    (unit === "EUR/litre" || unit === "EUR/L" || unit.includes("/") ? 3 : 2);
+  // If expansion is intentionally bounded, keep an explicit exponent rather than lose the value.
+  if (/[eE]/.test(expanded)) return expanded;
+  const rounded = decimal(expanded, precision);
+  const negative = expanded.startsWith("-");
+  const [whole, fraction = ""] = expanded.replace(/^[+-]/, "").split(".");
+  const first = fraction.search(/[1-9]/);
+  const small = /^0+$/.test(whole) && first >= 2;
+  const roundedToZero = /^[-−+]?0(?:\.0+)?$/.test(rounded) && first >= 0;
+  if (!(places === undefined && small) && !roundedToZero) return rounded;
+  if (first < 0) return rounded;
+  if (first + 3 <= 8)
+    return decimal(expanded, first + 3)
+      .replace(/0+$/, "")
+      .replace(/\.$/, "");
+  const significant = fraction.slice(first);
+  let mantissa = decimal(
+    significant[0] + "." + (significant.slice(1) || "0"),
+    2,
+  );
+  let exponent = -(first + 1);
+  if (mantissa === "10.00") {
+    mantissa = "1.00";
+    exponent++;
+  }
+  return `${negative ? "−" : ""}${mantissa} × 10^${exponent}`;
+}
+
+export function displayUnit(unit: string, quoteCurrency?: string): string {
+  if (unit === "FOREIGN_CURRENCY_PER_EUR")
+    return quoteCurrency ? `${quoteCurrency}/EUR` : "Currency units per EUR";
+  return (
+    (
+      {
+        "EUR/litre": "EUR/L",
+        EUR_PER_LITRE: "EUR/L",
+        PERCENT: "%",
+        INDEX_2025_100: "Index (2025=100)",
+        percent: "%",
+        percentage_points: "percentage points",
+        index_points: "index points",
+      } as Record<string, string>
+    )[unit] || unit
+  );
+}
+export function displayMeasurement(
+  value: string | null | undefined,
+  unit: string,
+  signed = false,
+  places?: number,
+): string {
+  const number = displayNumber(value, unit, places);
+  if (number === "—") return number;
+  const sign =
+    signed &&
+    !number.startsWith("−") &&
+    !number.startsWith("-") &&
+    !/^0(?:\.0+)?$/.test(number)
+      ? "+"
+      : "";
+  return `${sign}${number}${unit === "percent" ? "" : " "}${displayUnit(unit)}`;
+}
+/** Charts may need extra axis precision so adjacent ticks do not collapse to one label. */
+export function chartPrecision(unit: string, values: number[]): number {
+  const base = unit.includes("/") ? 3 : 2;
+  const range = values.length ? Math.max(...values) - Math.min(...values) : 0;
+  return range > 0
+    ? Math.max(base, Math.min(8, -Math.floor(Math.log10(range / 5))))
+    : base;
+}
+export function axisNumber(
+  value: number,
+  unit: string,
+  values: number[],
+): string {
+  return displayNumber(String(value), unit, chartPrecision(unit, values));
+}
 export function numeric(value: string): number | null {
   if (!/^[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$/.test(value)) return null;
   const n = Number(value);
@@ -68,14 +158,14 @@ export function timestamp(value: string | null): string {
 }
 export function metricValue(m: Metric): string {
   return m.measurement_type === "price"
-    ? "€" + decimal(m.value, 3)
+    ? "€" + displayNumber(m.value, m.unit)
     : m.measurement_type === "reference_rate"
-      ? decimal(m.value)
-      : decimal(m.value, 1) + (m.unit === "percent" ? "%" : "");
+      ? displayNumber(m.value, m.unit)
+      : displayNumber(m.value, m.unit) + (m.unit === "percent" ? "%" : "");
 }
 export function metricUnit(m: Metric): string {
   return m.measurement_type === "price"
-    ? "EUR/litre"
+    ? "EUR/L"
     : m.measurement_type === "index"
       ? `Index · ${m.index_base_year}=100`
       : m.unit === "percent"
@@ -88,7 +178,11 @@ export function changeText(m: Metric): string {
   const c = m.comparison;
   if (!c.available || c.absolute_change == null)
     return c.unavailable_reason || "Comparison unavailable";
-  return `${c.absolute_change.startsWith("-") ? "" : "+"}${decimal(c.absolute_change)} ${c.absolute_change_unit === "percentage_points" ? "percentage points" : c.absolute_change_unit === "index_points" ? "index points" : c.absolute_change_unit === "quote_currency_units_per_EUR" ? m.unit : c.absolute_change_unit} vs ${period(c.reference_period, m.period_type === "reference_month")}`;
+  const unit =
+    c.absolute_change_unit === "quote_currency_units_per_EUR"
+      ? m.unit
+      : c.absolute_change_unit || m.unit;
+  return `${displayMeasurement(c.absolute_change, unit, true)} vs ${period(c.reference_period, m.period_type === "reference_month")}`;
 }
 export function today(): string {
   return new Intl.DateTimeFormat("en-CA", {

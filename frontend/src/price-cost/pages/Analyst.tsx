@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, History } from "lucide-react";
 import { period } from "../format";
-import { priceCost, requestError, type Clarification } from "../api";
+import {
+  priceCost,
+  requestError,
+  retryAfterSeconds,
+  type Clarification,
+} from "../api";
 import type { AnalysisResponse } from "../contracts";
 import { AnalystResult } from "../components/AnalystResult";
 import { AnalysisHistory } from "../components/AnalysisHistory";
+import "../analyst.css";
 const examples = [
   "Compare diesel prices in Germany and France.",
   "How much has annual inflation changed in Germany?",
@@ -17,7 +23,18 @@ export default function AnalystPage() {
     [error, setError] = useState(""),
     [clarification, setClarification] = useState(""),
     [history, setHistory] = useState(false),
-    [restored, setRestored] = useState(false);
+    [restored, setRestored] = useState(false),
+    [retryAt, setRetryAt] = useState(0),
+    [cooldown, setCooldown] = useState(0);
+  useEffect(() => {
+    if (!retryAt) return;
+    const timer = setInterval(() => {
+      const remaining = Math.max(0, Math.ceil((retryAt - Date.now()) / 1000));
+      setCooldown(remaining);
+      if (!remaining) clearInterval(timer);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [retryAt]);
   const [lastRequest, setLastRequest] = useState<{
     question: string;
     clarification: Clarification[];
@@ -33,6 +50,15 @@ export default function AnalystPage() {
     },
     [],
   );
+  // Focus only after the response DOM has committed, including large charts/tables.
+  useEffect(() => {
+    if (!busy && (result || error)) {
+      (
+        outcome.current?.querySelector<HTMLElement>("#pc-answer") ||
+        outcome.current
+      )?.focus();
+    }
+  }, [busy, result, error]);
   function cancel() {
     generation.current++;
     request.current?.abort();
@@ -48,7 +74,7 @@ export default function AnalystPage() {
     setRestored(false);
   }
   async function run(original = question, turns: Clarification[] = []) {
-    if (!original.trim() || busy) return;
+    if (!original.trim() || busy || cooldown > 0) return;
     const payload = { question: original.trim(), clarification: turns };
     if (new TextEncoder().encode(JSON.stringify(payload)).length > 16000) {
       setError(
@@ -71,18 +97,15 @@ export default function AnalystPage() {
       setResult(response);
       setClarification("");
     } catch (e) {
-      if (!c.signal.aborted && id === generation.current)
+      if (!c.signal.aborted && id === generation.current) {
+        const seconds = retryAfterSeconds(e);
+        setCooldown(seconds);
+        setRetryAt(seconds ? Date.now() + seconds * 1000 : 0);
         setError(requestError(e));
+      }
     } finally {
       if (!c.signal.aborted && id === generation.current) {
         setBusy(false);
-        setTimeout(() => {
-          if (id !== generation.current) return;
-          (
-            outcome.current?.querySelector<HTMLElement>("#pc-answer") ||
-            outcome.current
-          )?.focus();
-        }, 0);
       }
     }
   }
@@ -109,13 +132,6 @@ export default function AnalystPage() {
     } finally {
       if (!c.signal.aborted && version === generation.current) {
         setBusy(false);
-        setTimeout(() => {
-          if (version !== generation.current) return;
-          (
-            outcome.current?.querySelector<HTMLElement>("#pc-answer") ||
-            outcome.current
-          )?.focus();
-        }, 0);
       }
     }
   }
@@ -130,11 +146,10 @@ export default function AnalystPage() {
     });
   }
   return (
-    <>
+    <div className="pc-analyst-page">
       <header className="pc-heading">
         <div>
-          <span className="pc-kicker">AI Analyst</span>
-          <h1>Start with your question.</h1>
+          <h1>AI Analyst</h1>
         </div>
         <button className="pc-button" onClick={() => setHistory(true)}>
           <History />
@@ -150,17 +165,18 @@ export default function AnalystPage() {
               void run();
             }}
           >
-            <label className="sr-only" htmlFor="pc-question">
-              Your price or cost question
+            <label className="pc-composer-label" htmlFor="pc-question">
+              Your question
             </label>
             <textarea
               id="pc-question"
+              aria-label="Your price or cost question"
               ref={input}
               value={question}
               onChange={(e) => edit(e.target.value)}
-              placeholder="Ask about a price, a country or a change…"
+              placeholder="What would you like to understand about prices, inflation or euro exchange rates?"
               maxLength={2000}
-              rows={4}
+              rows={2}
               onKeyDown={(e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
                   e.preventDefault();
@@ -169,30 +185,40 @@ export default function AnalystPage() {
               }}
             />
             <div>
-              <span className="pc-note">
-                Official indicators.
-                <br />
-                Backend-verified calculations.
-              </span>
+              {question.trim() && !busy && (
+                <button
+                  className="pc-composer-clear"
+                  type="button"
+                  onClick={() => {
+                    edit("");
+                    input.current?.focus();
+                  }}
+                >
+                  Clear question
+                </button>
+              )}
               <button
                 className="pc-button pc-primary"
                 type="submit"
                 aria-label="Analyze question"
-                disabled={busy || !question.trim()}
+                disabled={busy || cooldown > 0 || !question.trim()}
               >
+                <span>{busy ? "Analyzing…" : "Analyze"}</span>
                 <ArrowUp />
               </button>
             </div>
           </form>
-          <div className="pc-example-questions">
-            <span className="pc-note">Example questions</span>
-            {examples.map((q) => (
-              <button key={q} onClick={() => follow(q)} disabled={busy}>
-                {q}
-                <span aria-hidden="true">↗</span>
-              </button>
-            ))}
-          </div>
+          {!result && !busy && !error && (
+            <div className="pc-example-questions">
+              <span className="pc-note">Try a question</span>
+              {examples.map((q) => (
+                <button key={q} onClick={() => follow(q)} disabled={busy}>
+                  {q}
+                  <span aria-hidden="true">↗</span>
+                </button>
+              ))}
+            </div>
+          )}
           {lastRequest && lastRequest.clarification.length > 0 && (
             <details>
               <summary>Clarifications supplied</summary>
@@ -213,8 +239,15 @@ export default function AnalystPage() {
         >
           {busy && (
             <div className="pc-canvas pc-state" role="status">
-              <h2>Working with verified observations…</h2>
-              <p>Interpreting the question and reading the approved data.</p>
+              <h2>Checking the data…</h2>
+              <p>
+                Interpreting your question and reading official observations.
+              </p>
+              <div className="pc-answer-loading" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
               <button className="pc-button" onClick={cancel}>
                 Cancel request
               </button>
@@ -227,33 +260,15 @@ export default function AnalystPage() {
               {lastRequest && (
                 <button
                   className="pc-button pc-primary"
+                  disabled={cooldown > 0}
                   onClick={() =>
                     void run(lastRequest.question, lastRequest.clarification)
                   }
                 >
-                  Retry analysis
+                  {cooldown > 0 ? `Retry in ${cooldown}s` : "Retry analysis"}
                 </button>
               )}
             </div>
-          )}
-          {!busy && !error && !result && (
-            <section className="pc-canvas pc-analyst-empty">
-              <span className="pc-kicker">A question, a clear result</span>
-              <h2>
-                Find the number.
-                <br />
-                Understand its meaning.
-              </h2>
-              <p>
-                Ask about fuel prices, consumer inflation or EUR reference
-                rates. Answers include actual observation periods, sources and
-                verified figures.
-              </p>
-              <p className="pc-note">
-                Choose an example or write your own question. No answer has been
-                generated yet.
-              </p>
-            </section>
           )}
           {!busy && result && result.status === "success" && (
             <AnalystResult
@@ -327,7 +342,10 @@ export default function AnalystPage() {
                 {result.warnings.map((w, i) => (
                   <p key={i}>{w}</p>
                 ))}
-                {result.explanation && <p>{result.explanation.what_changed}</p>}
+                {result.explanation &&
+                  result.explanation.what_changed !== result.answer && (
+                    <p>{result.explanation.what_changed}</p>
+                  )}
               </section>
             )}
         </div>
@@ -338,6 +356,6 @@ export default function AnalystPage() {
           onRestore={(id) => void restore(id)}
         />
       )}
-    </>
+    </div>
   );
 }

@@ -13,7 +13,7 @@ export function AnalysisHistory({
   return (
     <Panel
       title="Recent price-cost analyses"
-      description="Saved snapshots restore without a new model call. Retail history remains in Legacy retail."
+      description="Saved snapshots restore without a new model call."
       onClose={onClose}
     >
       <ResourceState resource={r}>

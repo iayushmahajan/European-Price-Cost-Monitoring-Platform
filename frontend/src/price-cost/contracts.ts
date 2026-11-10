@@ -91,6 +91,19 @@ export type ClarificationTurn = {
   "answer": string;
 };
 
+export type ContextInsight = {
+  "kind": string;
+  "title": string;
+  "detail": string;
+  "value": (string | null);
+  "unit": (string | null);
+  "reference_period": (string | null);
+  "period": (string | null);
+  "evidence_paths": Array<string>;
+  "estimated": boolean;
+  "provisional": boolean;
+};
+
 export type CountryComparison = {
   "available": boolean;
   "period": (string | null);
@@ -176,6 +189,7 @@ export type EvidenceArtifact = {
 };
 
 export type ExchangeHistory = {
+  "order": "asc";
   "start": string;
   "end": string;
   "limit": number;
@@ -224,6 +238,7 @@ export type ExchangeMetric = {
   "inverse_rate": (string | null);
   "inverse_unit": (string | null);
   "inverse_is_derived": (boolean | null);
+  "inverse_comparison": (Change | null);
 };
 
 export type ExchangeResponse = {
@@ -262,12 +277,25 @@ export type FuelCompareQuery = {
 };
 
 export type FuelHistory = {
+  "order": "asc";
   "start": string;
   "end": string;
   "limit": number;
   "country": string;
   "product": FuelProduct;
   "tax_basis": TaxBasis;
+};
+
+export type FuelHistoryComparison = {
+  "available": boolean;
+  "latest": CountryComparison;
+  "observations": Array<MatchedFuelWeek>;
+  "summaries": Array<FuelPeriodSummary>;
+  "unmatched_weeks": Array<MissingFuelWeek>;
+  "absolute_gap_change": (string | null);
+  "gap_direction": ("widened" | "narrowed" | "unchanged" | null);
+  "insights": Array<ContextInsight>;
+  "requested_count": 12;
 };
 
 export type FuelHistoryOperation = {
@@ -309,6 +337,11 @@ export type FuelMetric = {
   "period_type": "reference_week";
 };
 
+export type FuelPeriodSummary = {
+  "geography": NamedCode;
+  "history": HistoricalSummary;
+};
+
 export type FuelProduct = "euro_super_95" | "automotive_diesel";
 
 export type FuelResponse = {
@@ -336,6 +369,17 @@ export type FuelTaxQuery = {
   "period": (string | null);
 };
 
+export type HistoricalSummary = {
+  "count": number;
+  "first_period": string;
+  "last_period": string;
+  "minimum": string;
+  "maximum": string;
+  "average": string;
+  "change": (string | null);
+  "change_unit": string;
+};
+
 export type InflationCompareOperation = {
   "kind": "inflation_compare";
   "query": InflationCompareQuery;
@@ -351,6 +395,7 @@ export type InflationCompareQuery = {
 };
 
 export type InflationHistory = {
+  "order": "asc";
   "start": string;
   "end": string;
   "limit": number;
@@ -411,6 +456,35 @@ export type InflationResult = {
   "data": InflationResponse;
 };
 
+export type InsightExample = {
+  "label": string;
+  "value": string;
+  "unit": string;
+};
+
+export type MatchedFuelWeek = {
+  "period": string;
+  "base": FuelMetric;
+  "peer": FuelMetric;
+  "gap": string;
+  "consecutive": (boolean | null);
+};
+
+export type MeasurementInsights = {
+  "insights": Array<ContextInsight>;
+  "metric": (FuelMetric | InflationMetric | ExchangeMetric);
+  "meaning": string;
+  "comparison_note": string;
+  "history": HistoricalSummary;
+  "example": (InsightExample | null);
+  "limitation": string;
+};
+
+export type MissingFuelWeek = {
+  "period": string;
+  "missing_countries": Array<string>;
+};
+
 export type NamedCode = {
   "code": string;
   "name": string;
@@ -455,6 +529,7 @@ export type Overview = {
 export type PageInfo = {
   "has_more": boolean;
   "next_start": (string | null);
+  "previous_end": (string | null);
   "limit": (number | null);
 };
 

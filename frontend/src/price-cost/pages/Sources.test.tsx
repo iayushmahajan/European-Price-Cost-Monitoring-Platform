@@ -27,12 +27,13 @@ it("separates fresh observations from a failed synchronization and exposes actua
   const row = await screen.findByRole("button", {
     name: /European Commission/,
   });
-  expect(row).toHaveTextContent("current");
+  expect(row).toHaveTextContent("Within expected period");
   expect(row).toHaveTextContent("failed");
   await userEvent.click(row);
   const d = await screen.findByRole("dialog");
   expect(within(d).getByText("Last successful sync")).toBeInTheDocument();
-  expect(within(d).getByText("Artifact publication date")).toBeInTheDocument();
+  await userEvent.click(within(d).getByText("Publication & check details"));
+  expect(within(d).getByText("Artifact publication date")).toBeVisible();
   await userEvent.click(within(d).getByText("Series coverage"));
   expect(await within(d).findByRole("table")).toHaveTextContent("Germany");
 });
@@ -53,6 +54,6 @@ it("reports a successful check independently of stale observations", async () =>
   const row = await screen.findByRole("button", {
     name: /European Commission/,
   });
-  expect(row).toHaveTextContent("Observation freshnessstale");
-  expect(row).toHaveTextContent("Synchronization healthSucceeded");
+  expect(row).toHaveTextContent("Observation freshnessOlder than expected");
+  expect(row).toHaveTextContent("Synchronization healthLast check succeeded");
 });

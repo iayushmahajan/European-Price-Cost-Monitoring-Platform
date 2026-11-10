@@ -1,8 +1,11 @@
+import type { ReactNode } from "react";
+import type { ObservationStatus } from "../contracts";
 import { useEffect, useRef, useState } from "react";
 import type { Domain, Metric, Metrics } from "../api";
 import { priceCost, requestError } from "../api";
 import { useResource } from "../resource";
-import { decimal, metricUnit, period } from "../format";
+import { displayMeasurement, displayUnit, period } from "../format";
+import { quoteValue, quoteUnit } from "../quote";
 import { metricPoints } from "../chart-data";
 import { TrendChart } from "./Charts";
 import { ResourceState } from "./Shared";
@@ -14,21 +17,35 @@ export function History({
   table,
   inverse,
   onView,
+  heading = "Historical observations",
+  renderStatus,
+  description,
+  showPeriodRange = true,
+  load,
+  renderAfter,
+  renderBefore,
 }: {
   domain: Domain;
   params: Record<string, string>;
   table: boolean;
   inverse: boolean;
   onView: (table: boolean) => void;
+  load?: (signal: AbortSignal) => Promise<Metrics>;
+  renderAfter?: (items: Metric[], response: Metrics) => ReactNode;
+  renderBefore?: (items: Metric[], response: Metrics) => ReactNode;
+  heading?: string | ((items: Metric[]) => string);
+  description?: string;
+  showPeriodRange?: boolean;
+  renderStatus?: (status: ObservationStatus) => ReactNode;
 }) {
   const key = domain + JSON.stringify(params);
   const r = useResource(key, (signal) =>
-    priceCost.metrics(domain, "history", params, signal),
+    load ? load(signal) : priceCost.metrics(domain, "history", params, signal),
   );
-  return (
-    <div className="pc-history">
+  const toolbar = (items: Metric[]) => (
+    <>
       <div className="pc-visual-toolbar">
-        <h3>Historical observations</h3>
+        <h3>{typeof heading === "function" ? heading(items) : heading}</h3>
         <div role="group" aria-label="Presentation" className="pc-segments">
           <button aria-pressed={!table} onClick={() => onView(false)}>
             Chart
@@ -38,6 +55,14 @@ export function History({
           </button>
         </div>
       </div>
+      {description && (
+        <p className="pc-history-description pc-note">{description}</p>
+      )}
+    </>
+  );
+  return (
+    <div className={"pc-history" + (renderBefore ? " pc-series-history" : "")}>
+      {typeof heading === "string" && !renderBefore && toolbar([])}
       <ResourceState resource={r}>
         {(data) => (
           <HistoryData
@@ -47,6 +72,15 @@ export function History({
             params={params}
             table={table}
             inverse={inverse}
+            renderStatus={renderStatus}
+            renderHeader={
+              typeof heading === "function" || renderBefore
+                ? toolbar
+                : undefined
+            }
+            showPeriodRange={showPeriodRange}
+            renderAfter={renderAfter}
+            renderBefore={renderBefore}
           />
         )}
       </ResourceState>
@@ -59,12 +93,22 @@ function HistoryData({
   params,
   table,
   inverse,
+  renderStatus,
+  renderHeader,
+  showPeriodRange,
+  renderAfter,
+  renderBefore,
 }: {
   response: Metrics;
   domain: Domain;
   params: Record<string, string>;
   table: boolean;
   inverse: boolean;
+  renderStatus?: (status: ObservationStatus) => ReactNode;
+  renderHeader?: (items: Metric[]) => ReactNode;
+  showPeriodRange: boolean;
+  renderAfter?: (items: Metric[], response: Metrics) => ReactNode;
+  renderBefore?: (items: Metric[], response: Metrics) => ReactNode;
 }) {
   const [extra, setExtra] = useState<Metric[]>([]),
     [page, setPage] = useState(response.page),
@@ -73,11 +117,19 @@ function HistoryData({
     [evidence, setEvidence] = useState<string | null>(null);
   const controller = useRef<AbortController | null>(null);
   useEffect(() => () => controller.current?.abort(), []);
-  const items = [...response.items, ...extra];
+  const backwards = params.order === "desc";
+  const items = [...response.items, ...extra].sort((a, b) =>
+    a.period.localeCompare(b.period),
+  );
   async function more() {
-    if (!page.has_more || !page.next_start || busy || items.length >= 2000)
+    if (
+      !page.has_more ||
+      !(backwards ? page.previous_end : page.next_start) ||
+      busy ||
+      items.length >= 2000
+    )
       return;
-    const next = page.next_start;
+    const next = (backwards ? page.previous_end : page.next_start)!;
     setBusy(true);
     setError("");
     const c = new AbortController();
@@ -88,7 +140,7 @@ function HistoryData({
         "history",
         {
           ...params,
-          start: next,
+          ...(backwards ? { end: next } : { start: next }),
           limit: String(Math.min(260, 2000 - items.length)),
         },
         c.signal,
@@ -96,7 +148,9 @@ function HistoryData({
       if (c.signal.aborted) return;
       if (
         data.page.has_more &&
-        (!data.page.next_start || data.page.next_start <= next)
+        (backwards
+          ? !data.page.previous_end || data.page.previous_end >= next
+          : !data.page.next_start || data.page.next_start <= next)
       )
         throw new Error("Pagination did not advance");
       setExtra((old) => [
@@ -114,20 +168,34 @@ function HistoryData({
   }
   if (!items.length)
     return (
-      <div className="pc-state">
-        <p>
-          No historical observations in this window. Missing observations are
-          not zero. Try another range.
-        </p>
-      </div>
+      <>
+        {renderHeader?.(items)}
+        <div className="pc-state">
+          <p>
+            No observations in the selected date range. Missing observations are
+            not zero. Try another range.
+          </p>
+        </div>
+        {renderBefore && renderAfter?.([], response)}
+      </>
     );
-  const unit =
-    inverse && items[0].measurement_type === "reference_rate"
-      ? items[0].inverse_unit || items[0].unit
-      : metricUnit(items[0]);
+  const unit = quoteUnit(items[0], inverse);
   const points = metricPoints(items, inverse);
   return (
     <>
+      {renderBefore?.(items, response)}
+      {renderHeader?.(items)}
+      {backwards && (
+        <p className="pc-note">
+          Selected calendar range:{" "}
+          {period(params.start, domain === "inflation")} –{" "}
+          {period(params.end, domain === "inflation")}. Showing {items.length}{" "}
+          available observations,{" "}
+          {period(items[0].period, domain === "inflation")} –{" "}
+          {period(items.at(-1)!.period, domain === "inflation")}.
+          {page.has_more ? " Older observations are available below." : ""}
+        </p>
+      )}
       {items.some((m) => m.comparison.consecutive === false) && (
         <p className="pc-notice">
           Nonconsecutive observations are separated in the chart. No missing
@@ -142,14 +210,12 @@ function HistoryData({
           tabIndex={0}
         >
           <table>
-            <caption>Exact historical observations · {unit}</caption>
+            <caption>Historical observations · {displayUnit(unit)}</caption>
             <thead>
               <tr>
                 <th scope="col">Observation period</th>
                 <th scope="col">Value</th>
-                {inverse && domain === "exchange-rates" && (
-                  <th scope="col">Derived inverse</th>
-                )}
+
                 <th scope="col">Status & evidence</th>
               </tr>
             </thead>
@@ -159,16 +225,18 @@ function HistoryData({
                   <th scope="row">
                     {period(m.period, m.period_type === "reference_month")}
                   </th>
-                  <td>
-                    {m.value} {m.unit}
+                  <td title={quoteValue(m, inverse) ?? undefined}>
+                    {displayMeasurement(
+                      quoteValue(m, inverse),
+                      quoteUnit(m, inverse),
+                    )}
                   </td>
-                  {inverse && m.measurement_type === "reference_rate" && (
-                    <td>
-                      {decimal(m.inverse_rate)} {m.inverse_unit}
-                    </td>
-                  )}
                   <td>
-                    <StatusFlags status={m.status} />
+                    {renderStatus ? (
+                      renderStatus(m.status)
+                    ) : (
+                      <StatusFlags status={m.status} />
+                    )}
                     <button
                       className="pc-text-link"
                       onClick={() => setEvidence(m.evidence_path)}
@@ -186,8 +254,10 @@ function HistoryData({
           points={points}
           unit={unit}
           label="Historical trend of actual observations"
+          showPeriodRange={showPeriodRange}
         />
       )}
+      {renderAfter?.(items, response)}
       {response.missing_selections.length > 0 && (
         <p className="pc-notice">
           Missing selections: {response.missing_selections.join(", ")}.
@@ -196,7 +266,8 @@ function HistoryData({
       {page.has_more && (
         <div className="pc-pagination">
           <p className="pc-note">
-            Showing {items.length} observations. Additional history is available
+            Showing {items.length} observations.{" "}
+            {backwards ? "Older history" : "Additional history"} is available
             {items.length >= 2000 ? "; narrow the date range to view more" : ""}
             .
           </p>
@@ -205,7 +276,11 @@ function HistoryData({
             disabled={busy || items.length >= 2000}
             onClick={() => void more()}
           >
-            {busy ? "Loading history…" : "Load more observations"}
+            {busy
+              ? "Loading history…"
+              : backwards
+                ? "Load older observations"
+                : "Load more observations"}
           </button>
         </div>
       )}

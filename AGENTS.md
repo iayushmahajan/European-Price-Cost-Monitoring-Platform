@@ -1,0 +1,11 @@
+# Project design rules
+
+User instructions and these project rules override conflicting third-party skill defaults.
+
+- For relevant frontend work, use `.agents/skills/redesign-existing-projects/SKILL.md` for focused diagnosis and `.agents/skills/landing-page-design/SKILL.md` for composition. Apply their spacing, hierarchy, responsive layout, interaction-state and motion guidance within the existing design system; keep changes scoped to the requested page.
+- Preserve Inter, the product mark, horizontal application navigation and existing routes. Keep the navy-gradient environment and approved palette: navy `#072D59`, near-white `#FEFDFE`, ice blue `#DBF2FC`, crimson pink `#FD6E88`. Derived navy tones are allowed. Use near-white primary analytical surfaces with navy text and readable charts.
+- Ignore third-party bans on Inter, navy, gradients or contrasting analytical surfaces. Retain the project's semantic typography and responsive sizing rather than mechanically substituting an external Tailwind scale. Page-specific composition requests, including a centered homepage, take precedence over generic layout preferences.
+- Favor minimal content, clear visual hierarchy, intentional whitespace and purposeful pink actions/selected states. Do not add illustrations, cards, extra CTAs, repeated explanations, testimonials, pricing, FAQs or animated marketing sections solely to satisfy a skill template. Never invent product claims or data.
+- Preserve accessible contrast, visible keyboard focus, meaningful labels, touch targets, chart/table alternatives and responsive navigation. Respect `prefers-reduced-motion`; homepage entrance motion runs once per document load and does not replay on ordinary route return.
+- Preserve backend-authoritative values, units, observation dates, comparisons and evidence. Do not change APIs, backend, database, ingestion or Docker for a visual refinement unless explicitly requested. Reuse current React components and scoped CSS; avoid unrelated dependencies or rewrites.
+- Validate relevant types, tests, lint, build and browser behavior. Capture screenshots only as requested. Preserve existing user changes and design artifacts; do not commit or push unless explicitly instructed.

@@ -93,8 +93,28 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.pc-app :is(button, a, input, select, textarea, summary, svg, [tabindex]):focus-visible,
-.pc-panel :is(button, a, input, select, textarea, summary, svg, [tabindex]):focus-visible {
+.pc-app
+  :is(
+    button,
+    a,
+    input,
+    select,
+    textarea,
+    summary,
+    svg,
+    [tabindex]
+  ):focus-visible,
+.pc-panel
+  :is(
+    button,
+    a,
+    input,
+    select,
+    textarea,
+    summary,
+    svg,
+    [tabindex]
+  ):focus-visible {
   outline: 2px solid var(--pc-focus);
   outline-offset: 4px;
 }
@@ -513,95 +533,6 @@
   margin-top: 5px;
   font-size: 12px;
 }
-/* Introduction: an honest non-numerical product preview until live observations exist. */
-.pc-intro-copy {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 0 80px;
-  align-items: center;
-  padding-top: 32px;
-}
-.pc-intro-copy > .pc-kicker {
-  grid-column: 1/-1;
-  margin-bottom: 20px;
-}
-.pc-intro-copy h1 {
-  font-size: 62px;
-  letter-spacing: -0.055em;
-  font-weight: 500;
-  line-height: 1.07;
-}
-.pc-intro-copy h1 span {
-  color: #dbf2fc;
-}
-.pc-intro-copy p {
-  font-size: 15px;
-  color: var(--pc-muted);
-  max-width: 460px;
-}
-.pc-intro-copy .pc-actions {
-  margin-top: 24px;
-}
-.pc-intro-preview {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 60px;
-  padding: 36px;
-  margin-top: 36px;
-}
-.pc-intro-preview h2 {
-  font-size: 34px;
-  margin: 14px 0 20px;
-  line-height: 1.2;
-}
-.pc-intro-preview p {
-  color: var(--pc-muted);
-  font-size: 14px;
-  max-width: 370px;
-}
-.pc-intro-preview > div > span {
-  font-size: 13px;
-  color: var(--pc-muted);
-}
-.pc-preview-lines > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 22px;
-  border-bottom: 1px solid var(--pc-line);
-  padding: 20px 0;
-}
-.pc-preview-lines strong {
-  font-weight: 550;
-  font-size: 16px;
-}
-.pc-preview-lines span {
-  font-size: 13px;
-  color: var(--pc-muted);
-}
-.pc-preview-lines > a {
-  display: inline-flex;
-  margin-top: 16px;
-  min-height: 44px;
-  align-items: center;
-}
-.pc-attribution {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 22px;
-  margin-top: 30px;
-  padding-top: 22px;
-  border-top: 1px solid var(--pc-line);
-  font-size: 13px;
-  color: var(--pc-muted);
-}
-.pc-attribution a {
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  color: var(--pc-support);
-}
 @keyframes pc-panel-in {
   from {
     opacity: 0;
@@ -622,22 +553,6 @@
   .pc-desktop-nav a {
     padding: 10px 15px;
   }
-  .pc-intro-copy {
-    gap: 30px;
-  }
-  .pc-intro-copy h1 {
-    font-size: 50px;
-  }
-  .pc-intro-preview {
-    gap: 35px;
-  }
-  .pc-preview-lines > div {
-    display: block;
-  }
-  .pc-preview-lines span {
-    display: block;
-    margin-top: 5px;
-  }
 }
 @media (max-width: 850px) {
   .pc-desktop-nav,
@@ -650,27 +565,9 @@
   .pc-header {
     height: 80px;
   }
-  .pc-intro-copy {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-  .pc-intro-copy > .pc-kicker {
-    margin: 0;
-  }
-  .pc-intro-preview {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .pc-intro-preview h2 {
-    font-size: 32px;
-  }
   .pc-heading {
     align-items: flex-start;
     flex-wrap: wrap;
-  }
-  .pc-attribution {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
   }
   .pc-footer {
     width: calc(100% - 48px);
@@ -725,29 +622,6 @@
   }
   .pc-footer > div {
     margin-top: 10px;
-  }
-  .pc-intro-copy {
-    padding-top: 15px;
-    gap: 23px;
-  }
-  .pc-intro-copy h1 {
-    font-size: 45px;
-  }
-  .pc-intro-preview {
-    padding: 23px 18px;
-    margin-top: 30px;
-    gap: 20px;
-  }
-  .pc-intro-preview h2 {
-    font-size: 29px;
-  }
-  .pc-preview-lines > div {
-    padding: 16px 0;
-  }
-  .pc-attribution {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    font-size: 13px;
   }
   .pc-panel {
     padding: 26px 22px;
@@ -1614,5 +1488,33 @@
   }
   .pc-chart-tooltip {
     max-width: 70vw;
+  }
+}
+/* Consistent workspace rhythm; long and expanded content keeps normal document flow. */
+.pc-app:not(.pc-home-shell) .pc-heading h1 {
+  font-size: 32px;
+}
+.pc-app:not(.pc-home-shell) {
+  display: flex;
+  flex-direction: column;
+}
+.pc-app:not(.pc-home-shell) > .pc-header,
+.pc-app:not(.pc-home-shell) > .pc-footer {
+  flex-shrink: 0;
+}
+.pc-app:not(.pc-home-shell) > .pc-content {
+  flex: 1;
+  margin: 0 auto;
+}
+@media (min-width: 1100px) {
+  .pc-app:not(.pc-home-shell) .pc-header {
+    height: 80px;
+  }
+  .pc-app:not(.pc-home-shell) .pc-content {
+    padding-top: 16px;
+  }
+  .pc-app:not(.pc-home-shell) .pc-footer {
+    margin-top: 16px;
+    padding-block: 8px;
   }
 }

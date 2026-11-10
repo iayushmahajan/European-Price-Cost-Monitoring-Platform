@@ -1,5 +1,7 @@
 import { api, errorMessage } from "../lib/api";
 import type {
+  FuelHistoryComparison,
+  MeasurementInsights,
   AnalysisHistoryItem,
   AnalysisResponse,
   Catalogue,
@@ -83,6 +85,25 @@ export const priceCost = {
       `/${domain}/compare?${new URLSearchParams(params)}`,
       signal,
     ),
+  fuelHistoryComparison: (
+    params: Record<string, string>,
+    signal?: AbortSignal,
+  ) =>
+    get<FuelHistoryComparison>(
+      `/fuel/compare-history?${new URLSearchParams(params)}`,
+      signal,
+    ),
+  insights: (
+    domain: Domain,
+    id: number,
+    signal?: AbortSignal,
+    inverse = false,
+    comparisonDate?: string,
+  ) =>
+    get<MeasurementInsights>(
+      `/insights/${domain}/${id}${inverse || comparisonDate ? "?" + new URLSearchParams({ ...(inverse ? { inverse: "true" } : {}), ...(comparisonDate ? { comparison_date: comparisonDate } : {}) }) : ""}`,
+      signal,
+    ),
   evidence: (path: string, signal?: AbortSignal) => {
     // Evidence paths are API-relative. Never follow an arbitrary URL supplied by data.
     if (
@@ -117,10 +138,44 @@ export const priceCost = {
     return checkedAnalysis(response);
   },
 };
+/** The server owns automatic retries; the UI only respects its remaining cooldown. */
+export function retryAfterSeconds(error: unknown): number {
+  const headers = (
+    error as { response?: { headers?: Record<string, unknown> } }
+  )?.response?.headers;
+  const raw = headers?.["retry-after"];
+  if (typeof raw !== "string" && typeof raw !== "number") return 0;
+  const seconds = Number(raw);
+  if (Number.isFinite(seconds) && seconds >= 0 && seconds <= 604800)
+    return Math.ceil(seconds);
+  const date = Date.parse(String(raw));
+  return Number.isFinite(date)
+    ? Math.max(0, Math.min(604800, Math.ceil((date - Date.now()) / 1000)))
+    : 0;
+}
 export function requestError(error: unknown): string {
   if (error instanceof ResponseContractError) return error.message;
   const status = (error as { response?: { status?: number } })?.response
     ?.status;
+  const code = (
+    error as { response?: { data?: { error?: { code?: string } } } }
+  )?.response?.data?.error?.code;
+  if (status === 429 && code === "provider_quota_exceeded")
+    return "The AI provider account has reached its quota or billing limit. The project owner needs to check the provider account.";
+  if (status === 429 && code === "provider_daily_limit")
+    return "The AI provider’s daily allowance has been reached. Wait for its reset or ask the project owner to review account limits.";
+  if (status === 429 && code === "provider_request_too_large")
+    return "This request exceeds the AI provider’s token budget. Try a shorter question or ask the project owner to review provider limits.";
+  if (status === 429 && code === "provider_rate_limited") {
+    const wait = retryAfterSeconds(error);
+    return wait
+      ? `The AI provider is temporarily rate-limited. It requested a ${wait}-second wait before retrying.`
+      : "The AI provider is temporarily rate-limited. Wait a moment before retrying.";
+  }
+  if (status === 502 && code === "invalid_model_output")
+    return "The Analyst couldn’t safely interpret this question. Retry, or rephrase it with the measurement and countries you want.";
+  if (status === 503 && code === "data_unavailable")
+    return "The official observations could not be read. Please retry shortly.";
   const labels: Record<number, string> = {
     429: "The analyst is receiving too many requests. Try again later.",
     502: "The provider returned an invalid response. Please try again.",

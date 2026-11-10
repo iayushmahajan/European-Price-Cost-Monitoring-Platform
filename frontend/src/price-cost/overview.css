@@ -1,0 +1,568 @@
+/* Overview-only composition. Explore, Analyst and shared chart styling are unchanged. */
+.pc-overview-page {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+.pc-overview-page .pc-heading {
+  align-items: center;
+  margin-bottom: 16px;
+}
+.pc-overview-page .pc-heading h1 {
+  font-size: 32px;
+  letter-spacing: -0.035em;
+}
+.pc-overview-page .pc-heading-actions {
+  align-items: flex-end;
+  gap: 16px;
+}
+.pc-overview-page .pc-heading-actions .pc-field {
+  min-width: 168px;
+}
+.pc-overview-page .pc-field > :is(span, label) {
+  font-size: 14px;
+}
+.pc-overview-page .pc-note {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.pc-overview-page > .pc-note {
+  margin-bottom: 24px;
+}
+.pc-overview-page .pc-domain-tabs {
+  margin-bottom: 24px;
+}
+.pc-overview-page .pc-domain-tabs button {
+  font-size: 14px;
+  padding: 12px 20px;
+}
+.pc-overview-page .pc-overview-canvas {
+  padding: 32px;
+}
+.pc-overview-analysis {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.75fr);
+  gap: 40px;
+}
+.pc-overview-metric h2 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  margin: 12px 0 4px;
+}
+.pc-overview-period {
+  font-size: 14px;
+  color: var(--pc-muted);
+}
+.pc-overview-page .pc-value {
+  font-size: clamp(38px, 4.5vw, 56px);
+  margin: 24px 0 12px;
+  gap: 8px 12px;
+}
+.pc-overview-page .pc-value > span {
+  font-size: 14px;
+}
+.pc-overview-meaning {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--pc-muted);
+}
+.pc-overview-flags,
+.pc-overview-support-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 14px;
+}
+.pc-overview-flags:not(:empty) {
+  margin-top: 12px;
+}
+.pc-overview-change {
+  display: grid;
+  gap: 4px;
+  padding-top: 20px;
+  margin-top: 24px;
+  border-top: 1px solid var(--pc-line);
+  color: var(--pc-muted);
+  font-size: 14px;
+}
+.pc-overview-page .pc-change {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 550;
+  color: var(--pc-navy);
+  margin: 4px 0;
+}
+.pc-overview-page .pc-notice {
+  font-size: 14px;
+}
+.pc-overview-page .pc-metric-actions {
+  flex-wrap: wrap;
+  border: 0;
+  gap: 0 20px;
+  margin-top: 16px;
+  padding: 0;
+}
+.pc-overview-page .pc-text-link {
+  font-size: 14px;
+  min-height: 44px;
+}
+.pc-overview-trend {
+  min-width: 0;
+  padding-left: 32px;
+  border-left: 1px solid var(--pc-line);
+}
+.pc-overview-page .pc-history {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.pc-overview-page .pc-visual-toolbar {
+  margin: 0 0 24px;
+  gap: 16px;
+  align-items: center;
+}
+.pc-overview-page .pc-visual-toolbar h3 {
+  font-size: 15px;
+  font-weight: 550;
+  line-height: 1.5;
+}
+.pc-overview-page .pc-chart-frame {
+  height: 280px;
+}
+.pc-overview-page .pc-chart figcaption,
+.pc-overview-page .pc-segments button {
+  font-size: 13px;
+}
+.pc-overview-page .pc-chart figcaption {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 8px;
+}
+.pc-overview-page .pc-chart .pc-note {
+  font-size: 13px;
+  margin-top: 12px;
+}
+.pc-overview-sources {
+  border-top: 1px solid var(--pc-line);
+  margin-top: 24px;
+  padding-top: 16px;
+  font-size: 13px;
+  color: var(--pc-muted);
+}
+.pc-overview-source-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px 24px;
+}
+.pc-overview-attribution {
+  font-size: 13px;
+  min-width: 0;
+}
+.pc-overview-source-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--pc-navy);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+}
+.pc-overview-source-toggle:hover,
+.pc-overview-source-toggle[aria-expanded="true"] {
+  background: var(--pc-fill);
+}
+.pc-overview-source-toggle svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.pc-overview-source-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.pc-overview-source-details {
+  padding-top: 16px;
+}
+.pc-overview-source-details > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--pc-navy);
+}
+.pc-overview-source + .pc-overview-source {
+  margin-top: 16px;
+}
+.pc-overview-sources dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 8px;
+}
+.pc-overview-sources dl div {
+  display: block;
+  border: 0;
+}
+.pc-overview-sources dd {
+  margin-top: 4px;
+  color: var(--pc-navy);
+  overflow-wrap: anywhere;
+}
+.pc-overview-supporting {
+  margin-top: 28px;
+}
+.pc-overview-supporting > h2 {
+  font-size: 16px;
+  font-weight: 550;
+}
+.pc-overview-page .pc-reference-rows {
+  margin-top: 8px;
+}
+.pc-overview-page .pc-reference-rows > button {
+  padding-block: 20px;
+}
+.pc-overview-page .pc-reference-rows > button > span:first-child {
+  font-size: 15px;
+}
+.pc-overview-page .pc-reference-rows strong {
+  font-size: 24px;
+}
+.pc-overview-page .pc-reference-rows small {
+  font-size: 13px;
+}
+.pc-overview-page .pc-reference-rows > button > span:last-child {
+  color: #fd6e88;
+}
+.pc-overview-page .pc-overview-support-flags:empty {
+  display: none;
+}
+.pc-overview-page .pc-overview-support-flags {
+  display: flex;
+  color: #dbf2fc;
+}
+@media (max-width: 1000px) {
+  .pc-overview-analysis {
+    grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.3fr);
+    gap: 24px;
+  }
+  .pc-overview-trend {
+    padding-left: 24px;
+  }
+  .pc-overview-page .pc-visual-toolbar {
+    flex-wrap: wrap;
+  }
+  .pc-overview-page .pc-reference-rows {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .pc-overview-page .pc-reference-rows > button {
+    padding: 16px 0;
+    border: 0;
+    border-bottom: 1px solid var(--pc-line);
+  }
+}
+@media (max-width: 760px) {
+  .pc-overview-page .pc-domain-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding-inline: 0;
+    overflow: visible;
+  }
+  .pc-overview-page .pc-domain-tabs button {
+    white-space: normal;
+    padding: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .pc-overview-page .pc-heading {
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .pc-overview-page .pc-heading-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 12px;
+  }
+  .pc-overview-page .pc-heading-actions .pc-field {
+    min-width: 0;
+  }
+  .pc-overview-page .pc-heading-actions > .pc-primary {
+    font-size: 13px;
+    padding-inline: 12px;
+    min-height: 44px;
+  }
+  .pc-overview-page .pc-overview-canvas {
+    padding: 24px 20px 12px;
+  }
+  .pc-overview-analysis {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .pc-overview-page .pc-value {
+    font-size: 48px;
+    margin-top: 20px;
+  }
+  .pc-overview-trend {
+    border-left: 0;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--pc-line);
+  }
+  .pc-overview-page .pc-chart-frame {
+    height: 240px;
+  }
+  .pc-overview-page .pc-visual-toolbar {
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+  }
+  .pc-overview-sources dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pc-overview-source-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 156px);
+    gap: 12px;
+  }
+  .pc-overview-source-toggle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .pc-overview-source-details {
+    padding-top: 20px;
+  }
+  .pc-overview-page .pc-reference-rows > button {
+    gap: 16px;
+  }
+}
+@media (max-width: 374px) {
+  .pc-overview-page .pc-heading-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pc-overview-page .pc-visual-toolbar {
+    flex-wrap: wrap;
+  }
+  .pc-overview-page .pc-overview-canvas {
+    padding-inline: 16px;
+  }
+}
+
+/* The title owns the actual observation span; this note defines the measurement. */
+.pc-overview-page .pc-history-description {
+  margin: -8px 0 20px;
+  max-width: 65ch;
+}
+.pc-overview-page .pc-visual-toolbar h3 {
+  text-wrap: balance;
+}
+.pc-overview-page .pc-inflation-count {
+  margin-top: 16px;
+}
+.pc-overview-page .pc-index-comparison {
+  margin-top: 20px;
+  padding-top: 0;
+}
+.pc-overview-page .pc-index-comparison > summary {
+  min-height: 48px;
+  padding-block: 12px;
+  color: var(--pc-navy);
+  font-size: 14px;
+}
+.pc-index-comparison-content > p {
+  margin-bottom: 12px;
+}
+.pc-index-comparison-content .pc-field {
+  max-width: 280px;
+  margin-bottom: 16px;
+  color: var(--pc-navy);
+}
+.pc-index-comparison-content table {
+  min-width: 380px;
+  font-size: 14px;
+}
+.pc-index-comparison-content td .pc-text-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.pc-index-comparison-content td .pc-text-link span {
+  font-size: 12px;
+}
+@media (min-width: 1100px) {
+  .pc-overview-page {
+    max-width: 1280px;
+  }
+  .pc-overview-page .pc-heading {
+    margin-bottom: 12px;
+  }
+  .pc-overview-page .pc-heading > div:first-child .pc-note {
+    margin-top: 8px;
+  }
+  .pc-overview-page .pc-domain-tabs {
+    margin-bottom: 16px;
+  }
+  .pc-overview-page .pc-overview-canvas {
+    padding: 24px;
+  }
+  .pc-overview-analysis {
+    grid-template-columns: minmax(300px, 1fr) minmax(0, 1.8fr);
+    gap: 24px;
+  }
+  .pc-overview-trend {
+    padding-left: 24px;
+  }
+  .pc-overview-page .pc-value {
+    margin-block: 12px 8px;
+  }
+  .pc-overview-change {
+    margin-top: 12px;
+    padding-top: 12px;
+    gap: 2px;
+  }
+  .pc-overview-page .pc-metric-actions {
+    margin-top: 8px;
+    gap: 0 16px;
+  }
+  .pc-overview-page .pc-visual-toolbar {
+    margin-bottom: 12px;
+  }
+  .pc-overview-sources {
+    margin-top: 16px;
+    padding-top: 8px;
+  }
+  .pc-overview-supporting {
+    margin-top: 16px;
+  }
+  .pc-overview-page .pc-reference-rows > button {
+    padding-block: 12px;
+  }
+}
+.pc-overview-reference-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+@media (min-width: 1280px) {
+  .pc-overview-page {
+    position: relative;
+  }
+  .pc-overview-page > .pc-domain-tabs {
+    position: absolute;
+    top: 0;
+    left: 190px;
+    margin: 0;
+    padding: 0;
+  }
+  .pc-overview-page .pc-domain-tabs button {
+    padding-block: 10px;
+  }
+  .pc-overview-page .pc-heading > div:first-child .pc-note {
+    margin-top: 16px;
+  }
+  .pc-overview-page .pc-heading {
+    margin-bottom: 16px;
+  }
+  .pc-overview-page .pc-chart-frame {
+    height: 240px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .pc-overview-supporting {
+    margin-top: 12px;
+  }
+  .pc-overview-page .pc-reference-rows {
+    margin-top: 4px;
+  }
+  .pc-overview-page .pc-reference-rows > button {
+    padding-block: 8px;
+  }
+}
+/* Source warnings stay visible alongside attribution; expanded details remain in flow. */
+.pc-overview-source-row--warning > .pc-notice {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.pc-overview-source-row--warning > .pc-overview-source-toggle {
+  grid-column: 2;
+  grid-row: 1;
+}
+@media (min-width: 1280px) {
+  .pc-overview-page .pc-overview-canvas {
+    padding-block: 16px;
+  }
+  .pc-overview-page .pc-visual-toolbar {
+    margin-bottom: 8px;
+  }
+  .pc-overview-page .pc-history-description {
+    margin-block: 0 8px;
+  }
+  .pc-overview-page .pc-chart > .pc-note {
+    margin-top: 4px;
+    padding: 0;
+  }
+  .pc-overview-history-context {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .pc-overview-page .pc-inflation-count,
+  .pc-overview-page .pc-index-comparison {
+    margin-top: 0;
+  }
+  .pc-overview-page .pc-index-comparison[open] {
+    grid-column: 1 / -1;
+  }
+  .pc-overview-page[data-domain="inflation"] .pc-chart-frame {
+    height: 224px;
+  }
+  .pc-overview-source-row--warning {
+    grid-template-columns: minmax(180px, 0.9fr) minmax(0, 2fr) auto;
+    gap: 16px;
+  }
+  .pc-overview-source-row--warning > .pc-notice {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 8px 12px;
+  }
+  .pc-overview-source-row--warning > .pc-overview-source-toggle {
+    grid-column: 3;
+  }
+  .pc-overview-page .pc-overview-metric h2 {
+    margin-top: 8px;
+  }
+  .pc-overview-page .pc-value {
+    margin-top: 8px;
+  }
+  .pc-overview-page .pc-overview-flags:not(:empty) {
+    margin-top: 8px;
+  }
+  .pc-overview-page .pc-overview-change {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+  .pc-overview-page .pc-metric-actions {
+    margin-top: 4px;
+  }
+  .pc-overview-page .pc-overview-supporting {
+    margin-top: 8px;
+  }
+  .pc-overview-page .pc-reference-rows > button {
+    padding-block: 4px;
+  }
+}
+@media (min-width: 1280px) {
+  .pc-overview-page .pc-overview-canvas {
+    padding-bottom: 12px;
+  }
+  .pc-overview-page .pc-overview-sources {
+    margin-top: 8px;
+  }
+}

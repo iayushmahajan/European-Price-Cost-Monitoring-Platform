@@ -3,23 +3,33 @@ import { priceCost } from "../api";
 import { useResource } from "../resource";
 import {
   period,
+  displayUnit,
   safeExternal,
   timestamp,
   synchronizationLabel,
 } from "../format";
 import type { Catalogue, SourceStatus } from "../contracts";
 import { Panel, ResourceState } from "../components/Shared";
+import "../sources.css";
+const freshnessLabel = (value: SourceStatus["observation_freshness"]) =>
+  ({
+    current: "Within expected period",
+    stale: "Older than expected",
+    unavailable: "No observations available",
+  })[value];
 export default function SourcesPage() {
   const [revision, setRevision] = useState(0),
     [selected, setSelected] = useState<SourceStatus | null>(null);
   const sources = useResource("sources:" + revision, priceCost.sources);
   const catalogue = useResource("sources-catalogue", priceCost.catalogue);
   return (
-    <>
+    <div className="pc-sources-page">
       <header className="pc-heading">
         <div>
-          <span className="pc-kicker">Data & Sources</span>
-          <h1>Know the source.</h1>
+          <h1>Data & Sources</h1>
+          <p className="pc-note">
+            Observation age and source checks are assessed separately.
+          </p>
         </div>
         <button
           className="pc-button pc-primary"
@@ -51,9 +61,14 @@ export default function SourcesPage() {
                       className="pc-source-row"
                       key={s.source.code}
                       onClick={() => setSelected(s)}
+                      aria-haspopup="dialog"
                     >
                       <span>
-                        <strong>{s.source.name}</strong>
+                        <strong>
+                          {s.source.code === "eurostat_prc_hicp_minr"
+                            ? "Eurostat · Consumer prices (HICP)"
+                            : s.source.name}
+                        </strong>
                         <small>
                           {s.expected_frequency === "daily"
                             ? "Working-day reference rates"
@@ -66,7 +81,7 @@ export default function SourcesPage() {
                         </small>
                         <small>
                           {coverage
-                            ? `${coverage.filter((c) => c.latest_period !== null).length} populated / ${coverage.length} registered series`
+                            ? `${coverage.filter((c) => c.latest_period !== null).length} of ${coverage.length} monitored series contain observations`
                             : catalogue.loading
                               ? "Coverage loading…"
                               : "Coverage unavailable"}
@@ -74,12 +89,12 @@ export default function SourcesPage() {
                       </span>
                       <span>
                         <small>Observation freshness</small>
-                        {s.observation_freshness}
+                        {freshnessLabel(s.observation_freshness)}
                       </span>
                       <span>
                         <small>Synchronization health</small>
-                        {synchronizationLabel(s)}
-                        {s.running ? " · in progress" : ""}
+                        {sourceCheckLabel(s)}
+                        {s.running ? " · check in progress" : ""}
                       </span>
                       <span aria-hidden="true">↗</span>
                     </button>
@@ -93,11 +108,7 @@ export default function SourcesPage() {
         </ResourceState>
       </section>
       <section className="pc-methodology">
-        <h2>
-          Different dates.
-          <br />
-          Different meanings.
-        </h2>
+        <h2>Understanding the data</h2>
         <div>
           <details>
             <summary>Observation, publication and synchronization</summary>
@@ -124,6 +135,7 @@ export default function SourcesPage() {
         <Panel
           title="Source status & methodology"
           description={selected.source.name}
+          className="pc-source-details"
           onClose={() => setSelected(null)}
         >
           <SourceDetails source={selected} />
@@ -135,7 +147,22 @@ export default function SourcesPage() {
           </details>
         </Panel>
       )}
-    </>
+    </div>
+  );
+}
+function sourceCheckLabel(s: SourceStatus) {
+  const label = synchronizationLabel(s);
+  return (
+    (
+      {
+        failed: "Latest check failed",
+        never_run: "Not checked yet",
+        running: "Check in progress",
+        current: "Check status unavailable",
+        stale: "Check status unavailable",
+        Succeeded: "Last check succeeded",
+      } as Record<string, string>
+    )[label] || "Status unavailable"
   );
 }
 function SourceDetails({ source: s }: { source: SourceStatus }) {
@@ -144,11 +171,11 @@ function SourceDetails({ source: s }: { source: SourceStatus }) {
       <dl>
         <div>
           <dt>Observation freshness</dt>
-          <dd>{s.observation_freshness}</dd>
+          <dd>{freshnessLabel(s.observation_freshness)}</dd>
         </div>
         <div>
           <dt>Synchronization health</dt>
-          <dd>{synchronizationLabel(s)}</dd>
+          <dd>{sourceCheckLabel(s)}</dd>
         </div>
         <div>
           <dt>Latest observation</dt>
@@ -157,7 +184,7 @@ function SourceDetails({ source: s }: { source: SourceStatus }) {
           </dd>
         </div>
         <div>
-          <dt>Oldest series’ latest</dt>
+          <dt>Oldest of the latest series observations</dt>
           <dd>
             {period(s.oldest_series_latest, s.expected_frequency === "monthly")}
           </dd>
@@ -166,22 +193,29 @@ function SourceDetails({ source: s }: { source: SourceStatus }) {
           <dt>Last successful sync</dt>
           <dd>{timestamp(s.last_success_at)}</dd>
         </div>
-        <div>
-          <dt>Last attempt</dt>
-          <dd>{timestamp(s.last_attempt_at)}</dd>
-        </div>
-        <div>
-          <dt>Artifact publication date</dt>
-          <dd>{period(s.latest_artifact_publication_date)}</dd>
-        </div>
-        <div>
-          <dt>Artifact published at</dt>
-          <dd>{timestamp(s.latest_artifact_published_at)}</dd>
-        </div>
-        <div>
-          <dt>Source updated at</dt>
-          <dd>{timestamp(s.source_updated_at)}</dd>
-        </div>
+      </dl>
+      <details>
+        <summary>Publication & check details</summary>
+        <dl>
+          <div>
+            <dt>Last attempt</dt>
+            <dd>{timestamp(s.last_attempt_at)}</dd>
+          </div>
+          <div>
+            <dt>Artifact publication date</dt>
+            <dd>{period(s.latest_artifact_publication_date)}</dd>
+          </div>
+          <div>
+            <dt>Artifact published at</dt>
+            <dd>{timestamp(s.latest_artifact_published_at)}</dd>
+          </div>
+          <div>
+            <dt>Source updated at</dt>
+            <dd>{timestamp(s.source_updated_at)}</dd>
+          </div>
+        </dl>
+      </details>
+      <dl>
         <div>
           <dt>Availability</dt>
           <dd>
@@ -270,13 +304,33 @@ function Coverage({
                   r.geography_code}
               </th>
               <td>
-                {r.category_code} · {r.measurement_type}
-                {r.tax_basis ? " · " + r.tax_basis : ""}
+                {c.fuel_products.find(
+                  (p) => p.code === r.category_code?.toLowerCase(),
+                )?.name ||
+                  c.inflation_categories.find(
+                    (category) => category.code === r.category_code,
+                  )?.name ||
+                  (r.measurement_type === "reference_rate"
+                    ? "ECB EUR reference rate"
+                    : r.category_code)}
+                {r.measurement_type !== "price" &&
+                r.measurement_type !== "reference_rate"
+                  ? " · " +
+                    (c.inflation_measurements.find(
+                      (m) => m.code === r.measurement_type,
+                    )?.name || r.measurement_type)
+                  : ""}
+                {r.tax_basis
+                  ? " · " +
+                    (r.tax_basis === "with_tax"
+                      ? "Including taxes"
+                      : "Excluding taxes")
+                  : ""}
               </td>
-              <td>{r.unit_code}</td>
+              <td>{displayUnit(r.unit_code, r.quote_currency || undefined)}</td>
               <td>
                 {r.first_period
-                  ? `${period(r.first_period)} – ${period(r.latest_period)}`
+                  ? `${period(r.first_period, ["annual_rate", "monthly_rate", "index"].includes(r.measurement_type))} – ${period(r.latest_period, ["annual_rate", "monthly_rate", "index"].includes(r.measurement_type))}`
                   : "No stored observations"}
               </td>
             </tr>

@@ -48,13 +48,13 @@ it("integrates product/tax and common-period comparison, with real evidence path
   await userEvent.click(
     screen.getByRole("button", { name: "Apply country comparison" }),
   );
-  await screen.findByText("Same-period country comparison");
+  await screen.findByText("Fuel prices over time");
   expect(api.get).toHaveBeenCalledWith(
-    expect.stringContaining("/fuel/compare?"),
+    expect.stringContaining("/fuel/compare-history?"),
     expect.objectContaining({ signal: expect.any(AbortSignal) }),
   );
   await userEvent.click(
-    screen.getAllByRole("button", { name: "Inspect observation" })[0],
+    screen.getAllByRole("button", { name: /Inspect observation/ })[0],
   );
   await screen.findByRole("heading", { name: "Source evidence" });
   expect(await screen.findByText("Exact values")).toBeInTheDocument();
@@ -63,19 +63,21 @@ it("keeps rate/index meaning and derived inverse explicit", async () => {
   open(
     "?domain=inflation&measurement=annual_rate&start=2026-05-01&end=2026-10-01",
   );
-  await screen.findByText("2.8%");
+  await screen.findByText("2.80%");
   expect(screen.getByText(/percentage points vs/)).toBeInTheDocument();
   expect(screen.getAllByText("Estimated").length).toBeGreaterThan(0);
   await userEvent.selectOptions(screen.getByLabelText("Measurement"), "index");
-  await screen.findByText("103.8");
+  await screen.findByText("103.80");
   expect(
     screen.queryByRole("button", { name: "Compare countries" }),
   ).not.toBeInTheDocument();
   await userEvent.click(screen.getByRole("button", { name: "Exchange rates" }));
   await userEvent.click(screen.getByRole("button", { name: "3 months" }));
   await userEvent.click(screen.getByLabelText("Show derived inverse"));
-  expect(await screen.findByText("1.199645")).toBeInTheDocument();
-  expect(screen.getByText(/Official direction:/)).toHaveTextContent("1 EUR");
+  expect(await screen.findByText("1.200")).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "1 GBP in EUR · derived inverse" }),
+  ).toBeInTheDocument();
 });
 
 it("keeps Overview headline and history on TOTAL when a deep link contains an Explore category", async () => {
@@ -89,8 +91,10 @@ it("keeps Overview headline and history on TOTAL when a deep link contains an Ex
       </CatalogueProvider>
     </MemoryRouter>,
   );
-  await screen.findByText("2.8%");
-  await screen.findByText("Historical observations");
+  await screen.findByText("2.80%");
+  await screen.findByRole("heading", {
+    name: "Annual inflation rate · May–Oct 2026",
+  });
   const historyCalls = vi
     .mocked(api.get)
     .mock.calls.filter(([url]) => String(url).includes("/inflation/history"));
@@ -133,4 +137,39 @@ it("does not confuse independently numbered observations from different sources"
       .getByLabelText("Other measurements, each with its own reference period")
       .querySelectorAll("button"),
   ).toHaveLength(3);
+});
+
+it("keeps presets accessible and restores custom ranges without a selected-series rail", async () => {
+  open();
+  await screen.findByText("€2.282");
+  expect(screen.queryByText("Selected series")).not.toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "3 months" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  expect(screen.getByLabelText("Start date")).not.toBeVisible();
+  await userEvent.click(screen.getByRole("button", { name: "1 year" }));
+  expect(screen.getByRole("button", { name: "1 year" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await userEvent.click(
+    screen.getByText("Custom range", { exact: false, selector: "summary" }),
+  );
+  expect(screen.getByLabelText("Start date")).toBeVisible();
+});
+it("opens restored custom dates and advanced exchange comparison settings", async () => {
+  open(
+    "?domain=exchange-rates&start=2026-03-01&end=2026-10-01&comparison_date=2026-09-01",
+  );
+  await screen.findByRole("heading", { name: "Historical observations" });
+  expect(screen.getByLabelText("Start date")).toBeVisible();
+  expect(screen.getByLabelText("Optional comparison on/before")).toBeVisible();
+  expect(screen.getByLabelText("Optional comparison on/before")).toHaveValue(
+    "2026-09-01",
+  );
+  expect(screen.getByRole("button", { name: "3 months" })).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
 });

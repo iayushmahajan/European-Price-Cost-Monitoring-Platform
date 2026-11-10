@@ -21,3 +21,35 @@ describe("exact source formatting", () => {
     expect(() => priceCost.evidence("https://example.com/admin")).toThrow();
   });
 });
+
+describe("provider limit messages", () => {
+  it("separates temporary throttling, exhausted quota, daily allowance and oversized requests", async () => {
+    const { requestError, retryAfterSeconds } = await import("./api");
+    const error = (code: string) => ({
+      response: {
+        status: 429,
+        headers: { "retry-after": "5" },
+        data: { error: { code, message: "private provider body" } },
+      },
+    });
+    expect(requestError(error("provider_rate_limited"))).toContain(
+      "5-second wait",
+    );
+    expect(requestError(error("provider_quota_exceeded"))).toContain(
+      "quota or billing",
+    );
+    expect(requestError(error("provider_daily_limit"))).toContain(
+      "daily allowance",
+    );
+    expect(requestError(error("provider_request_too_large"))).toContain(
+      "token budget",
+    );
+    expect(requestError(error("provider_rate_limited"))).not.toContain(
+      "private provider body",
+    );
+    expect(retryAfterSeconds(error("provider_rate_limited"))).toBe(5);
+    expect(
+      retryAfterSeconds({ response: { headers: { "retry-after": "NaN" } } }),
+    ).toBe(0);
+  });
+});

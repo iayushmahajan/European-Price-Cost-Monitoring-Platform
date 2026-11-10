@@ -71,12 +71,14 @@ export function Panel({
   onClose,
   children,
   light = true,
+  className = "",
 }: {
   title: string;
   description: string;
   onClose: () => void;
   children: ReactNode;
   light?: boolean;
+  className?: string;
 }) {
   const opener = useRef(document.activeElement as HTMLElement | null);
   return (
@@ -93,7 +95,7 @@ export function Panel({
             event.preventDefault();
             if (opener.current?.isConnected) opener.current.focus();
           }}
-          className={`pc-panel ${light ? "pc-canvas" : "pc-dark-panel"}`}
+          className={`pc-panel ${light ? "pc-canvas" : "pc-dark-panel"} ${className}`}
         >
           <Dialog.Title>{title}</Dialog.Title>
           <Dialog.Description>{description}</Dialog.Description>
