@@ -55,3 +55,6 @@ raw/
 *.sql
 !database/**/*.sql
 !backend/migrations/**/*.sql
+
+# Project-local Codex skills
+.agents/skills/
