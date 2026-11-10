@@ -1,0 +1,50 @@
+{
+  "captured_at": "2026-11-10T11:29:28.619Z",
+  "data": "Real stored observations; no fixture responses or model requests",
+  "analyst": {
+    "id": 48,
+    "question": "Compare diesel prices in Germany and France.",
+    "status": "success",
+    "assessment_date": "2026-11-09",
+    "schema_version": 1
+  },
+  "captures": [
+    {
+      "file": "home.png",
+      "path": "/",
+      "viewport": "1440 × 900",
+      "focus": "Page introduction and primary workspace"
+    },
+    {
+      "file": "overview.png",
+      "path": "/app/overview",
+      "viewport": "1440 × 900",
+      "focus": "Page introduction and primary workspace"
+    },
+    {
+      "file": "explore.png",
+      "path": "/app/explore?domain=inflation&country=DE&product=automotive_diesel&tax_basis=with_tax&category=TOTAL&measurement=annual_rate&currency=GBP&inverse=false&start=2025-11-01&end=2026-11-01&view=chart",
+      "viewport": "1440 × 900",
+      "focus": "Page introduction and primary workspace"
+    },
+    {
+      "file": "sources.png",
+      "path": "/app/sources",
+      "viewport": "1440 × 900",
+      "focus": "Page introduction and primary workspace"
+    },
+    {
+      "file": "fuel-comparison.png",
+      "path": "/app/explore?domain=fuel&country=DE&compare=FR&product=automotive_diesel&tax_basis=with_tax",
+      "viewport": "1440 × 900",
+      "focus": "Historical comparison canvas"
+    },
+    {
+      "file": "analyst.png",
+      "path": "/app/analyst",
+      "viewport": "1440 × 900",
+      "focus": "Restored analytical result"
+    }
+  ],
+  "model_queries": 0
+}

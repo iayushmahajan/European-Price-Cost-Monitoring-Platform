@@ -30,3 +30,28 @@ frontend/playwright-report/
 
 # Local database recovery material (never commit data or credentials)
 .local-backups/
+
+# Private environment variants and credentials
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.dump
+*.backup
+*.sql.gz
+*.sql.xz
+*.sqlite
+*.sqlite3
+
+# Local tools, ingestion payloads and generated browser artifacts
+.codex/
+frontend/test-results*/
+frontend/blob-report/
+backend/.coverage*
+htmlcov/
+raw/
+*.sql
+!database/**/*.sql
+!backend/migrations/**/*.sql

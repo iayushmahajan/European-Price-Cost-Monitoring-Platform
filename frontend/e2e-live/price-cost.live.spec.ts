@@ -1,6 +1,12 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { metricValue, metricUnit } from "../src/price-cost/format";
+import {
+  metricValue,
+  metricUnit,
+  displayNumber,
+} from "../src/price-cost/format";
+
+import { overviewLabel } from "../src/price-cost/overview-presentation";
 
 const api = "/api/v1/price-cost";
 
@@ -32,18 +38,23 @@ test("real catalogue, overview domains, source evidence and legacy routes", asyn
     const response = await request.get(`${api}/${domain}/latest?${query}`);
     const metric = (await response.json()).items[0];
     await page.getByRole("button", { name: button, exact: true }).click();
-    await expect(page.locator(".pc-metric h2")).toHaveText(
-      metric.indicator_name,
+    await expect(page.locator(".pc-overview-metric h2")).toHaveText(
+      overviewLabel(metric),
     );
     await expect(page.locator(".pc-value")).toContainText(metricValue(metric));
-    await expect(page.locator(".pc-value")).toContainText(metricUnit(metric));
+    await expect(page.locator(".pc-value")).toContainText(
+      metric.unit === "percent" ? "%" : metricUnit(metric),
+    );
     await page.getByRole("button", { name: "Inspect source evidence" }).click();
     const dialog = page.getByRole("dialog");
-    await expect(dialog.getByText("Exact values")).toBeVisible();
+    await expect(
+      dialog.getByText("Exact values", { exact: true }),
+    ).toBeVisible();
+    await dialog.getByText("Exact values", { exact: true }).click();
     await expect(dialog).toContainText(metric.value);
     if (domain === "fuel")
       await page.screenshot({
-        path: "../docs/screenshots/milestone-7/live-evidence-1440.png",
+        path: "test-results-live/live-evidence-1440.png",
       });
     await page.keyboard.press("Escape");
     await expect(
@@ -52,9 +63,7 @@ test("real catalogue, overview domains, source evidence and legacy routes", asyn
   }
   await page.getByRole("button", { name: "Fuel prices", exact: true }).click();
   await page.getByLabel("Country", { exact: true }).selectOption("FR");
-  await expect(
-    page.getByRole("heading", { name: "Prices in France." }),
-  ).toBeVisible();
+  await expect(page.locator(".pc-overview-metric")).toContainText("France");
   await page.getByLabel("Country", { exact: true }).selectOption("DE");
   await page.goBack();
   await expect(page.getByLabel("Country", { exact: true })).toHaveValue("FR");
@@ -85,7 +94,7 @@ test("real fuel filters, common period, table and URL restoration", async ({
   await page.getByRole("button", { name: "Apply country comparison" }).click();
   await expect(page.getByRole("table")).toContainText("France");
   await expect(
-    page.getByRole("heading", { name: "Same-period country comparison" }),
+    page.getByRole("heading", { name: "Fuel prices over time" }),
   ).toBeVisible();
   await page.reload();
   await expect(page.getByRole("table")).toContainText("France");
@@ -122,10 +131,13 @@ test("real HICP measurement/category and ECB derived inverse", async ({
     api + "/exchange-rates/latest?currencies=GBP&inverse=true",
   );
   const metric = (await latest.json()).items[0];
-  await expect(page.getByText(/Official direction:/)).toContainText(
-    metric.value,
+  await expect(
+    page.getByRole("heading", { name: "1 GBP in EUR · derived inverse" }),
+  ).toBeVisible();
+  await expect(page.locator(".pc-value")).toContainText(
+    displayNumber(metric.inverse_rate, metric.inverse_unit),
   );
-  await expect(page.getByText(/Derived inverse:/)).toBeVisible();
+  await expect(page.locator(".pc-value")).toContainText("EUR/GBP");
   await page.getByRole("button", { name: "Table", exact: true }).click();
   await expect(page.getByRole("table")).toContainText("EUR/GBP");
 });
@@ -162,7 +174,7 @@ test("live page screenshots, responsive navigation, accessibility and no overflo
       expect(audit.violations, `${name}:${width}`).toEqual([]);
       if (width !== 768)
         await page.screenshot({
-          path: `../docs/screenshots/milestone-7/live-${name}-${width}.png`,
+          path: `test-results-live/live-${name}-${width}.png`,
           fullPage: true,
         });
     }
@@ -180,6 +192,10 @@ test("live analyst submission, provider response and model-free result restorati
   page,
   request,
 }) => {
+  test.skip(
+    process.env.RUN_LIVE_AI !== "1",
+    "Set RUN_LIVE_AI=1 to permit a real provider request",
+  );
   test.setTimeout(360000);
   const history = await request.get(api + "/analyst/history?limit=20");
   const saved = (await history.json()).find(
@@ -246,7 +262,7 @@ test("live analyst submission, provider response and model-free result restorati
     }
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
-      path: `../docs/screenshots/milestone-7/live-analyst-result-${width}.png`,
+      path: `test-results-live/live-analyst-result-${width}.png`,
       fullPage: true,
     });
   }

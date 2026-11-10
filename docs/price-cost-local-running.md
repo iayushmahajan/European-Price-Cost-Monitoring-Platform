@@ -81,7 +81,7 @@ npx playwright test --workers=2
 npx playwright test --config playwright.live.config.ts
 ```
 
-`createdb` is a one-time step; if the explicitly disposable test database already exists, reuse it. The test suite intentionally truncates **only that test database**, not the application. Fixture browser tests start Vite and intercept APIs. The separate live browser suite talks to Docker port 5173 without interception; it submits one provider query and restores an existing successful live snapshot. Provider quotas may affect it. `scripts/validate-price-cost-analyst-live.py` is an additional opt-in provider smoke that creates ordinary analysis-history records. `scripts/validate-price-cost-recovery.py` deliberately records a failed ECB check before real recovery; run only during a controlled maintenance window with no other ingestion writer.
+`createdb` is a one-time step; if the explicitly disposable test database already exists, reuse it. The test suite intentionally truncates **only that test database**, not the application. Fixture browser tests start Vite and intercept APIs. The separate live browser suite talks to Docker port 5173 without interception and defaults to read-only checks. Set `RUN_LIVE_AI=1` explicitly to include the provider-query and saved-snapshot test. Provider quotas may affect it. `scripts/validate-price-cost-analyst-live.py` is an additional opt-in provider smoke that creates ordinary analysis-history records. `scripts/validate-price-cost-recovery.py` deliberately records a failed ECB check before real recovery; run only during a controlled maintenance window with no other ingestion writer.
 
 ## Backup/recovery
 

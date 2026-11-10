@@ -1,5 +1,7 @@
 # Milestone 7 — live deployment and validation
 
+Historical acceptance record. For the current portfolio baseline and retired review artifacts, see the [release verification record](verification.md).
+
 ## 7.1 Runtime diagnosis
 
 Starting HEAD: `20e0bfa`, branch `feature/price-cost-monitoring`. The only pre-existing untracked work was `design-exploration/`; preserved.
@@ -83,7 +85,7 @@ The Sources UI now maps an evidenced `current` or `stale` synchronization state 
 
 The first local backend test invocation used the repository root and failed collection because `app` was not on its import path; rerunning from backend passed, and the complete Docker test suite passed independently. An explicit root-level Ruff configuration override also changed first-party import discovery; using the backend's own directory/configuration passed without unrelated source edits. A frontend check accidentally invoked at repository root found no package.json; rerunning from frontend passed. Script field-name/trigger assumptions were corrected to actual contracts before successful final audits. Shared Playwright trace-output collisions were eliminated by a separate ignored live output directory. These failures are not concealed as passing runs.
 
-[Live screenshots and machine-readable audit results](screenshots/milestone-7/README.md) are separate from the preserved, labelled fixture captures. The Analyst screenshots restore genuine fuel/ECB successful provider snapshots and display their saved assessment dates. A restored result's network log has zero new `/analyst/query` requests; follow-ups populate the composer without automatically querying.
+Historical milestone screenshot and diagnostic files were retired during release cleanup; see the [current real-data portfolio captures](screenshots/portfolio/README.md). The Analyst screenshots restore genuine fuel/ECB successful provider snapshots and display their saved assessment dates. A restored result's network log has zero new `/analyst/query` requests; follow-ups populate the composer without automatically querying.
 
 See [exact WSL launch/stop/development/recovery instructions](price-cost-local-running.md). The intended application is now Docker port **5173**, not an obsolete retail build. Port 4173 is optional Vite development only and its documented proxy was verified against the real catalogue. All original data and the design-exploration directory remain preserved. No push, volume deletion, migration rewrite, dependency update or broad redesign occurred.
 
