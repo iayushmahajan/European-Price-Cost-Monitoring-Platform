@@ -19,6 +19,10 @@ No combined cost score, forecasts or unsupported explanations of economic causes
 
 ## Inside the application
 
+### Overview
+
+![Country overview with actual observation dates](docs/screenshots/portfolio/overview.png)
+
 ### Explore
 
 ![Price and cost exploration workspace](docs/screenshots/portfolio/explore.png)
@@ -29,18 +33,12 @@ No combined cost score, forecasts or unsupported explanations of economic causes
 
 The Analyst screenshot restores an actual successful saved analysis. Its assessment and observation dates are historical; restoration does not call the model again. All screenshots use real stored application data, not illustrative fixtures or a claim about today's prices.
 
-<details>
-<summary>Overview, source status and historical fuel comparison</summary>
-
-### Overview
-
-![Country overview with actual observation dates](docs/screenshots/portfolio/overview.png)
-
 ### Data & Sources
 
 ![Source coverage, freshness and synchronization status](docs/screenshots/portfolio/sources.png)
 
-### Germany–France fuel comparison
+<details>
+<summary>Historical Germany–France fuel comparison</summary>
 
 ![Historical Germany–France diesel comparison](docs/screenshots/portfolio/fuel-comparison.png)
 
@@ -91,7 +89,6 @@ Requires Docker Engine/Desktop with Compose. For WSL, enable Docker Desktop's WS
 ```bash
 git clone https://github.com/iayushmahajan/European-Retail-Intelligence-Platform.git
 cd European-Retail-Intelligence-Platform
-git switch feature/price-cost-monitoring
 cp .env.example .env
 ```
 
