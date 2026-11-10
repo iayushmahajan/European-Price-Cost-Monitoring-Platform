@@ -1,21 +1,20 @@
 # European Price & Cost Monitoring Platform
 
-Explore official European fuel prices, consumer inflation and euro exchange rates through clear charts, comparable observations and evidence-backed natural-language analysis.
+I built this full-stack application to bring official European fuel prices, consumer inflation and euro exchange rates into one place. You can compare countries, follow historical changes and ask questions about the stored data.
 
-A full-stack portfolio application built with React, FastAPI and PostgreSQL. The frontend presents a focused navy-and-white workspace; deterministic backend services handle numerical calculations, source semantics and provenance.
+The React and TypeScript frontend connects to a Python/FastAPI backend and PostgreSQL. The backend handles the calculations and keeps each observation linked to its source. For natural-language questions, the AI Analyst uses a model to select an approved operation, then runs it through those same services.
 
 ![European Price & Cost Monitoring Platform homepage](docs/screenshots/portfolio/home.png)
 
-## What works today
+## Features
 
-- **Overview:** country-level fuel and inflation indicators, ECB reference rates, dated changes and historical trends.
-- **Explore:** petrol/diesel, tax-inclusive/exclusive prices, HICP categories and annual/monthly/index measurements, EUR currency pairs and explicitly derived inverses. URL-based filters, chart/table alternatives and source evidence are supported.
-- **Historical comparisons:** matched weekly fuel observations, country price gaps, ranking reversals and labelled 50-litre examples. Inflation-rate differences use percentage points; national index levels are not treated as comparable basket costs.
-- **AI Analyst:** natural-language intent planning, clarification, approved domain operations, verified numerical results, follow-up questions and restorable analysis history.
-- **Data & Sources:** actual stored coverage, observation freshness, synchronization health, quality annotations, publication/check dates and detailed provenance.
-- **Synchronization:** official-source validation, historical backfill, incremental revision checks, transactional publication, source locking, raw-artifact hashes and an independent configurable scheduler.
+- **Overview** summarizes the latest available measurements for a selected country, with observation dates, historical trends and comparisons.
+- **Explore** supports petrol and diesel prices with or without tax, HICP categories and measurements, and ECB euro reference rates. Filters are saved in the URL, and results can be viewed as charts or tables.
+- **Country comparisons** align fuel prices by observation week and inflation rates by month. Fuel comparisons cover up to twelve matched weeks, including price gaps, changes in which country is cheaper and labelled 50-litre examples.
+- **AI Analyst** answers supported fuel, inflation and currency questions, asks for clarification when needed and saves results with their evidence. Saved analyses can be reopened without another model call.
+- **Data & Sources** shows stored coverage, source dates, quality flags and the distinction between old observations and a failed synchronization check.
 
-No combined cost score, forecasts or unsupported explanations of economic causes are generated.
+An independent synchronization worker imports official data, checks for revisions and retains the original downloaded files. Scheduling is optional; manual backfill and incremental commands are also available.
 
 ## Inside the application
 
@@ -31,7 +30,7 @@ No combined cost score, forecasts or unsupported explanations of economic causes
 
 ![A genuine saved successful price-cost analysis](docs/screenshots/portfolio/analyst.png)
 
-The Analyst screenshot restores an actual successful saved analysis. Its assessment and observation dates are historical; restoration does not call the model again. All screenshots use real stored application data, not illustrative fixtures or a claim about today's prices.
+The screenshots use real stored observations, with the dates shown in the interface. The Analyst image is a saved successful analysis; reopening it does not call the model. These captures document the application at release, not today's prices.
 
 ### Data & Sources
 
@@ -59,18 +58,20 @@ flowchart LR
     P --> B
 ```
 
-Source observations retain their periods, units, status flags and provenance. Backend Decimal calculations produce comparisons and contextual insights; the frontend formats verified values without replacing their underlying precision. Failed synchronization preserves the last successfully published dataset.
+The source adapters validate official files and API responses before the synchronization worker writes them to PostgreSQL. Each observation retains its period, unit, source status and provenance. Revisions are recorded rather than discarded, and a failed import leaves the previous dataset available.
 
-The price-cost Analyst uses constrained typed operations through these same services. It is **not an unrestricted SQL agent**. The preserved retail analyst separately retains its SQLGlot validation and bounded read-only database access; its tables, routes, migrations and historical records remain compatible without appearing in the current product navigation.
+The API and Analyst share the same Decimal-based calculations. The model selects from typed operations; it cannot execute arbitrary SQL or calculate the final answer. The frontend formats the returned values for display and exposes exact values in evidence.
 
-| Layer | Technology |
+This project evolved from a retail analytics application. Its original routes and history remain available for compatibility, alongside a separate SQLGlot-validated retail analyst. The current price-cost Analyst uses backend services instead of generated SQL.
+
+| Layer | Implementation |
 |---|---|
-| Frontend | React 19, TypeScript, Vite, Inter, Recharts, Radix UI |
-| Backend | Python 3.11, FastAPI, Pydantic, SQLAlchemy |
-| Storage | PostgreSQL 16, Alembic, persistent raw-artifact volume |
-| AI | Provider abstraction for Groq or Foundry Local; validated intent plans |
+| Frontend | React 19 and TypeScript, built with Vite; Recharts for charts, Radix UI for interactive controls and Inter typography |
+| Backend | Python 3.11 and FastAPI; Pydantic validates API and intent contracts, SQLAlchemy handles database access |
+| Storage | PostgreSQL 16 for observations and revisions, Alembic for migrations, a Docker volume for original source files |
+| AI | A shared provider interface for Groq or Foundry Local, used to interpret analytical intent |
 | Quality | Pytest, Vitest, Testing Library, Playwright, Axe, Ruff, ESLint |
-| Runtime | Docker Compose, Nginx, independent synchronization worker |
+| Runtime | Docker Compose runs the services; Nginx serves the frontend and proxies API requests |
 
 ## Official data sources
 
@@ -108,7 +109,7 @@ docker compose --profile price-cost-sync up -d price-cost-sync
 
 Open **http://localhost:5173**. API documentation: **http://localhost:5173/api/docs**. The five main routes are `/`, `/app/overview`, `/app/explore`, `/app/analyst` and `/app/sources`.
 
-Browser requests pass through Nginx `/api` to the internal backend and PostgreSQL services; no host database or backend port is needed. On a fresh install the data pages remain empty until ingestion succeeds. Source failures are reported independently; use the [synchronization guide](docs/price-cost-synchronization.md) for retry, backfill and backup procedures.
+Browser requests pass through Nginx `/api` to the internal backend and PostgreSQL services; no host database or backend port is needed. On a fresh install the data pages remain empty until ingestion succeeds. Source failures are reported independently; use the [synchronization guide](docs/development.md#synchronization) for retry, backfill and backup procedures.
 
 ```bash
 # Read persisted synchronization status without importing data.
@@ -119,7 +120,7 @@ docker compose --profile price-cost-sync run --rm --no-deps price-cost-sync \
 docker compose --profile price-cost-sync stop
 ```
 
-Never delete volumes to fix a deployment mismatch. See [WSL startup, development, backup and recovery](docs/price-cost-local-running.md) for full instructions. The optional Vite development workflow runs on port 4173 against the same Docker API.
+Never delete volumes to fix a deployment mismatch. See [WSL startup, development, backup and recovery](docs/development.md) for full instructions. The optional Vite development workflow runs on port 4173 against the same Docker API.
 
 ## AI configuration and limits
 
@@ -132,11 +133,15 @@ AI_API_URL=https://api.groq.com/openai/v1/chat/completions
 AI_API_KEY=YOUR_PRIVATE_PROVIDER_KEY
 ```
 
-Foundry Local is also supported; use its reported OpenAI-compatible endpoint and a model available on your machine. Recreate the backend after changing its environment. See the [Analyst guide](docs/price-cost-analyst.md) and [provider rate-limit notes](docs/price-cost-analyst-rate-limits.md).
+For Foundry Local, use its reported OpenAI-compatible endpoint and an installed model. When the provider runs on the host and the backend runs in Docker, use `host.docker.internal` instead of `localhost` in `AI_API_URL`. After changing provider settings, run `docker compose up -d --force-recreate backend` to load the new environment. See the [Analyst guide](docs/ai-analyst.md) and [provider rate-limit notes](docs/ai-analyst.md#provider-rate-limits-and-recovery).
 
-The model primarily interprets intent. Typed plans, approved operations, bounded requests and deterministic calculations govern the result. Unsupported questions are blocked or clarified. Provider quotas, billing, availability and model quality can still prevent an answer; temporary throttling and exhausted quota are distinguished. No answer is fabricated when the provider fails. Questions are sent to the configured provider; avoid confidential input in this shared portfolio workspace.
+The Analyst supports a fixed set of operations and validates the model's plan before reading data. Unsupported requests receive a clarification or limitation message. Provider quotas, outages and invalid model output can still prevent an answer; the application reports those failures rather than substituting a prepared result.
+
+Questions are sent to the configured provider. History is shared across this local application, so avoid confidential input. Temporary rate limits and exhausted quotas are handled differently; the Analyst reference explains retry behavior and account-level limits.
 
 ## Validation
+
+For frontend development and tests, use Node.js 24 (the version used in CI) and npm.
 
 ```bash
 cd frontend
@@ -151,22 +156,26 @@ npm run test:e2e
 
 Frontend tests use deterministic, contract-compatible fixtures for success and failure scenarios. Live portfolio captures are separate and restore existing successful history without model calls: `npm run screenshots` (with the populated Docker application running).
 
-Backend tests require Python dependencies from `backend/requirements-dev.txt`. PostgreSQL integration tests must use a **separate disposable database**, never the application database:
+The backend test image installs `backend/requirements-dev.txt`. If running tests directly in Python, install those dependencies in a virtual environment. PostgreSQL integration tests must use a **separate disposable database**, never the application database:
 
 ```bash
+# Return to the repository root after the frontend checks above.
+cd ..
 # Once, with Docker running: create only the explicitly disposable test database.
 docker compose exec -T db createdb -U postgres -O analytics_app price_cost_m7_test
 docker compose -f docker-compose.yml -f docker-compose.test.yml build backend-tests
 docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps backend-tests
 ```
 
-The tests intentionally reset that test database. If it already exists, reuse it. CI runs backend/frontend validation and container builds. See the [release verification record](docs/verification.md) for executed results, live checks and limitations.
+The tests intentionally reset that test database. If it already exists, reuse it. Run these Docker commands from the repository root. CI checks the backend, frontend and container builds. See [development](docs/development.md#tests-and-live-checks) for live checks and validation limits.
 
 ## Documentation
 
-- [Source contracts](docs/price-cost-source-contracts.md) · [Database architecture](docs/price-cost-database-architecture.md)
-- [Synchronization and retention](docs/price-cost-synchronization.md) · [Local operations](docs/price-cost-local-running.md)
-- [Price-cost APIs](docs/price-cost-api.md) · [Governed Analyst](docs/price-cost-analyst.md) · [Frontend architecture](docs/price-cost-frontend.md)
+- [Architecture](docs/architecture.md): components, database design, frontend structure and security boundaries.
+- [Data sources](docs/data-sources.md): official formats, measurement rules, ingestion, freshness and revisions.
+- [API](docs/api.md): endpoint groups, pagination, comparisons and evidence; detailed schemas are in FastAPI's OpenAPI UI.
+- [AI Analyst](docs/ai-analyst.md): approved operations, clarification, provider limits and saved results.
+- [Development](docs/development.md): local setup, synchronization, tests, troubleshooting and recovery.
 
 ## Known limitations
 
@@ -176,4 +185,4 @@ History is bounded and paginated. Source coverage is not guaranteed to include e
 
 ## Future development
 
-Broader inflation-monitoring workflows and automated reporting are planned evolution, not additional capabilities claimed by this release. Any future work will build on the current source semantics, evidence and governed calculations rather than introduce unsupported forecasts or business-cost claims.
+Planned work includes broader inflation-monitoring workflows and automated reporting. The current application already displays HICP data, but it does not deliver scheduled reports or alerts.
