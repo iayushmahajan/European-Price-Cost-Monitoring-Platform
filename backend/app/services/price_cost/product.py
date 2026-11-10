@@ -224,6 +224,14 @@ class ProductService:
                 ),
             )
         quote = row.quote_currency_code
+        inverse_change = None
+        if inverse:
+            inverse_change = change(
+                domain, "reference_rate", period, ratio(Decimal(1), value),
+                (self.period(domain, previous), ratio(Decimal(1), self.value(domain, previous)), previous.status)
+                if previous else None, requested=comparison_date,
+            )
+            inverse_change.absolute_change_unit = f"EUR/{quote}"
         return s.ExchangeMetric(
             **common,
             indicator_name=f"ECB EUR/{quote} reference rate",
@@ -233,6 +241,7 @@ class ProductService:
             inverse_rate=ratio(Decimal(1), value) if inverse else None,
             inverse_unit=f"EUR/{quote}" if inverse else None,
             inverse_is_derived=True if inverse else None,
+            inverse_comparison=inverse_change,
             explanation=explain(
                 domain,
                 name=f"ECB {quote} per euro reference rate",
@@ -296,25 +305,28 @@ class ProductService:
         missing = sorted(set(self.expected_keys(domain, filters)) - present)
         return self.response(domain, items, missing)
 
-    def history(self, domain, *, start, end, limit, inverse=False, **filters):
+    def history(self, domain, *, start, end, limit, inverse=False, order="asc", **filters):
         series = self.repo.series(domain, **filters)
         if not series:
             return self.response(domain, [], self.expected_keys(domain, filters), s.PageInfo(limit=limit))
         selected = series[0]  # Routes constrain history to one complete semantic series.
-        rows, previous, more = self.repo.history(domain, selected, start, end, limit)
+        rows, previous, more = self.repo.history(domain, selected, start, end, limit, order=order)
         items = []
         for row in rows:
             items.append(self.metric(domain, selected, row, previous, inverse=inverse))
             previous = row
         next_start = None
-        if more:
+        if more and order == "asc":
             last = self.period(domain, rows[-1])
             next_start = (
                 date(last.year + last.month // 12, last.month % 12 + 1, 1)
                 if domain == "inflation"
                 else last + timedelta(days=1)
             )
-        page = s.PageInfo(limit=limit, has_more=more, next_start=next_start)
+        previous_end = self.period(domain, rows[0]) - timedelta(days=1) if more and order == "desc" else None
+        if previous_end and domain == "inflation":
+            previous_end = previous_end.replace(day=1)
+        page = s.PageInfo(limit=limit, has_more=more, next_start=next_start, previous_end=previous_end)
         return self.response(domain, items, [] if items else self.expected_keys(domain, filters), page)
 
     def compare_countries(self, domain, *, countries, base_country, period=None, as_of=None, **filters):

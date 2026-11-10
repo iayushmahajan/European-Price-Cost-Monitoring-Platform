@@ -90,7 +90,8 @@ versions return 409. No provider response body, secret URL or SQL exception is e
 ## Planning and execution
 
 1. Check a bounded question/clarification context for clearly unsupported requests.
-2. Make at most **one** shared `structured_completion` provider call, using the closed
+2. Make one logical shared `structured_completion` intent completion (at most one
+   bounded transport retry for temporary HTTP 429 throttling), using the closed
    `PlannerOutput` JSON schema. The system policy contains approved selections and
    today's Europe/Brussels date, not database observations or private table schemas.
 3. Strictly validate the discriminated operation and M4 query contracts. Independently
@@ -213,8 +214,9 @@ not included in prompts/history/results. No new dependency or model-specific SDK
 
 The existing provider enforces one JSON object, token/request-timeout bounds and a
 100 KB response-validation limit. Network transport remains the existing buffered
-HTTP client, not a streaming agent. There is no automatic model retry or extra LLM
-wording call. Provider failures and rate limits are explicit and sanitized.
+HTTP client, not a streaming agent. Malformed plans and non-temporary failures are
+not retried. A temporary provider HTTP 429 may receive one bounded transport retry;
+there is no extra LLM wording call. Provider failures and rate limits are explicit and sanitized.
 
 Questions are limited to 2,000 characters, at most three clarification turns (question
 1,000 / answer 2,000 characters each), and a combined UTF-8 request bound of
@@ -298,3 +300,8 @@ DATABASE_URL="$TEST_DATABASE_URL" .venv/bin/python -m alembic check
 The integration fixtures reset the selected disposable database. Keep actual
 provider probes separate from ordinary tests, use public non-sensitive questions,
 and configure database URLs to a test deployment if saving live-probe history.
+
+
+## Temporary provider limits (Milestone 7.5)
+
+See [the rate-limit investigation](price-cost-analyst-rate-limits.md) for measured token usage, sanitized evidence, retry/cooldown behavior, validation and account-limit next steps. Analytical response/snapshot schemas remain unchanged. `Retry-After` is returned as a standard HTTP response header and exposed to browser clients.

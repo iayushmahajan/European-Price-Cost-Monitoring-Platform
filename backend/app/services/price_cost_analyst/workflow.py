@@ -1,4 +1,4 @@
-"""One intent-provider call; validated deterministic execution and bounded snapshots."""
+"""One intent completion (at most one bounded temporary-limit retry); validated deterministic execution and bounded snapshots."""
 
 import logging
 import time
@@ -56,7 +56,7 @@ def persist(db, response):
         logger.warning("price_cost_history_write_failed", extra={"request_id": response.request_id})
 
 
-def run_analysis(payload, db, request_id):
+def run_analysis(payload, db, request_id, *, response_headers=None):
     start = time.perf_counter()
     domains = mentions(payload)[-1]
     response = a.AnalysisResponse(
@@ -103,12 +103,17 @@ def run_analysis(payload, db, request_id):
     except ProviderError as exc:
         response.status = "failed"
         status_code = exc.http_status
+        if response_headers is not None and exc.retry_after is not None:
+            response_headers["Retry-After"] = str(exc.retry_after)
         # Do not echo provider bodies, model text, endpoint URLs or arbitrary exception messages.
         public = {
             "provider_timeout": "The intent provider timed out. Please try again.",
             "provider_not_configured": "The intent provider is not configured.",
             "provider_unavailable": "The intent provider is unavailable.",
-            "provider_rate_limited": "The intent provider request limit was reached.",
+            "provider_rate_limited": "The intent provider is temporarily rate-limited. Wait before retrying.",
+            "provider_quota_exceeded": "The provider account quota or billing limit was reached. Check the provider account.",
+            "provider_daily_limit": "The provider daily allowance was reached. Wait for its reset or check account limits.",
+            "provider_request_too_large": "This intent request exceeds the provider token budget. Contact the project owner.",
             "invalid_model_output": "The intent response was invalid or did not preserve your requested scope. Please rephrase.",
         }
         response.error = AppError(

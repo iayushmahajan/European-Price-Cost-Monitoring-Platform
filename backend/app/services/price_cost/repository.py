@@ -101,21 +101,26 @@ class Repository:
             grouped.setdefault(series_id, []).append(row)
         return grouped
 
-    def history(self, domain, series, start, end, limit):
+    def history(self, domain, series, start, end, limit, *, order="asc"):
         model, field, _, _ = DOMAINS[domain]
         period = getattr(model, field)
         rows = list(
             self.session.scalars(
                 select(model)
                 .where(model.series_id == series.id, period >= start, period <= end)
-                .order_by(period)
+                .order_by(period.desc() if order == "desc" else period)
                 .limit(limit + 1)
             )
         )
+        more = len(rows) > limit
+        rows = rows[:limit]
+        if order == "desc":
+            rows.reverse()
+        before = getattr(rows[0], field) if rows else start
         prior = self.session.scalar(
-            select(model).where(model.series_id == series.id, period < start).order_by(period.desc()).limit(1)
+            select(model).where(model.series_id == series.id, period < before).order_by(period.desc()).limit(1)
         )
-        return rows[:limit], prior, len(rows) > limit
+        return rows, prior, more
 
     def common_period(self, domain, series, start, end):
         if not series:
@@ -223,3 +228,20 @@ class Repository:
             )
         )
         return row, artifact, run, history[:limit], len(history) > limit
+
+    def recent(self, domain, series, end, limit):
+        model, field, _, _ = DOMAINS[domain]
+        period = getattr(model, field)
+        return list(reversed(list(self.session.scalars(
+            select(model).where(model.series_id == series.id, period <= end)
+            .order_by(period.desc()).limit(limit)
+        ))))
+
+    def matched_fuel_periods(self, series, end):
+        period = m.FuelPriceObservation.reference_week
+        return list(reversed(list(self.session.scalars(
+            select(period).where(
+                m.FuelPriceObservation.series_id.in_([item.id for item in series]), period <= end
+            ).group_by(period).having(func.count(func.distinct(m.FuelPriceObservation.series_id)) == 2)
+            .order_by(period.desc()).limit(12)
+        ))))

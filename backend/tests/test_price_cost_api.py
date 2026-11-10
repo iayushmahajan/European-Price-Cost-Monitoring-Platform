@@ -497,7 +497,7 @@ def test_database_error_is_sanitized_and_openapi_contracts_are_published(api_cli
                 if path.startswith(PREFIX) and not path.startswith(PREFIX + "/analyst")
             ]
         )
-        == 12
+        == 14
     )
     schema = (
         specification["components"]["schemas"]["FuelMetric-Output"]
@@ -616,3 +616,205 @@ def test_publication_metadata_uses_retrieval_evidence_for_deduplicated_artifacts
         assert source["latest_artifact_publication_date"] == "2026-11-06"
         metric = get(api_client, "/fuel/latest", countries="DE", product="euro_super_95")["items"][0]
         assert metric["period"] == "2026-11-02" and metric["publication_date"] == "2026-11-05"
+
+
+@pytest.mark.integration
+def test_historical_fuel_comparison_matches_twelve_actual_weeks(api_client, api_database):
+    from datetime import timedelta
+    inserted = []
+    try:
+        with Session(api_database) as session:
+            templates = list(session.scalars(select(m.FuelPriceObservation).join(
+                m.SourceSeries, m.SourceSeries.id == m.FuelPriceObservation.series_id
+            ).where(m.SourceSeries.geography_code.in_(["DE", "FR"]),
+                    m.SourceSeries.category_code == "AUTOMOTIVE_DIESEL",
+                    m.SourceSeries.tax_basis == "with_tax",
+                    m.FuelPriceObservation.reference_week == date(2026, 11, 2))))
+            assert len(templates) == 2
+            for template in templates:
+                country = session.get(m.SourceSeries, template.series_id).geography_code
+                for offset in range(2, 15):
+                    if country == "FR" and offset == 5:
+                        continue
+                    values = {col.name: getattr(template, col.name)
+                              for col in m.FuelPriceObservation.__table__.columns if col.name != "id"}
+                    values.update(reference_week=date(2026, 11, 2) - timedelta(weeks=offset))
+                    observation = m.FuelPriceObservation(**values)
+                    session.add(observation)
+                    session.flush()
+                    inserted.append(observation.id)
+            session.commit()
+        data = get(api_client, "/fuel/compare-history", countries="DE,FR", base_country="DE",
+                   product="automotive_diesel", tax_basis="with_tax")
+        assert data["available"] and len(data["observations"]) == 12
+        assert data["observations"][-1]["period"] == "2026-11-02"
+        assert data["unmatched_weeks"] == [{"period": "2026-09-28", "missing_countries": ["FR"]}]
+        assert any(row["consecutive"] is False for row in data["observations"])
+        for row in data["observations"]:
+            assert row["base"]["period"] == row["peer"]["period"] == row["period"]
+            assert row["base"]["tax_basis"] == row["peer"]["tax_basis"] == "with_tax"
+            assert Decimal(row["gap"]) == Decimal(row["peer"]["value"]) - Decimal(row["base"]["value"])
+        for side, summary in zip(["base", "peer"], data["summaries"]):
+            values = [Decimal(row[side]["value"]) for row in data["observations"]]
+            assert summary["history"]["count"] == 12
+            assert abs(Decimal(summary["history"]["average"]) - sum(values) / 12) < Decimal("1e-17")
+            assert Decimal(summary["history"]["change"]) == values[-1] - values[0]
+        assert data["gap_direction"] == "unchanged"
+        assert api_client.get(PREFIX + "/fuel/compare-history", params={
+            "countries": "DE,FR,IT", "base_country": "DE"}).status_code == 422
+        absent = get(api_client, "/fuel/compare-history", countries="DE,FR", base_country="DE",
+                     period="2000-01-03")
+        assert not absent["available"] and absent["observations"] == []
+    finally:
+        if inserted:
+            with api_database.begin() as connection:
+                connection.execute(m.FuelPriceObservation.__table__.delete().where(
+                    m.FuelPriceObservation.id.in_(inserted)))
+
+
+@pytest.mark.integration
+def test_measurement_insights_preserve_domain_and_historical_anchor(api_client):
+    for domain, query in [
+        ("fuel", {"countries": "DE", "product": "euro_super_95"}),
+        ("inflation", {"countries": "DE", "measurement": "annual_rate"}),
+        ("inflation", {"countries": "DE", "measurement": "monthly_rate"}),
+        ("inflation", {"countries": "DE", "measurement": "index"}),
+        ("exchange-rates", {"currencies": "GBP"}),
+    ]:
+        metric = get(api_client, f"/{domain}/latest", **query)["items"][0]
+        data = get(api_client, f"/insights/{domain}/{metric['observation_id']}")
+        assert data["metric"]["value"] == metric["value"]
+        assert data["history"]["last_period"] == metric["period"]
+        assert data["history"]["count"] <= 12
+        if domain == "fuel":
+            assert Decimal(data["example"]["value"]) == Decimal(metric["value"]) * 50
+        elif domain == "inflation":
+            if metric["measurement_type"] == "index":
+                assert data["history"]["change_unit"] == "index_points" and "100" in data["meaning"]
+            else:
+                assert data["history"]["change_unit"] == "percentage_points"
+                assert ("year earlier" if metric["measurement_type"] == "annual_rate" else "preceding month") in data["meaning"]
+        else:
+            assert Decimal(data["example"]["value"]) == Decimal(metric["value"]) * 100
+            assert "not guaranteed quotes" in data["limitation"]
+    assert api_client.get(PREFIX + "/insights/fuel/9223372036854775807").status_code == 404
+    early = get(api_client, "/fuel/latest", countries="DE", product="euro_super_95", as_of="2026-10-26")["items"][0]
+    data = get(api_client, f"/insights/fuel/{early['observation_id']}")
+    assert data["history"]["last_period"] == "2026-10-26" and data["history"]["count"] == 1
+    assert data["history"]["change"] is None
+
+
+@pytest.mark.integration
+def test_fuel_gap_direction_and_unmatched_latest_weeks(api_client, api_database):
+    params = dict(countries="DE,FR", base_country="DE", product="euro_super_95")
+    original = get(api_client, "/fuel/compare-history", **params)
+    old_gap = Decimal(original["observations"][0]["gap"])
+    assert old_gap != 0
+    last = original["observations"][-1]
+    predicate = m.FuelPriceObservation.id == last["peer"]["observation_id"]
+    for multiplier, expected in [(Decimal("0.5"), "narrowed"), (Decimal("2"), "widened")]:
+        value = Decimal(last["base"]["value"]) + old_gap * multiplier
+        with altered_rows(api_database, m.FuelPriceObservation, predicate,
+                          normalized_price_eur_per_litre=value, raw_value=value * 1000):
+            data = get(api_client, "/fuel/compare-history", **params)
+            assert data["gap_direction"] == expected
+            assert Decimal(data["absolute_gap_change"]) == abs(old_gap * multiplier) - abs(old_gap)
+    with altered_rows(api_database, m.FuelPriceObservation, predicate, reference_week=date(2026, 11, 1)):
+        data = get(api_client, "/fuel/compare-history", **params)
+        assert len(data["observations"]) == 1
+        assert data["gap_direction"] is None and data["summaries"][0]["history"]["change"] is None
+        assert data["unmatched_weeks"] == [
+            {"period": "2026-11-01", "missing_countries": ["DE"]},
+            {"period": "2026-11-02", "missing_countries": ["FR"]},
+        ]
+
+
+def test_insight_scaling_preserves_full_decimal_precision():
+    from app.services.price_cost.insights import scaled
+    value = Decimal("1234567890123.123456789012345678")
+    assert scaled(value, 100) == Decimal("123456789012312.345678901234567800")
+
+
+@pytest.mark.integration
+@pytest.mark.parametrize("domain,filters", [
+    ("fuel", {"country": "DE", "product": "euro_super_95"}),
+    ("inflation", {"country": "DE", "measurement": "annual_rate"}),
+    ("exchange-rates", {"currency": "GBP", "inverse": True}),
+])
+def test_latest_history_pages_preserve_range_chronology_and_older_access(api_client, domain, filters):
+    params = dict(filters, start="2025-01-01", end="2026-11-01" if domain == "inflation" else "2026-11-08")
+    all_rows = get(api_client, f"/{domain}/history", **params, limit=2000)["items"]
+    assert len(all_rows) >= 2
+    page = get(api_client, f"/{domain}/history", **params, order="desc", limit=1)
+    assert page["items"][-1]["observation_id"] == all_rows[-1]["observation_id"]
+    assert page["items"][0]["comparison"] == all_rows[-1]["comparison"]
+    assert page["page"]["next_start"] is None and page["page"]["previous_end"]
+    rows = page["items"][:]
+    while page["page"]["has_more"]:
+        end = page["page"]["previous_end"]
+        page = get(api_client, f"/{domain}/history", **(params | {"end":end}), order="desc", limit=1)
+        assert all(row["period"] <= end for row in page["items"])
+        rows = page["items"] + rows
+    assert [r["observation_id"] for r in rows] == [r["observation_id"] for r in all_rows]
+    empty = get(api_client, f"/{domain}/history", **(params | {"start":"2025-01-01", "end":"2025-01-01"}), order="desc")
+    assert not empty["available"] and empty["items"] == []
+
+
+@pytest.mark.integration
+def test_inverse_comparisons_and_insight_statistics_share_the_selected_direction(api_client):
+    from app.services.price_cost.insights import scaled
+    metric = get(api_client, "/exchange-rates/latest", currencies="GBP", inverse=True)["items"][0]
+    inverse = metric["inverse_comparison"]
+    previous = ratio(Decimal(1), Decimal(metric["comparison"]["reference_value"]))
+    assert Decimal(inverse["absolute_change"]) == Decimal(metric["inverse_rate"]) - previous
+    assert inverse["absolute_change_unit"] == "EUR/GBP"
+    custom = get(api_client, "/exchange-rates/latest", currencies="GBP", inverse=True,
+                 comparison_date=metric["comparison"]["reference_period"])["items"][0]
+    assert custom["inverse_comparison"]["requested_period"] == metric["comparison"]["reference_period"]
+    assert custom["inverse_comparison"]["absolute_change"] == inverse["absolute_change"]
+    plain = get(api_client, "/exchange-rates/latest", currencies="GBP")["items"][0]
+    assert plain["inverse_comparison"] is None and plain["value"] == metric["value"]
+    data = get(api_client, f"/insights/exchange-rates/{metric['observation_id']}", inverse=True)
+    points = get(api_client, "/exchange-rates/history", currency="GBP", start="2025-01-01",
+                 end=metric["period"], inverse=True, limit=2000)["items"][-12:]
+    values = [Decimal(p["inverse_rate"]) for p in points]
+    assert data["history"]["change_unit"] == "EUR/GBP"
+    assert Decimal(data["history"]["minimum"]) == min(values)
+    assert Decimal(data["history"]["maximum"]) == max(values)
+    assert Decimal(data["history"]["average"]) == ratio(sum(values), Decimal(len(values)))
+    assert Decimal(data["example"]["value"]) == scaled(Decimal(metric["inverse_rate"]), 100)
+    assert data["example"]["unit"] == "EUR" and "100 GBP" in data["example"]["label"]
+    assert "1 GBP in EUR" in data["meaning"]
+    assert api_client.get(PREFIX + "/insights/fuel/1?inverse=true").status_code == 422
+
+
+@pytest.mark.integration
+def test_contextual_insights_align_supporting_indices_aggregate_and_fx_reference(api_client):
+    monthly = get(api_client, "/inflation/latest", countries="DE", measurement="monthly_rate")["items"][0]
+    result = get(api_client, f"/insights/inflation/{monthly['observation_id']}")
+    fact = next(f for f in result["insights"] if f["kind"] == "price_level_change")
+    indices = get(api_client, "/inflation/history", country="DE", measurement="index", start=fact["reference_period"], end=fact["period"])["items"]
+    old, current = indices[0], indices[-1]
+    assert old["period"] == fact["reference_period"] and current["period"] == monthly["period"]
+    assert old["index_base_year"] == current["index_base_year"]
+    assert Decimal(fact["value"]) == ratio(difference(Decimal(current["value"]), Decimal(old["value"])), Decimal(old["value"]), Decimal(100))
+    annual = get(api_client, "/inflation/latest", countries="DE", measurement="annual_rate")["items"][0]
+    result = get(api_client, f"/insights/inflation/{annual['observation_id']}")
+    assert result["insights"][0]["kind"] == "unavailable"  # No matching prior-year indices in this isolated fixture.
+    eu = get(api_client, "/inflation/latest", countries="EU27_2020", measurement="annual_rate")["items"][0]
+    if eu["period"] != annual["period"]:
+        assert not any(f["kind"] == "eu_rate_gap" for f in result["insights"])
+        annual = get(api_client, "/inflation/latest", countries="DE", measurement="annual_rate", as_of=eu["period"])["items"][0]
+        result = get(api_client, f"/insights/inflation/{annual['observation_id']}")
+    fact = next(f for f in result["insights"] if f["kind"] == "eu_rate_gap")
+    assert fact["period"] == eu["period"] == annual["period"]
+    assert Decimal(fact["value"]) == difference(Decimal(annual["value"]), Decimal(eu["value"]))
+    fx = get(api_client, "/exchange-rates/latest", currencies="GBP", inverse=True, comparison_date="2026-11-02")["items"][0]
+    result = get(api_client, f"/insights/exchange-rates/{fx['observation_id']}", inverse=True, comparison_date="2026-11-02")
+    fact = result["insights"][0]
+    assert fact["reference_period"] == "2026-11-02" and len(fact["evidence_paths"]) == 2
+    from app.services.price_cost.insights import scaled
+    assert Decimal(fact["value"]) == scaled(Decimal(fx["inverse_comparison"]["absolute_change"]), 100)
+    no_earlier = get(api_client, f"/insights/exchange-rates/{fx['observation_id']}", comparison_date=fx['period'])
+    assert no_earlier["insights"][0]["kind"] == "factual"
+    assert api_client.get(PREFIX + f"/insights/exchange-rates/{fx['observation_id']}?comparison_date=2027-01-01").status_code == 422

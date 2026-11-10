@@ -344,6 +344,9 @@ def test_clarification_unsupported_and_missing_data(analyst_client, provider, mo
         ("provider_unavailable", 503),
         ("invalid_model_output", 502),
         ("provider_rate_limited", 429),
+        ("provider_quota_exceeded", 429),
+        ("provider_daily_limit", 429),
+        ("provider_request_too_large", 429),
     ],
 )
 def test_provider_failures_are_saved_and_sanitized(analyst_client, provider, code, http):
@@ -396,7 +399,7 @@ def test_real_provider_wrapper_is_called_once_and_never_receives_results(monkeyp
     plan = planning.generate_plan(a.AnalysisRequest(question="Latest German diesel price?"))
     assert plan.operation.kind == "fuel_latest" and post.call_count == 1
     payload = post.call_args.kwargs["json"]
-    assert payload["temperature"] == 0 and payload["max_tokens"] == 2500
+    assert payload["temperature"] == 0 and payload["max_tokens"] == 1200
     assert "source_artifacts(" not in payload["messages"][0]["content"]
     assert "observation_id" not in payload["messages"][0]["content"]
 
@@ -693,3 +696,48 @@ def test_source_specific_clarification_and_common_supported_words():
             a.AnalysisRequest(question="Show the pound exchange rate"),
             a.ReadyPlan(status="ready", operation=a.CurrenciesOperation(kind="supported_currencies")),
         )
+
+
+def test_planner_prompt_separates_present_scope_from_missing_fields():
+    request = a.AnalysisRequest(question="Compare diesel prices in Germany and France.")
+    messages = planning.build_messages(request)
+    policy = messages[0]["content"]
+    assert "countries=['DE', 'FR']" in policy
+    assert "do not ask for geography" in policy
+    assert "do not ask for countries" in policy
+    assert "Do not require a date range for latest observations" in policy
+    assert '"kind": "fuel_compare"' in policy
+    assert '"countries": "FR,IT"' in policy  # Example differs from real user scope.
+    assert json.loads(messages[1]["content"])["question"] == request.question
+
+
+def test_redundant_clarification_from_real_parser_remains_rejected(monkeypatch):
+    post = Mock(return_value=httpx.Response(200, json={"choices": [{"message": {
+        "content": '{"plan":{"status":"needs_clarification","reason":"geography"}}'
+    }}]}))
+    monkeypatch.setattr(httpx.Client, "post", post)
+    with pytest.raises(sql_generator.ProviderError, match="already supplied"):
+        planning.generate_plan(a.AnalysisRequest(question="Compare diesel prices in Germany and France."))
+    assert post.call_count == 1
+
+
+@pytest.mark.integration
+def test_provider_cooldown_hint_is_forwarded_without_changing_snapshot_contract(analyst_client, provider):
+    provider.side_effect = sql_generator.ProviderError("provider_rate_limited", "private provider message", 429, 12)
+    response = analyst_client.post(PREFIX + "/query", json={"question": "Latest German diesel price?"})
+    assert response.status_code == 429 and response.headers["retry-after"] == "12"
+    assert response.json()["error"]["code"] == "provider_rate_limited"
+    assert response.json()["verified_data"] is None
+    assert "private" not in response.text
+    saved = analyst_client.get(PREFIX + f"/history/{response.json()['id']}")
+    assert saved.status_code == 200 and saved.json()["schema_version"] == 1
+
+
+def test_compacted_planner_schema_preserves_validation_keywords_and_defaults():
+    raw = a.PlannerOutput.model_json_schema()
+    compact = planning.prompt_schema(raw)
+    assert compact["$defs"]["FuelLatest"]["additionalProperties"] is False
+    assert compact["$defs"]["FuelLatest"]["properties"]["tax_basis"]["default"] == "with_tax"
+    assert compact["$defs"]["FuelHistory"]["required"] == raw["$defs"]["FuelHistory"]["required"]
+    assert compact["properties"]["plan"] == planning.prompt_schema(raw["properties"]["plan"])
+    assert len(json.dumps(compact, separators=(",", ":"))) < len(json.dumps(raw))

@@ -1,7 +1,7 @@
 """Closed query contracts: supported selections, explicit periods and workload bounds."""
 
 from datetime import date
-from typing import Annotated
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -89,6 +89,7 @@ class ExchangeLatestQuery(AsOfQuery):
 
 
 class HistoryQuery(ClosedQuery):
+    order: Literal["asc", "desc"] = "asc"
     start: date
     end: date
     limit: int = Field(default=260, ge=1, le=2000)
@@ -193,3 +194,11 @@ class OverviewQuery(AsOfQuery):
     @classmethod
     def validate_currency(cls, value):
         return selection(value, DEFAULT_CURRENCIES, 1)
+
+
+class FuelHistoryCompareQuery(FuelCompareQuery):
+    @model_validator(mode="after")
+    def validate_pair(self):
+        if len(self.countries.split(",")) != 2:
+            raise ValueError("Historical comparison requires exactly two countries")
+        return self

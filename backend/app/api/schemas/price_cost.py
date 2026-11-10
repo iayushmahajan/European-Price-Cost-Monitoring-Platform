@@ -138,6 +138,7 @@ class ExchangeMetric(MetricBase):
     inverse_rate: Decimal | None = None
     inverse_unit: str | None = None
     inverse_is_derived: bool | None = None
+    inverse_comparison: Change | None = None
 
     @model_validator(mode="after")
     def validate_quote(self):
@@ -152,14 +153,21 @@ class ExchangeMetric(MetricBase):
                 raise ValueError(
                     "Inverse rate must be positive and explicitly identified as derived EUR/quote"
                 )
-        elif self.inverse_unit is not None or self.inverse_is_derived is not None:
+        elif (
+            self.inverse_unit is not None
+            or self.inverse_is_derived is not None
+            or self.inverse_comparison is not None
+        ):
             raise ValueError("Inverse metadata requires a derived rate")
+        if self.inverse_comparison is not None and self.inverse_comparison.absolute_change_unit != self.inverse_unit:
+            raise ValueError("Inverse comparison must use the derived quote unit")
         return self
 
 
 class PageInfo(BaseModel):
     has_more: bool = False
     next_start: date | None = None
+    previous_end: date | None = None
     limit: int | None = None
 
 
@@ -274,3 +282,74 @@ class Overview(BaseModel):
     fuel: FuelResponse
     inflation: InflationResponse
     exchange_rates: ExchangeResponse
+
+
+class HistoricalSummary(BaseModel):
+    count: int
+    first_period: date
+    last_period: date
+    minimum: Decimal
+    maximum: Decimal
+    average: Decimal
+    change: Decimal | None
+    change_unit: str
+
+
+class FuelPeriodSummary(BaseModel):
+    geography: NamedCode
+    history: HistoricalSummary
+
+
+class MatchedFuelWeek(BaseModel):
+    period: date
+    base: FuelMetric
+    peer: FuelMetric
+    gap: Decimal
+    consecutive: bool | None
+
+
+class MissingFuelWeek(BaseModel):
+    period: date
+    missing_countries: list[str]
+
+
+class ContextInsight(BaseModel):
+    """Deterministic context; values remain exact and are formatted by the client."""
+    kind: str
+    title: str
+    detail: str
+    value: Decimal | None = None
+    unit: str | None = None
+    reference_period: date | None = None
+    period: date | None = None
+    evidence_paths: list[str] = Field(default_factory=list)
+    estimated: bool = False
+    provisional: bool = False
+
+
+class FuelHistoryComparison(BaseModel):
+    available: bool
+    latest: CountryComparison
+    observations: list[MatchedFuelWeek]
+    summaries: list[FuelPeriodSummary]
+    unmatched_weeks: list[MissingFuelWeek]
+    absolute_gap_change: Decimal | None
+    gap_direction: Literal["widened", "narrowed", "unchanged"] | None
+    insights: list[ContextInsight] = Field(default_factory=list, max_length=2)
+    requested_count: Literal[12] = 12
+
+
+class InsightExample(BaseModel):
+    label: str
+    value: Decimal
+    unit: str
+
+
+class MeasurementInsights(BaseModel):
+    insights: list[ContextInsight] = Field(default_factory=list, max_length=2)
+    metric: FuelMetric | InflationMetric | ExchangeMetric
+    meaning: str
+    comparison_note: str
+    history: HistoricalSummary
+    example: InsightExample | None = None
+    limitation: str

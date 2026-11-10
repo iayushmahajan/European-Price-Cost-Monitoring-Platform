@@ -27,7 +27,7 @@ app.add_middleware(
     allow_origin_regex=settings.CORS_ALLOWED_ORIGIN_REGEX,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
-    expose_headers=["X-Request-ID"],
+    expose_headers=["X-Request-ID", "Retry-After"],
 )
 
 

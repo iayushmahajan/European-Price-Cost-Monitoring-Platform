@@ -40,11 +40,7 @@ of the represented month**. ECB comparison dates must precede `as_of` (or today)
 by 1–3,660 days. Unknown parameters, including arbitrary unit overrides, are
 rejected. Fuel does not accept the EU aggregate as a country.
 
-Latest ordering is deterministic by source-series key; history is ascending by
-reference period; country comparisons preserve requested country order. History
-returns `page.has_more` and an inclusive `page.next_start` suitable for the next
-request (next calendar month for HICP, next day otherwise). Keep the other filters
-and end date unchanged. No row or zero is inserted for an absent period.
+Latest ordering is deterministic by source-series key; country comparisons preserve requested country order. History accepts `order=asc` (the unchanged default) or `order=desc` to select the earliest or latest bounded page within `start/end`. Returned items are always chronological. Ascending pages return `page.next_start` (next month for HICP, next day otherwise); keep the original end date. Descending pages return `page.previous_end` (previous month for HICP, previous day otherwise); keep the original start date. Use the relevant cursor as the next inclusive boundary while `page.has_more` is true. No row or zero is inserted for an absent period. Analyst history operations retain ascending selection.
 
 A valid empty selection returns HTTP 200 with `available=false`, empty `items`
 and explicit `missing_selections`. Availability means **some** selected metrics
@@ -97,7 +93,7 @@ and freshness once rather than repeating detailed evidence in every metric.
   Compare only the same EUR/quote pair. An increase means one euro buys more quote
   units. `inverse=true` additionally returns `inverse_rate = 1 / official value`,
   `inverse_unit=EUR/GBP` and `inverse_is_derived=true`; it never reverses the official
-  value or its comparison direction. Inverse metadata is null when not requested.
+  value or its comparison direction. The optional `inverse_comparison` contains the same reference observation and comparison basis calculated over reciprocal values, with `absolute_change_unit=EUR/GBP`. Inverse metadata is null when not requested; older saved snapshots may lack this comparison. The existing measurement-insights endpoint accepts `inverse=true` for FX only, returning statistics over individual reciprocal observations and an inverse-direction conversion example. No reciprocal of an average is substituted for the mean of reciprocals.
   Selected currencies are presented side by side with each pair's own dated
   changes, not ranked or subtracted as if different currency units were equal.
 
@@ -327,3 +323,26 @@ for the negative privilege test; without it that test is skipped. CI provisions 
 three disposable role URLs. For separate live-data checks, use the synchronization
 CLI against a clean test database and then call the documented API examples; no
 synchronization endpoint is exposed.
+
+## Historical fuel comparisons and observation insights (7.5.4B)
+
+Two additive, read-only endpoints keep contextual arithmetic in the deterministic backend; existing response contracts and Analyst operations are unchanged.
+
+- `GET /v1/price-cost/fuel/compare-history?countries=DE,FR&base_country=DE&product=automotive_diesel&tax_basis=with_tax`: exactly two approved countries; optional `as_of` and exact `period` follow the existing fuel comparison rules. `latest` retains the compact same-period result. `observations` contains the latest **up to 12 shared observation weeks**, in chronological order, each with both full fuel metrics/evidence paths and the signed gap **peer minus base**. A selected exact week must exist for both countries; it is not silently replaced. Without one, latest alignment uses the existing 400-day common-period policy. Historical matched weeks precede that aligned endpoint and may span longer than twelve calendar weeks when coverage is sparse.
+- `GET /v1/price-cost/insights/{domain}/{observation_id}`: the recorded observation plus its latest up to twelve available observations at or before that period, meaning, comparison-basis guidance, recent statistics, an optional example and a focused limitation. Unknown domain/invalid ID is rejected; an absent observation returns 404. No model request or ingestion is triggered.
+
+Fuel period changes are last minus first price **within the identical set of shared weeks**. Country averages are equally weighted arithmetic means over those same observations, not station-weighted or time-weighted cross-country estimates. `absolute_gap_change` is the final absolute gap minus the first absolute gap; `gap_direction` describes the endpoints, not a monotonic movement or which country was always cheaper. With only one matched week, period changes and gap direction are unavailable. Observed unmatched weeks (including more recent one-sided weeks) and absent scheduled weeks between available endpoints are disclosed separately, excluded from both means and changes, and not interpolated. Retrieval uses a twelve-period common-date lookup and a bounded 2,000-row read per series; existing PostgreSQL read-only transactions and timeouts apply.
+
+Recent insight ranges/means use the selected series only. HICP rate differences use percentage points, index differences use index points and retain the index base, fuel uses EUR/L, and FX uses the official quote-currency-per-EUR direction. An average of published inflation rates is not cumulative inflation. Examples multiply the exact stored price by 50 litres, or the official reference rate by 100 EUR, before display rounding. All new arithmetic uses Decimal; averages reuse the existing 18-decimal derived-ratio policy. The frontend retains its current backend-provided comparison when a user requested a special FX comparison date, rather than replacing that basis with the insight endpoint's default previous-observation comparison.
+
+These endpoints expose no synchronization actions, SQL execution, administrative records or new database permissions. Evidence continues through the existing bounded evidence endpoint. No schema or ingestion change is involved.
+
+### Contextual insights (Milestone 7.5.4D)
+
+The existing measurement-insights and fuel compare-history responses additionally return at most two structured `insights`. Each includes a title, factual description, optional exact Decimal value/unit, actual reference periods, source evidence paths and estimated/provisional flags. Existing history, example and comparison fields retain their meanings. The frontend formats numbers; no LLM writes these insights.
+
+Fuel context uses up to twelve actual observations on/before the inspected week: a change in a clearly labelled 50-litre example, and a current high/low only within that bounded set. An interior observed peak is the reference when the subsequent decline exceeds the absolute first-to-last movement; otherwise the first observation is the reference. This is a transparent context-selection rule, not a statistical-significance claim. Flat histories and returns to an initial price receive different factual wording. Comparison rankings use signed peer-minus-reference prices on matched weeks. Ties do not themselves count as reversals; the most recent unequal ranking reversal is identified between observed weeks, never assigned an invented crossing date. Latest 50-litre differences remain separate from period averages.
+
+HICP annual-rate context requires indices exactly twelve months apart; monthly context requires the preceding calendar month. Index-view context uses the first and last available observations in the bounded window. Geography, category and known index base must match; index-derived percentage change is `(current − reference) / reference × 100`, distinct from index points or percentage-point differences between rates. It need not exactly reproduce the published inflation rate. A same-month/category/type official EU-27 aggregate supplies an optional percentage-point comparison. Missing indices and older aggregates are never substituted or averaged into a price-level change.
+
+FX context scales the selected official or reciprocal backend comparison by 100 in the selected base currency, before fees/margins. Optional `comparison_date` on the existing insight endpoint preserves an explicitly selected historical reference, with a 3,660-day bound and no future dates. A requested date that cannot provide an earlier observation yields factual unavailable context. Evidence links cover the actual compared records. Reference rates remain distinct from transaction quotes.

@@ -41,15 +41,18 @@ class ExchangeLatest(q.ExchangeLatestQuery):
 
 
 class FuelHistory(q.FuelHistoryQuery):
+    order: Literal["asc"] = "asc"
     product: FuelProduct
     limit: int = Field(default=100, ge=1, le=100)
 
 
 class InflationHistory(q.InflationHistoryQuery):
+    order: Literal["asc"] = "asc"
     limit: int = Field(default=100, ge=1, le=100)
 
 
 class ExchangeHistory(q.ExchangeHistoryQuery):
+    order: Literal["asc"] = "asc"
     limit: int = Field(default=100, ge=1, le=100)
 
 

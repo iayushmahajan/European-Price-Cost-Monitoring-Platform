@@ -20,7 +20,7 @@ Database = Annotated[Session, Depends(get_db)]
 
 @router.post("/query", response_model=a.AnalysisResponse)
 def analyse(payload: a.AnalysisRequest, request: Request, response: Response, db: Database):
-    result, response.status_code = run_analysis(payload, db, request.state.request_id)
+    result, response.status_code = run_analysis(payload, db, request.state.request_id, response_headers=response.headers)
     if len(result.model_dump_json().encode("utf-8")) > settings.MAX_RESULT_BYTES:
         return JSONResponse(
             status_code=413,
